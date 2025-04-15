@@ -1,0 +1,32 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Connexion</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <form th:action="@{/connection}" method="post">
+        <label for="username">Identifiant :</label>
+        <input type="text" id="username" name="username" value=""/>
+
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password"/>
+
+        <div class="actions">
+            <button type="submit">Connexion</button>
+            <label class="checkbox-label">
+                <input type="checkbox" name="remember-me" style="margin-right: 6px;"/>
+                Se souvenir de moi
+            </label>
+        </div>
+
+        <div class="link" th:onclick="|location.href='@{/mdp-oublie}'|">Mot de passe oublié</div>
+    </form>
+
+    <div class="create-account" th:onclick="|location.href='@{/inscription}'|">Créer un compte</div>
+
+</main>
+</body>
+</html>

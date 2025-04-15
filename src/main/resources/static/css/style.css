@@ -51,7 +51,7 @@ input[type="password"]:focus {
 
 :root {
     --clr-primary: #004aaa;
-    --clr-secondary: #00aacc;
+    --clr-secondary: #003888;
     --clr-text: #2e2e2e;
     --clr-light-text: #4a4a4a;
     --clr-success: #359300;
@@ -118,30 +118,39 @@ input[type="password"]:focus {
 
 .eni-button {
     padding: 0.7rem 1.5rem;
+
     background-color: var(--clr-primary);
     color: var(--clr-white);
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     transition: background-color 0.3s;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+
+    cursor: pointer;
 }
 
 .eni-button:hover {
-    background-color: var(--clr-primary);
+    background-color: var(--clr-secondary);
 }
 
 .eni-important-button {
     margin-top: 1rem;
-    padding: 1rem;
+    padding: 0.7rem 1.5rem;
+
     background-color: var(--clr-white);
-    border: 2px solid var(--clr-primary);
     color: var(--clr-primary);
-    border-radius: 12px;
+    transition: all 0.3s ease;
+
     text-align: center;
     font-weight: bold;
+
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .eni-important-button:hover {
@@ -150,6 +159,15 @@ input[type="password"]:focus {
 }
 
 /* CONTAINERS */
+
+.eni-header-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--clr-text);
+}
 
 .eni-error-container {
     display: flex;

@@ -1,9 +1,12 @@
-<header>
-    <section sec:authorize="isAuthenticated()">
-        <!-- on offre la possibilité de se déconnecter -->
-        <form th:action="@{/logout}" method="post">
-            <!-- ${#authentication.name}" : recupère le username de l'utilisateur connecté-->
-            <button th:text="|Déconnecter l'utilisateur : ${#authentication.name}|"></button>
-        </form>
-    </section>
+<header style="width: 100%;">
+    <div class="eni-header-container">
+        <h1>ENI-Enchères</h1>
+        <section sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
+                <button class="eni-button" th:text="|Vendre|"></button>
+                <button class="eni-button" style="margin-left: 10px" th:text="|Profil|"></button>
+                <button class="eni-important-button" style="margin-top: 0; margin-left: 10px" th:text="|Déconnection (${#authentication.name})|"></button>
+            </form>
+        </section>
+    </div>
 </header>

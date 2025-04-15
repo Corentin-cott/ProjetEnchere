@@ -1,0 +1,27 @@
+<!-- layout.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">ENI-Enchères</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>ENI-Enchères</h1>
+</header>
+
+<main layout:fragment="content">
+    <!-- Le contenu spécifique à chaque page viendra ici -->
+</main>
+
+<footer>
+    <p>&copy; 2025 ENI-Enchères</p>
+</footer>
+
+</body>
+</html>

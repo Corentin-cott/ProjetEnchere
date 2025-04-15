@@ -1,0 +1,32 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Connexion</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h2>Filtre :</h2>
+    <div th:with="products=${#lists.list(
+        #maps.map('title', 'PC Gamer pour travailler', 'price', 210, 'rank', 2, 'endDate', '10/08/2018', 'address', '10 allée des Alouettes', 'zip', '44800', 'city', 'Saint Herblain', 'seller', 'jojo44'),
+        #maps.map('title', 'Rocket stove pour riz et pâtes', 'price', 185, 'rank', null, 'endDate', '09/10/2018', 'address', '5 rue des Pinsons', 'zip', '44000', 'city', 'Nantes', 'seller', 'NineJea')
+    )}">
+    <div class="product-list">
+        <div class="product-card" th:each="produit : ${products}">
+            <img src="chemin_image" alt="Image du produit" />
+            <a th:href="perdu.com" th:text="PLACEHOLDER">titre</a>
+            <p>Prix : <span th:text="PLACEHOLDER">0</span> points</p>
+            <p>Classement : <span th:text="PLACEHOLDER">0</span></p>
+            <p>Fin de l'enchère : <span th:text="PLACEHOLDER">01/01/2020</span></p>
+            <p>Retrait :
+                <span th:text="PLACEHOLDER">adresse</span>,
+                <span th:text="PLACEHOLDER">00000</span>
+                <span th:text="PLACEHOLDER">ville</span>
+            </p>
+            <p>Vendeur : <span th:text="PLACEHOLDER">vendeur</span></p>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

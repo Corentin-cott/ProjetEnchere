@@ -8,11 +8,16 @@ public class RouteController {
 
     @GetMapping("/")
     public String homeRedirect() {
-        return "redirect:/connection";
+        return "redirect:/liste-encheres";
+    }
+
+    @GetMapping("/liste-encheres")
+    public String listeEncheresPage() {
+        return "listeEncheres";
     }
 
     @GetMapping("/connection")
-    public String loginPage() {
+    public String connectionPage() {
         return "connection";
     }
 }

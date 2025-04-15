@@ -21,11 +21,12 @@
                 Se souvenir de moi
             </label>
         </div>
+        <div th:if="${param.error}" class="error-msg">Identifiants incorrects</div>
 
-        <div class="link" th:onclick="|location.href='@{/mdp-oublie}'|">Mot de passe oublié</div>
+        <div class="link" th:onclick="|location.href='@{/connection}'|">Mot de passe oublié</div>
     </form>
 
-    <div class="create-account" th:onclick="|location.href='@{/inscription}'|">Créer un compte</div>
+    <div class="create-account" th:onclick="|location.href='@{/connection}'|">Créer un compte</div>
 
 </main>
 </body>

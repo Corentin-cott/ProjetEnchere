@@ -13,7 +13,7 @@ public class RouteController {
     public String home(Model model, Principal principal) {
         String username = principal != null ? principal.getName() : "Anonyme";
         model.addAttribute("username", username);
-        return "index";
+        return "listeEncheres";
     }
 
     @GetMapping("/connection")

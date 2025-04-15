@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+  <title layout:fragment="title">Création compte</title>
+</head>
+<body>
+<main layout:fragment="content">
+
+  <form class="n-form" th:action="@{/profil}" method="post">
+    <label for="username">Identifiant :</label>
+    <input type="text" id="username" name="username" value=""/>
+
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" value=""/>
+
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" value=""/>
+
+    <label for="email">Email :</label>
+    <input type="text" id="email" name="email" value=""/>
+
+    <label for="telephone">Téléphone :</label>
+    <input type="text" id="telephone" name="telephone" value=""/>
+
+    <label for="rue">Rue :</label>
+    <input type="text" id="rue" name="rue" value=""/>
+
+    <label for="codepostal">Code Postal :</label>
+    <input type="text" id="codepostal" name="codepostal" value=""/>
+
+    <label for="ville">Ville :</label>
+    <input type="text" id="ville" name="ville" value=""/>
+
+    <label for="password">Mot de passe :</label>
+    <input type="password" id="password" name="password"/>
+
+    <label for="confirmpassword">Confirmation :</label>
+    <input type="password" id="confirmpassword" name="confirmpassword"/>
+
+    <div class="actions">
+      <button type="submit">Créer</button>
+    </div>
+
+
+    <div class="actions">
+      <button type="reset" th:onclick="|location.href='@{/connection}'|">Annuler</button>
+    </div>
+  </form>
+
+
+
+
+
+</main>
+</body>
+</html>

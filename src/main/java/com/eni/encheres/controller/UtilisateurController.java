@@ -25,10 +25,10 @@ public class UtilisateurController {
         model.addAttribute("utilisateur", new Utilisateur());
 
         // je redirige sur le template "membres.html"
-        return "redirect:/";
+        return "profil";
     }
 
-    @PostMapping
+   @PostMapping
     public String addMembre(Utilisateur utilisateur) {
         utilisateurDao.addUtilisateur(utilisateur);
         return "profil";

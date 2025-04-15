@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,8 +13,8 @@ public class ArticleVendu {
     private long id;
     private String nom;
     private String description;
-    private String dateDebutEncheres;
-    private String dateFinEncheres;
+    private LocalDateTime  dateDebutEncheres;
+    private LocalDateTime dateFinEncheres;
     private double miseAPrix;
     private double prixVente;
     private boolean etatVente;
@@ -23,7 +25,7 @@ public class ArticleVendu {
     private Utilisateur vendeur;
 
     public ArticleVendu(long id, String nom, String description,
-                        String dateDebutEncheres, String dateFinEncheres, double miseAPrix, double prixVente) {
+                        LocalDateTime  dateDebutEncheres, LocalDateTime dateFinEncheres, double miseAPrix, double prixVente) {
         this.id = id;
         this.nom = nom;
         this.description = description;

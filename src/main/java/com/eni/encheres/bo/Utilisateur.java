@@ -21,5 +21,11 @@ public class Utilisateur {
     private double credit;
     private boolean admin;
 
+    public Utilisateur(Long id, String nom, String email, String motDePasse) {
+        this.id = id;
+        this.nom = nom;
+        this.email = email;
+        this.motDePasse = motDePasse;
+    }
 
 }

@@ -15,7 +15,7 @@ h1 {
     color: #333;
 }
 
-form {
+.n-form {
     background-color: #fff;
     border-radius: 12px;
     padding: 2rem;
@@ -81,7 +81,6 @@ button:hover {
 
 .link {
     color: #007bff;
-    text-decoration: underline;
     font-size: 0.9rem;
     margin-top: 1rem;
     cursor: pointer;
@@ -120,4 +119,136 @@ button:hover {
     h1 {
         font-size: 1.5rem;
     }
+}
+
+/* ENI CSS */
+/* VARIABLES */
+
+:root {
+    --clr-primary: #004aaa;
+    --clr-secondary: #00aacc;
+    --clr-text: #2e2e2e;
+    --clr-light-text: #4a4a4a;
+    --clr-success: #359300;
+    --clr-warning: #bf3f00;
+    --clr-danger: #980000;
+    --clr-white: #fff;
+    --clr-black: #000;
+}
+
+/* TEXTS */
+
+.eni-label {
+    color: var(--clr-light-text)
+}
+
+/* INPUTS */
+
+.eni-text-input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.eni-select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: var(--clr-white);
+}
+
+.eni-radio-input-container {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+/* BUTTONS */
+
+.eni-button {
+    padding: 0.7rem 1.5rem;
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.eni-button:hover {
+    background-color: var(--clr-primary);
+}
+
+.eni-important-button {
+    margin-top: 1rem;
+    padding: 1rem;
+    width: 100%;
+    background-color: var(--clr-white);
+    border: 2px solid var(--clr-primary);
+    color: var(--clr-primary);
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.eni-important-button:hover {
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+}
+
+/* CONTAINERS */
+
+.eni-box-container {
+    display: flex;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--clr-white);
+    box-sizing: border-box;
+}
+
+.eni-box-container img {
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+    margin-right: 1rem;
+}
+
+.eni-box-content {
+    flex-direction: column;
+    padding: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.eni-box-content a {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--clr-primary);
+    text-decoration: none;
+}
+
+.eni-box-content p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+    color: var(--clr-black);
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* TITLES */
+
+.eni-h2 {
+    margin-top: 0;
 }

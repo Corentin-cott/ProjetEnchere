@@ -18,9 +18,7 @@ public class EnchereService {
 
     public List<Enchere> getEncheresEnCours() {
         List<Enchere> toutes = daoEnchere.findAll(); // tu dois avoir ou ajouter cette méthode dans le DAO
-
         LocalDateTime maintenant = LocalDateTime.now();
-
         return toutes.stream()
                 .filter(e -> {
                     ArticleVendu article = e.getArticle();
@@ -29,14 +27,11 @@ public class EnchereService {
                 })
                 .collect(Collectors.toList());
     }
-
-
-    public ServiceResponse<String> ajouterEnchere(Enchere enchere) {
+   public ServiceResponse<String> ajouterEnchere(Enchere enchere) {
         // logiquement ici tu peux vérifier que le montant est supérieur à la mise actuelle
         daoEnchere.ajouterEnchere(enchere);
         return ServiceResponse.buildResponse("00", "Enchère enregistrée", null);
     }
-
     public List<Enchere> getEncheresParArticle(long idArticle) {
         return daoEnchere.findByArticleId(idArticle);
     }

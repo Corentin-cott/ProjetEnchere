@@ -48,19 +48,19 @@
         </div>
     </div>
     <div class="product-list">
-        <div class="eni-box-container">
+        <div th:each="enchere : ${encheres}" class="eni-box-container">
             <img src="/imgs/placeholder.png" alt="Image du produit" />
             <div class="eni-box-content">
-                <a th:href="perdu.com" th:text="PLACEHOLDER">titre</a>
-                <p>Prix : <span th:text="PLACEHOLDER">0</span>€</p>
-                <p>Classement : <span th:text="PLACEHOLDER">0</span></p>
-                <p>Fin de l'enchère : <span th:text="PLACEHOLDER">01/01/2020</span></p>
+                <a th:href="@{'/detail/' + ${enchere.article.id}}" th:text="${enchere.article.nom}">titre</a>
+                <p>Prix : <span th:text="${enchere.montantEnchere}">0</span>€</p>
+                <p>Classement : <span th:text="${enchere.article.prixVente}">0</span></p>
+                <p>Fin de l'enchère : <span th:text="${#temporals.format(enchere.article.dateFinEncheres, 'dd/MM/yyyy')}">01/01/2020</span></p>
                 <p>Retrait :
-                    <span th:text="PLACEHOLDER">adresse</span>,
-                    <span th:text="PLACEHOLDER">00000</span>
-                    <span th:text="PLACEHOLDER">ville</span>
+                    <span th:text="${enchere.article?.retrait?.adresse ?: 'Adresse non renseignée'}">adresse</span>,
+                    <span th:text="${enchere.article?.retrait?.codePostal ?: '00000'}">00000</span>
+                    <span th:text="${enchere.article?.retrait?.ville ?: 'Ville non renseignée'}">ville</span>
                 </p>
-                <p>Vendeur : <span th:text="PLACEHOLDER">vendeur</span></p>
+                    <span th:text="${enchere.article?.vendeur?.pseudo ?: 'Vendeur inconnu'}">vendeur</span>
             </div>
         </div>
     </div>

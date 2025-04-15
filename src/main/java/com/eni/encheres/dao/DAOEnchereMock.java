@@ -30,9 +30,39 @@ public class DAOEnchereMock implements IDAOEnchere {
                 650.0
         );
 
+        ArticleVendu articleEnCours1 = new ArticleVendu(
+                2L,
+                "Smartphone",
+                "iPhone 13 Pro",
+                LocalDateTime.now().minusDays(1),
+                LocalDateTime.now().plusDays(3),
+                800.0,
+                1000.0
+        );
+
+        ArticleVendu articleEnCours2 = new ArticleVendu(
+                3L,
+                "Montre connectée",
+                "Apple Watch Series 7",
+                LocalDateTime.now().minusDays(3),
+                LocalDateTime.now().plusDays(1),
+                300.0,
+                450.0
+        );
+
+        ArticleVendu articleEnCours3 = new ArticleVendu(
+                4L,
+                "Casque audio sans fil",
+                "Sony WH-1000XM4",
+                LocalDateTime.now().minusDays(4),
+                LocalDateTime.now().plusDays(2),
+                250.0,
+                350.0
+        );
+
         // Enchère TERMINÉE
         ArticleVendu articleTermine = new ArticleVendu(
-                2L,
+                5L,
                 "Console PS5",
                 "PlayStation 5 avec manette",
                 LocalDateTime.now().minusDays(10),
@@ -43,7 +73,7 @@ public class DAOEnchereMock implements IDAOEnchere {
 
         // Enchère NON DÉMARRÉE
         ArticleVendu articleFutur = new ArticleVendu(
-                3L,
+                6L,
                 "Vélo électrique",
                 "Vélo électrique neuf",
                 LocalDateTime.now().plusDays(2),
@@ -55,6 +85,9 @@ public class DAOEnchereMock implements IDAOEnchere {
         encheres.add(new Enchere(1L, LocalDateTime.now().minusHours(3), 620.0, articleEnCours, utilisateur1));
         encheres.add(new Enchere(2L, LocalDateTime.now().minusDays(5), 400.0, articleTermine, utilisateur2));
         encheres.add(new Enchere(1L, LocalDateTime.now().plusDays(3), 820.0, articleFutur, utilisateur1));
+        encheres.add(new Enchere(3L, LocalDateTime.now().minusHours(2), 850.0, articleEnCours1, utilisateur2));
+        encheres.add(new Enchere(4L, LocalDateTime.now().minusHours(4), 400.0, articleEnCours2, utilisateur1));
+        encheres.add(new Enchere(5L, LocalDateTime.now().minusHours(1), 300.0, articleEnCours3, utilisateur2));
     }
 
     @Override

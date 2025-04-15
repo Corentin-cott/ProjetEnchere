@@ -29,7 +29,7 @@ public class UtilisateurController {
     }
 
    @PostMapping
-    public String addMembre(Utilisateur utilisateur) {
+    public String addUtilisateur(Utilisateur utilisateur) {
         utilisateurDao.addUtilisateur(utilisateur);
         return "profil";
     }

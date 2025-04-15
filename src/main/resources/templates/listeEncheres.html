@@ -6,24 +6,62 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <h2>Filtre :</h2>
-    <div th:with="products=${#lists.list(
-        #maps.map('title', 'PC Gamer pour travailler', 'price', 210, 'rank', 2, 'endDate', '10/08/2018', 'address', '10 allée des Alouettes', 'zip', '44800', 'city', 'Saint Herblain', 'seller', 'jojo44'),
-        #maps.map('title', 'Rocket stove pour riz et pâtes', 'price', 185, 'rank', null, 'endDate', '09/10/2018', 'address', '5 rue des Pinsons', 'zip', '44000', 'city', 'Nantes', 'seller', 'NineJea')
-    )}">
+    <div class="eni-box-container" style="display: block">
+        <h2 class="eni-h2">Filtres</h2>
+        <div class="eni-box-content">
+            <form method="get" th:action="@{/listeEncheres}" style="width: 100%">
+                <label class="eni-label">Achats</label>
+                <div class="eni-radio-input-container">
+                    <input type="checkbox" id="radioAcahat1" name="encheresAchat" value="ouverts" />
+                    <label for="radioAcahat1">Enchères ouvertes</label>
+                    <br>
+                    <input type="checkbox" id="radioAcahat2" name="encheresAchat" value="enCours" />
+                    <label for="radioAcahat2">Enchères en cours</label>
+                    <br>
+                    <input type="checkbox" id="radioAcahat3" name="encheresAchat" value="terminees" />
+                    <label for="radioAcahat3">Enchères termineés</label>
+                    <br>
+                </div>
+                <label class="eni-label">Mes ventes</label>
+                <div class="eni-radio-input-container">
+                    <input type="checkbox" id="radioVente1" name="encheresVente" value="fermees" />
+                    <label for="radioVente1">Mes ventes non débutées</label>
+                    <br>
+                    <input type="checkbox" id="radioVente2" name="encheresVente" value="enCours" />
+                    <label for="radioVente2">Mes ventes en cours</label>
+                    <br>
+                    <input type="checkbox" id="radioVente3" name="encheresVente" value="terminees" />
+                    <label for="radioVente3">Mes ventes terminées</label>
+                    <br>
+                </div>
+                <label for="categorie" class="eni-label">Catégorie</label>
+                <select class="eni-select" name="categorie" id="categorie">
+                    <option value="PLACEHOLDER1">PLACEHOLDER1</option>
+                    <option value="PLACEHOLDER2">PLACEHOLDER2</option>
+                    <option value="PLACEHOLDER3">PLACEHOLDER3</option>
+                    <option value="PLACEHOLDER4">PLACEHOLDER4</option>
+                </select>
+                <label for="recherche" class="eni-label">Recherche par nom</label>
+                <input class="eni-text-input" type="search" id="recherche" name="recherche" placeholder="Rechercher un article">
+                <button class="eni-important-button" type="submit">Recherche</button>
+            </form>
+        </div>
+    </div>
     <div class="product-list">
-        <div class="product-card" th:each="produit : ${products}">
-            <img src="chemin_image" alt="Image du produit" />
-            <a th:href="perdu.com" th:text="PLACEHOLDER">titre</a>
-            <p>Prix : <span th:text="PLACEHOLDER">0</span> points</p>
-            <p>Classement : <span th:text="PLACEHOLDER">0</span></p>
-            <p>Fin de l'enchère : <span th:text="PLACEHOLDER">01/01/2020</span></p>
-            <p>Retrait :
-                <span th:text="PLACEHOLDER">adresse</span>,
-                <span th:text="PLACEHOLDER">00000</span>
-                <span th:text="PLACEHOLDER">ville</span>
-            </p>
-            <p>Vendeur : <span th:text="PLACEHOLDER">vendeur</span></p>
+        <div class="eni-box-container">
+            <img src="/imgs/placeholder.png" alt="Image du produit" />
+            <div class="eni-box-content">
+                <a th:href="perdu.com" th:text="PLACEHOLDER">titre</a>
+                <p>Prix : <span th:text="PLACEHOLDER">0</span>€</p>
+                <p>Classement : <span th:text="PLACEHOLDER">0</span></p>
+                <p>Fin de l'enchère : <span th:text="PLACEHOLDER">01/01/2020</span></p>
+                <p>Retrait :
+                    <span th:text="PLACEHOLDER">adresse</span>,
+                    <span th:text="PLACEHOLDER">00000</span>
+                    <span th:text="PLACEHOLDER">ville</span>
+                </p>
+                <p>Vendeur : <span th:text="PLACEHOLDER">vendeur</span></p>
+            </div>
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 package com.eni.encheres.security;
 
 import com.eni.encheres.bo.Utilisateur;
-import com.eni.encheres.service.UtilisateurService;
+import com.eni.encheres.dao.IDAOUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class GestionPersonaliseeUtilisateurs implements UserDetailsService {
 
     @Autowired
-    private UtilisateurService utilisateurService;
+    private IDAOUtilisateur utilisateurDao;
 
     /*
      * Elle doit donc définir comment on recupère un UtilisateurSpringSecurity
@@ -22,7 +22,7 @@ public class GestionPersonaliseeUtilisateurs implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur membreTrouve =  utilisateurService.getUtilisateurByPseudo(username);
+        Utilisateur membreTrouve =  utilisateurDao.getUtilisateurByPseudo(username);
 
         // je retourne le membre dans son "wrapper"
         return new UtilisateurSpringSecurity(membreTrouve);

@@ -1,10 +1,10 @@
-package com.eni.encheres.service;
+package com.eni.encheres.dao;
 
 import com.eni.encheres.bo.Utilisateur;
 
 import java.util.List;
 
-public interface UtilisateurService {
+public interface IDAOUtilisateur {
     public Utilisateur getUtilisateurByPseudo(String pseudo);
     public void deleteUtilisateurById(double id);
     public void addUtilisateur(Utilisateur utilisateur);

@@ -1,4 +1,4 @@
-package com.eni.encheres.service;
+package com.eni.encheres.dao;
 
 import com.eni.encheres.bo.Utilisateur;
 import org.springframework.context.annotation.Profile;
@@ -10,12 +10,12 @@ import java.util.List;
 
 @Profile("dev")
 @Service
-public class UtilisateurServiceDevImpl implements UtilisateurService {
+public class DAOUtilisateurMock implements IDAOUtilisateur {
 
     PasswordEncoder passwordEncoder;
     List<Utilisateur> utilisateurs = new ArrayList<>();
     private int idCourant = 2;
-    public UtilisateurServiceDevImpl(PasswordEncoder passwordEncoder) {
+    public DAOUtilisateurMock(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         utilisateurs.add(new Utilisateur(1L,"admin","admin","test","admin@mail.com","0600000000","Rue de l'admin","42069","Test",passwordEncoder.encode("admin"),10,true));
     }

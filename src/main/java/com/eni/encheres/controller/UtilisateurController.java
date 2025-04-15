@@ -1,7 +1,7 @@
 package com.eni.encheres.controller;
 
 import com.eni.encheres.bo.Utilisateur;
-import com.eni.encheres.service.UtilisateurService;
+import com.eni.encheres.dao.IDAOUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UtilisateurController {
 
     @Autowired
-    private UtilisateurService utilisateurService;
+    private IDAOUtilisateur utilisateurDao;
 
     @GetMapping
     public String getUtilisateur(Model model) {
         // je mets dans mon modèle la liste des membres
-        model.addAttribute("utilisateurs", utilisateurService.getUtilisateurs());
+        model.addAttribute("utilisateurs", utilisateurDao.getUtilisateurs());
 
         // je mets dans mon modèle un membre qui sera rempli par mon formulaire
         model.addAttribute("utilisateur", new Utilisateur());
@@ -30,13 +30,13 @@ public class UtilisateurController {
 
     @PostMapping
     public String addMembre(Utilisateur utilisateur) {
-        utilisateurService.addUtilisateur(utilisateur);
+        utilisateurDao.addUtilisateur(utilisateur);
         return "profil";
     }
 
     @PostMapping("/delete")
     public String deleteUtilisateur(int idToDelete) {
-        utilisateurService.deleteUtilisateurById(idToDelete);
+        utilisateurDao.deleteUtilisateurById(idToDelete);
         return "profil";
     }
 }

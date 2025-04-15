@@ -6,28 +6,32 @@
 </head>
 <body>
 <main layout:fragment="content">
+    <div class="eni-box-container" style="display: block">
+        <h2 class="eni-h2">Connection</h2>
 
-    <form class="n-form" th:action="@{/connection}" method="post">
-        <label for="username">Identifiant :</label>
-        <input type="text" id="username" name="username" value=""/>
+        <div class="eni-box-content">
+            <form th:action="@{/connection}" method="post">
+                <label class="eni-label" for="username">Identifiant</label>
+                <input type="text" id="username" name="username" value=""/>
 
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password"/>
+                <label class="eni-label" for="password">Mot de passe</label>
+                <input type="password" id="password" name="password"/>
 
-        <div class="actions">
-            <button type="submit">Connexion</button>
-            <label class="checkbox-label">
-                <input type="checkbox" name="remember-me" style="margin-right: 6px;"/>
-                Se souvenir de moi
-            </label>
+                <div class="eni-action-container">
+                    <button class="eni-button" type="submit">Connexion</button>
+                    <p th:if="${param.error}"><span class="eni-error-text">Identifiants incorrects !</span></p>
+                    <label class="checkbox-input-label">
+                        <input type="checkbox" name="remember-me" style="margin-right: 6px;"/>
+                        Se souvenir de moi
+                    </label>
+                </div>
+                <br>
+                <a class="eni-link" th:onclick="|location.href='@{/connection}'|">Mot de passe oublié</a>
+
+                <div class="eni-important-button" th:onclick="|location.href='@{/connection}'|">Créer un compte</div>
+            </form>
         </div>
-        <div th:if="${param.error}" class="error-msg">Identifiants incorrects</div>
-
-        <div class="link" th:onclick="|location.href='@{/connection}'|">Mot de passe oublié</div>
-    </form>
-
-    <div class="create-account" th:onclick="|location.href='@{/connection}'|">Créer un compte</div>
-
+    </div>
 </main>
 </body>
 </html>

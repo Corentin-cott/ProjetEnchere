@@ -1,0 +1,9 @@
+<header>
+    <section sec:authorize="isAuthenticated()">
+        <!-- on offre la possibilité de se déconnecter -->
+        <form th:action="@{/logout}" method="post">
+            <!-- ${#authentication.name}" : recupère le username de l'utilisateur connecté-->
+            <button th:text="|Déconnecter l'utilisateur : ${#authentication.name}|"></button>
+        </form>
+    </section>
+</header>

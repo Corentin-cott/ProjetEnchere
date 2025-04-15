@@ -21,4 +21,15 @@ public class ArticleVendu {
     private Categorie categorie;
     private Utilisateur acheteur;
     private Utilisateur vendeur;
+
+    public ArticleVendu(long id, String nom, String description,
+                        String dateDebutEncheres, String dateFinEncheres, double miseAPrix, double prixVente) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEncheres = dateFinEncheres;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+    }
 }

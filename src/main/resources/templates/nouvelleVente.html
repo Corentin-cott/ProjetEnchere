@@ -25,12 +25,15 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <form method="get" th:action="@{/nouvelleVente.html}" style="width: 100%">
+    <form method="post" th:action="@{/nouvelleVente}" style="width: 100%">
         <div class="eni-box-container" style="display: block">
             <h2 class="eni-h2">Nouvelle Vente</h2>
             <div class="eni-box-content">
                 <label class="eni-label" for="nom_article">Nom de l'article</label>
                 <input type="text" id="nom_article" name="nom_article" value=""/>
+                <br><br>
+                <label class="eni-label" for="description_article">Description de l'article</label>
+                <input type="text" id="description_article" name="description_article" value=""/>
                 <br><br>
                 <label for="categorie" class="eni-label">Catégorie</label>
                 <select name="categorie" id="categorie">

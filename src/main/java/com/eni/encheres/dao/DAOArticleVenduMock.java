@@ -1,6 +1,7 @@
 package com.eni.encheres.dao;
 
 import com.eni.encheres.bo.ArticleVendu;
+import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Utilisateur;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class DAOArticleVenduMock implements IDAOArticleVendu {
 
     public List<ArticleVendu> articlesVendus = new ArrayList<>();
+    private int idCourant = 100;
 
     Utilisateur vendeur = new Utilisateur(1L, "Alice", "alice@example.com", "motdepasse");
 
@@ -53,5 +55,11 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
     @Override
     public List<ArticleVendu> selectAll() {
         return articlesVendus;
+    }
+
+    @Override
+    public void addArticleVendu(ArticleVendu articleVendu) {
+        articleVendu.setId(idCourant++);
+        articlesVendus.add(articleVendu);
     }
 }

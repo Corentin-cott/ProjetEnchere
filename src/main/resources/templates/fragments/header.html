@@ -1,6 +1,6 @@
 <header style="width: 100%;">
     <div class="eni-header-container">
-        <h1>ENI-Enchères</h1>
+        <a href="/"><h1>ENI-Enchères</h1></a>
         <section sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
                 <button class="eni-button" th:text="|Vendre|"></button>

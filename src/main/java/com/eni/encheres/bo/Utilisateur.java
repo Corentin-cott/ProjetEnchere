@@ -48,7 +48,7 @@ public class Utilisateur {
         this.admin = false;
     }
 
-    public Utilisateur(long id, boolean admin, double credit, String motDePasse, String ville, String codePostal, String rue, String telephone, String email, String prenom, String nom, String pseudo) {
+    public Utilisateur(long id, String pseudo, String nom, String prenom,String email,String telephone,String rue,String codePostal,String ville,String motDePasse,double credit,boolean admin) {
         this.id = id;
         this.admin = admin;
         this.credit = credit;
@@ -62,4 +62,6 @@ public class Utilisateur {
         this.nom = nom;
         this.pseudo = pseudo;
     }
+
+
 }

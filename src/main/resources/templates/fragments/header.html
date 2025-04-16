@@ -1,9 +1,9 @@
-<header style="width: 50%;">
+<header>
     <div class="eni-header-container">
         <a href="/"><h1 style="margin-bottom: 0; margin-top: 0;">ENI-Enchères</h1></a>
         <nav>
             <section sec:authorize="isAuthenticated()" style="display: flex; justify-content: right;">
-                <form method="get" action="nouvelleEnchere">
+                <form method="get" action="nouvelleVente">
                     <button class="eni-button" th:text="|Vendre|"></button>
                 </form>
                 <form method="get" action="profil">

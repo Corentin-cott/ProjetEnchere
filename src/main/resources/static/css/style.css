@@ -19,7 +19,7 @@ h1 {
     color: #333;
 }
 
-input[type="text"],
+input[type="text"], input[type="number"], input[type="date"], select,
 input[type="password"] {
     width: 95%;
     padding: 0.75rem;
@@ -30,13 +30,22 @@ input[type="password"] {
     transition: border-color 0.3s;
 }
 
-input[type="text"]:focus,
+select {
+    background-color: var(--clr-white);
+    width: 100%;
+}
+
+header {
+    width: 100%;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus
 input[type="password"]:focus {
     border-color: #007bff;
     outline: none;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
     body {
         padding: 1.5rem 1rem;
     }
@@ -68,7 +77,9 @@ input[type="password"]:focus {
 /* TEXTS */
 
 .eni-label {
-    color: var(--clr-light-text)
+    color: var(--clr-light-text);
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
 }
 
 .eni-error-text {
@@ -95,15 +106,6 @@ input[type="password"]:focus {
     border-radius: 12px;
     font-size: 1rem;
     transition: border-color 0.3s;
-}
-
-.eni-select {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border-radius: 12px;
-    font-size: 1rem;
-    background-color: var(--clr-white);
 }
 
 .eni-radio-input-container {
@@ -141,7 +143,6 @@ input[type="password"]:focus {
 }
 
 .eni-important-button {
-    margin-top: 1rem;
     padding: 0.7rem 1.5rem;
 
     background-color: var(--clr-white);
@@ -194,18 +195,12 @@ input[type="password"]:focus {
     box-sizing: border-box;
 }
 
-.eni-box-container img {
-    width: 70%;
-    height: 70%;
-    object-fit: cover;
-    margin-right: 1rem;
-}
-
 .eni-box-content {
     flex-direction: column;
     padding: 0.5rem;
     width: 100%;
     box-sizing: border-box;
+    align-content: center;
 }
 
 .eni-box-content a {
@@ -233,6 +228,18 @@ input[type="password"]:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.eni-small-image-container {
+}
+
+/* IMAGES */
+
+.eni-picture-image {
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+    margin-right: 1rem;
 }
 
 /* TITLES */

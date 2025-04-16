@@ -16,6 +16,11 @@ public class RouteController {
         return "listeEncheres";
     }
 
+    @GetMapping("/nouvelleVente")
+    public String nouvelleVente() {
+        return "nouvelleVente";
+    }
+
     @GetMapping("/connection")
     public String loginPage() {
         return "connection";

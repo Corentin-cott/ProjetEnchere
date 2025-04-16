@@ -43,6 +43,16 @@ public class DAOUtilisateurMock implements IDAOUtilisateur {
         return null;
     }
 
+    @Override
+    public Utilisateur getUtilisateurById(double id) {
+        for (Utilisateur utilisateur : utilisateurs) {
+            if (utilisateur.getId() == id) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+
     public void deleteUtilisateurById(double id){
         for (int i = 0; i < utilisateurs.size(); i++) {
             if (utilisateurs.get(i).getId() == id) {

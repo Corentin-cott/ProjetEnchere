@@ -26,6 +26,7 @@
 <body>
 <main layout:fragment="content">
     <form method="post" th:action="@{/nouvelleVente}" style="width: 100%">
+        <input type="hidden" id="utilisateur_name" name="utilisateur_name" th:value="${#authentication.name}">
         <div class="eni-box-container" style="display: block">
             <h2 class="eni-h2">Nouvelle Vente</h2>
             <div class="eni-box-content">
@@ -66,7 +67,7 @@
                 </div>
             </div>
             <div class="eni-box-container">
-                <div class="eni-box-content">
+                <div class="eni-box-content" style="width: 100%">
                     <button class="eni-button" type="submit" style="width: 100%">Enregistrer</button>
                     <br><br>
                     <div class="eni-important-button" th:onclick="|location.href='@{/}'|">Annuler</div>

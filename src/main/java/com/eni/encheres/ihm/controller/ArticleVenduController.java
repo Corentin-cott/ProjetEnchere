@@ -7,6 +7,7 @@ import com.eni.encheres.bo.Utilisateur;
 import com.eni.encheres.dao.DAOCategorieMock;
 import com.eni.encheres.dao.IDAOArticleVendu;
 import com.eni.encheres.dao.IDAOEnchere;
+import com.eni.encheres.dao.IDAOUtilisateur;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
 import com.eni.encheres.service.ArticleVenduService;
@@ -29,6 +30,8 @@ public class ArticleVenduController {
     IDAOArticleVendu articleVenduDAO;
     @Autowired
     IDAOEnchere enchereIDAO;
+    @Autowired
+    IDAOUtilisateur utilisateurIDAO;
 
     @GetMapping("/liste-articles")
     public String articleVendu(Model model) {
@@ -44,6 +47,7 @@ public class ArticleVenduController {
 
     @PostMapping("/nouvelleVente")
     public String addArticleVendu(
+            @RequestParam("utilisateur_name") String pseudo,
             @RequestParam("nom_article") String nom,
             @RequestParam("description_article") String description,
             @RequestParam("categorie") String libelleCategorie,
@@ -52,25 +56,22 @@ public class ArticleVenduController {
             @RequestParam("date_fin_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
             Model model
     ) {
-        // Conversion String -> Categorie
         Categorie categorie = DAOCategorieMock.trouveParLibelleMock(libelleCategorie);
-
-        // Vendeur fictif pour le test
-        Utilisateur vendeur = new Utilisateur(); // à remplacer par le vrai utilisateur connecté
-        vendeur.setId(1L); // exemple
+        Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
 
         ArticleVendu article = new ArticleVendu();
         article.setNom(nom);
         article.setDescription(description);
         article.setCategorie(categorie);
         article.setMiseAPrix(miseAPrix);
-        article.setPrixVente(0); // ou miseAPrix si logique
+        article.setPrixVente(miseAPrix);
         article.setDateDebutEncheres(dateDebut.atStartOfDay());
         article.setDateFinEncheres(dateFin.atStartOfDay());
         article.setVendeur(vendeur);
 
         Enchere enchere = new Enchere();
         enchere.setArticle(article);
+        enchere.setEncherisseur(vendeur);
         enchereIDAO.ajouterEnchere(enchere);
 
         articleVenduDAO.addArticleVendu(article);

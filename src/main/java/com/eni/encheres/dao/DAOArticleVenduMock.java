@@ -1,6 +1,7 @@
 package com.eni.encheres.dao;
 
 import com.eni.encheres.bo.ArticleVendu;
+import com.eni.encheres.bo.Utilisateur;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
 
     public List<ArticleVendu> articlesVendus = new ArrayList<>();
 
+    Utilisateur vendeur = new Utilisateur(1L, "Alice", "alice@example.com", "motdepasse");
+
     public DAOArticleVenduMock() {
         articlesVendus.add(new ArticleVendu(
                 1,
@@ -20,7 +23,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 10, 0, 0),
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 1000,
-                1200
+                1200,
+                vendeur
         ));
 
         articlesVendus.add(new ArticleVendu(
@@ -30,7 +34,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 10, 0, 0),
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 1000,
-                1200
+                1200,
+                vendeur
         ));
 
         articlesVendus.add(new ArticleVendu(
@@ -40,7 +45,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 LocalDateTime.of(2025, 5, 15, 0, 0),
                 200,
-                300
+                300,
+                vendeur
         ));
     }
 

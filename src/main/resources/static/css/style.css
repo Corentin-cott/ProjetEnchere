@@ -9,31 +9,19 @@ body {
     min-height: 100vh;
 }
 
+a {
+    text-decoration: none;
+}
+
 h1 {
     font-size: 1.8rem;
     margin-bottom: 2rem;
     color: #333;
 }
 
-.n-form {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
-label {
-    margin-top: 1rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #222;
-}
-
-input[type="text"],
+input[type="text"], input[type="number"], input[type="date"], select,
 input[type="password"] {
-    width: 100%;
+    width: 95%;
     padding: 0.75rem;
     margin-top: 0.3rem;
     border: 1px solid #ccc;
@@ -42,72 +30,22 @@ input[type="password"] {
     transition: border-color 0.3s;
 }
 
-input[type="text"]:focus,
+select {
+    background-color: var(--clr-white);
+    width: 100%;
+}
+
+header {
+    width: 100%;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus
 input[type="password"]:focus {
     border-color: #007bff;
     outline: none;
 }
 
-.actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1.2rem;
-    flex-wrap: wrap;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-button {
-    padding: 0.7rem 1.5rem;
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.link {
-    color: #007bff;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    cursor: pointer;
-}
-
-.create-account {
-    margin-top: 2rem;
-    padding: 1rem;
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
-    border: 2px solid #007bff;
-    color: #007bff;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.create-account:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-@media (max-width: 480px) {
+@media (max-width: 700px) {
     body {
         padding: 1.5rem 1rem;
     }
@@ -126,7 +64,7 @@ button:hover {
 
 :root {
     --clr-primary: #004aaa;
-    --clr-secondary: #00aacc;
+    --clr-secondary: #003888;
     --clr-text: #2e2e2e;
     --clr-light-text: #4a4a4a;
     --clr-success: #359300;
@@ -139,7 +77,25 @@ button:hover {
 /* TEXTS */
 
 .eni-label {
-    color: var(--clr-light-text)
+    color: var(--clr-light-text);
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.eni-error-text {
+    color: var(--clr-danger);
+    text-align: center;
+}
+
+.eni-link {
+    color: var(--clr-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.eni-link:hover {
+    color: var(--clr-secondary);
+    text-decoration: underline;
 }
 
 /* INPUTS */
@@ -152,49 +108,54 @@ button:hover {
     transition: border-color 0.3s;
 }
 
-.eni-select {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border-radius: 12px;
-    font-size: 1rem;
-    background-color: var(--clr-white);
-}
-
 .eni-radio-input-container {
     margin-bottom: 0.5rem;
     font-size: 1rem;
+}
+
+.checkbox-input-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #555;
 }
 
 /* BUTTONS */
 
 .eni-button {
     padding: 0.7rem 1.5rem;
+
     background-color: var(--clr-primary);
     color: var(--clr-white);
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     transition: background-color 0.3s;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+
+    cursor: pointer;
 }
 
 .eni-button:hover {
-    background-color: var(--clr-primary);
+    background-color: var(--clr-secondary);
 }
 
 .eni-important-button {
-    margin-top: 1rem;
-    padding: 1rem;
-    width: 100%;
+    padding: 0.7rem 1.5rem;
+
     background-color: var(--clr-white);
-    border: 2px solid var(--clr-primary);
     color: var(--clr-primary);
-    border-radius: 12px;
+    transition: all 0.3s ease;
+
     text-align: center;
     font-weight: bold;
+
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .eni-important-button:hover {
@@ -203,6 +164,26 @@ button:hover {
 }
 
 /* CONTAINERS */
+
+.eni-header-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--clr-text);
+    margin-bottom: 2rem;
+}
+
+.eni-error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+    color: var(--clr-danger);
+}
 
 .eni-box-container {
     display: flex;
@@ -214,18 +195,12 @@ button:hover {
     box-sizing: border-box;
 }
 
-.eni-box-container img {
-    width: 70%;
-    height: 70%;
-    object-fit: cover;
-    margin-right: 1rem;
-}
-
 .eni-box-content {
     flex-direction: column;
     padding: 0.5rem;
     width: 100%;
     box-sizing: border-box;
+    align-content: center;
 }
 
 .eni-box-content a {
@@ -241,10 +216,30 @@ button:hover {
     color: var(--clr-black);
 }
 
+.eni-action-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+}
+
 .product-list {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.eni-small-image-container {
+}
+
+/* IMAGES */
+
+.eni-picture-image {
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+    margin-right: 1rem;
 }
 
 /* TITLES */

@@ -1,8 +1,11 @@
 package com.eni.encheres.bo;
 
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +23,9 @@ public class Utilisateur {
     private String motDePasse;
     private double credit;
     private boolean admin;
+
+    @OneToMany(mappedBy = "vendeur")
+    private List<ArticleVendu> articles;
 
     public Utilisateur(Long id, String nom, String email, String motDePasse) {
         this.id = id;

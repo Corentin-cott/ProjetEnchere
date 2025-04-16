@@ -8,5 +8,10 @@
                 <button class="eni-important-button" style="margin-top: 0; margin-left: 10px" th:text="|Déconnection (${#authentication.name})|"></button>
             </form>
         </section>
+        <section sec:authorize="!isAuthenticated()">
+            <form method="get" action="connection">
+                <button class="eni-important-button" style="margin-top: 0; margin-left: 10px" th:text="|Connection|"></button>
+            </form>
+        </section>
     </div>
 </header>

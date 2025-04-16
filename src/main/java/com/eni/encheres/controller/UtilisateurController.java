@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.PrintWriter;
+
 @Controller
 @RequestMapping("/profil")
 public class UtilisateurController {
@@ -35,9 +37,17 @@ public class UtilisateurController {
             model.addAttribute("error", "Les mots de passe ne correspondent pas.");
             return "profil";
         }
+        if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getPseudo().equals(utilisateur.getPseudo()))) {
+            model.addAttribute("error", "Ce pseudo est déjà utilisé.");
+            return "profil";
+        }
+        if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getEmail().equals(utilisateur.getEmail()))) {
+            model.addAttribute("error", "Cet email est déjà utilisé.");
+            return "profil";
+        }
 
         utilisateurDao.addUtilisateur(utilisateur);
-        return "profil";
+        return "connection";
     }
 
     @PostMapping("/delete")

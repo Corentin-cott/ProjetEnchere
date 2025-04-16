@@ -10,7 +10,7 @@
 
       <div class="form-element">
         <label>Pseudo</label>
-        <input type="text" th:field="*{utilisateur.pseudo}">
+        <input type="text" th:field="*{utilisateur.pseudo}" required pattern="[a-zA-Z0-9]+" title="Seul les lettres et les chiffres sont acceptés">
       </div>
 
     <div class="form-element">
@@ -25,7 +25,7 @@
 
     <div class="form-element">
       <label>Email</label>
-      <input type="text" th:field="*{utilisateur.email}">
+      <input type="text" required th:field="*{utilisateur.email}">
     </div>
 
     <div class="form-element">
@@ -35,27 +35,27 @@
 
     <div class="form-element">
       <label>Rue</label>
-      <input type="text" th:field="*{utilisateur.rue}">
+      <input type="text" required th:field="*{utilisateur.rue}">
     </div>
 
     <div class="form-element">
       <label>Code postal</label>
-      <input type="text" th:field="*{utilisateur.codePostal}">
+      <input type="text" required th:field="*{utilisateur.codePostal}">
     </div>
 
     <div class="form-element">
       <label>Ville</label>
-      <input type="text" th:field="*{utilisateur.ville}">
+      <input type="text" required th:field="*{utilisateur.ville}">
     </div>
 
     <div class="form-element">
       <label>Mot de passe</label>
-      <input type="password" th:field="*{utilisateur.motDePasse}">
+      <input type="password" required th:field="*{utilisateur.motDePasse}">
     </div>
 
     <div class="form-element">
       <label>Confirmation mot de passe</label>
-      <input type="password" name="confirmationMotDePasse">
+      <input type="password" required name="confirmationMotDePasse">
     </div>
 
     <div th:if="${error}" class="error">

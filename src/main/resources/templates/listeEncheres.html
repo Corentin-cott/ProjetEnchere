@@ -61,7 +61,9 @@
             <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" />
             <div class="eni-box-content">
                 <a th:href="@{'/detail/' + ${enchere.article.id}}" th:text="${enchere.article.nom}">titre</a>
-                <p>Prix : <span th:text="${enchere.montantEnchere}">0</span>€</p>
+                <p>Catégorie : <span ></span></p>
+                <p>Description : <span ></span></p>
+                <p>Prix : <span th:text="${enchere.article.getMiseAPrix()}">0</span>€</p>
                 <p>Classement : <span th:text="${enchere.article.id}">TODO</span></p>
                 <p>Fin de l'enchère : <span th:text="${#temporals.format(enchere.article.dateFinEncheres, 'dd/MM/yyyy')}">01/01/2020</span></p>
                 <p>Retrait :

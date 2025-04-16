@@ -47,4 +47,19 @@ public class Utilisateur {
         this.credit = 0;
         this.admin = false;
     }
+
+    public Utilisateur(long id, boolean admin, double credit, String motDePasse, String ville, String codePostal, String rue, String telephone, String email, String prenom, String nom, String pseudo) {
+        this.id = id;
+        this.admin = admin;
+        this.credit = credit;
+        this.motDePasse = motDePasse;
+        this.ville = ville;
+        this.codePostal = codePostal;
+        this.rue = rue;
+        this.telephone = telephone;
+        this.email = email;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.pseudo = pseudo;
+    }
 }

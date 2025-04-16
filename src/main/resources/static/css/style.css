@@ -6,7 +6,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    min-height: 90vh;
 }
 
 main {
@@ -68,7 +68,7 @@ input[type="password"]:focus {
 
 :root {
     --clr-primary: #004aaa;
-    --clr-secondary: #003888;
+    --clr-secondary: #002888;
     --clr-text: #2e2e2e;
     --clr-light-text: #4a4a4a;
     --clr-success: #359300;
@@ -163,7 +163,7 @@ input[type="password"]:focus {
 }
 
 .eni-important-button:hover {
-    background-color: var(--clr-primary);
+    background-color: var(--clr-secondary);
     color: var(--clr-white);
 }
 

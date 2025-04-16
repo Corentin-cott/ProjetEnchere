@@ -1,4 +1,4 @@
-package com.eni.encheres.controller;
+package com.eni.encheres.ihm.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

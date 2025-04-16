@@ -1,4 +1,4 @@
-package com.eni.encheres.controller;
+package com.eni.encheres.ihm.controller;
 
 import org.springframework.ui.Model;
 import com.eni.encheres.service.ArticleVenduService;

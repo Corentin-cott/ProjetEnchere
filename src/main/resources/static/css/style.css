@@ -9,6 +9,10 @@ body {
     min-height: 100vh;
 }
 
+main {
+    width: 100%;
+}
+
 a {
     text-decoration: none;
 }
@@ -190,7 +194,6 @@ input[type="password"]:focus {
     padding: 1rem;
     margin-bottom: 1rem;
     width: 100%;
-    max-width: 600px;
     background-color: var(--clr-white);
     box-sizing: border-box;
 }
@@ -198,7 +201,6 @@ input[type="password"]:focus {
 .eni-box-content {
     flex-direction: column;
     padding: 0.5rem;
-    width: 100%;
     box-sizing: border-box;
     align-content: center;
 }

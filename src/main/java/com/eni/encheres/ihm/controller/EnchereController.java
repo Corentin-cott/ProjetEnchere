@@ -1,4 +1,4 @@
-package com.eni.encheres.controller;
+package com.eni.encheres.ihm.controller;
 
 import com.eni.encheres.bo.Enchere;
 import com.eni.encheres.service.EnchereService;

@@ -34,11 +34,7 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-    public Utilisateur(Long id, String pseudo, String nom, String prenom,
-                       String email, String telephone, String rue,
-                       String codePostal, String ville, String motDePasse,
-                       double credit, boolean admin) {
-        this.id = id;
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -48,8 +44,7 @@ public class Utilisateur {
         this.codePostal = codePostal;
         this.ville = ville;
         this.motDePasse = motDePasse;
-        this.credit = credit;
-        this.admin = admin;
+        this.credit = 0;
+        this.admin = false;
     }
-
 }

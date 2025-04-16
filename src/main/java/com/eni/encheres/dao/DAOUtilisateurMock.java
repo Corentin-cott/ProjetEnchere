@@ -14,16 +14,15 @@ public class DAOUtilisateurMock implements IDAOUtilisateur {
 
     PasswordEncoder passwordEncoder;
     List<Utilisateur> utilisateurs = new ArrayList<>();
-    private int idCourant = 2;
+    private int idCourant = 7;
     public DAOUtilisateurMock(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         utilisateurs.add(new Utilisateur(1L,"admin","admin","test","admin@mail.com","0600000000","Rue de l'admin","42069","Test",passwordEncoder.encode("admin"),10,true));
-
-        // Ajout de nouveaux utilisateurs dans la liste.
         utilisateurs.add(new Utilisateur(2L, "user1", "John", "Doe", "user1@mail.com", "0612345678", "10 Rue de Paris", "75001", "Paris", passwordEncoder.encode("password1"), 20.0, false));
         utilisateurs.add(new Utilisateur(3L, "user2", "Jane", "Smith", "user2@mail.com", "0623456789", "15 Boulevard Saint-Germain", "75005", "Paris", passwordEncoder.encode("password2"), 15.0, true));
         utilisateurs.add(new Utilisateur(4L, "user3", "Albert", "Dupont", "user3@mail.com", "0634567890", "5 Rue Victor Hugo", "69001", "Lyon", passwordEncoder.encode("password3"), 30.0, false));
         utilisateurs.add(new Utilisateur(5L, "user4", "Clara", "Martin", "user4@mail.com", "0645678901", "25 Rue de la Liberté", "13001", "Marseille", passwordEncoder.encode("password4"), 50.0, true));
+        utilisateurs.add(new Utilisateur(6L,"","","","","","","","",passwordEncoder.encode(""),0,true));
     }
 
     public Utilisateur getUtilisateurByPseudo(String pseudo){

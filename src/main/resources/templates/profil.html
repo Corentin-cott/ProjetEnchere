@@ -10,51 +10,57 @@
 
       <div class="form-element">
         <label>Pseudo</label>
-        <input type="text" th:field="*{utilisateur.pseudo}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+        <input type="text" th:field="*{utilisateur.pseudo}">
       </div>
 
     <div class="form-element">
       <label>Nom</label>
-      <input type="text" th:field="*{utilisateur.nom}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <input type="text" th:field="*{utilisateur.nom}">
     </div>
 
     <div class="form-element">
       <label>Prénom</label>
-      <input type="text" th:field="*{utilisateur.prenom}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <input type="text" th:field="*{utilisateur.prenom}">
     </div>
 
     <div class="form-element">
       <label>Email</label>
-      <input type="text" th:field="*{utilisateur.email}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <input type="text" th:field="*{utilisateur.email}">
     </div>
 
     <div class="form-element">
       <label>Téléphone</label>
-      <input type="text" th:field="*{utilisateur.telephone}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <input type="text" th:field="*{utilisateur.telephone}">
     </div>
 
     <div class="form-element">
       <label>Rue</label>
-      <input type="text" th:field="*{utilisateur.rue}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <input type="text" th:field="*{utilisateur.rue}">
     </div>
 
     <div class="form-element">
-      <label>Code Postal</label>
-      <input type="text" th:field="*{utilisateur.codePostal}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <label>Code postal</label>
+      <input type="text" th:field="*{utilisateur.codePostal}">
     </div>
 
     <div class="form-element">
       <label>Ville</label>
-      <input type="text" th:field="*{utilisateur.ville}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <input type="text" th:field="*{utilisateur.ville}">
     </div>
 
     <div class="form-element">
-      <label>Pseudo</label>
-      <input type="password" th:field="*{utilisateur.motDePasse}"> <!--je veux mettre à jour via ce champs l'attribut "titre" de mon objet genre-->
+      <label>Mot de passe</label>
+      <input type="password" th:field="*{utilisateur.motDePasse}">
     </div>
 
-    <label for="confirmpassword">Confirmation :</label>
-    <input type="password" id="confirmpassword" name="confirmpassword"/>
+    <div class="form-element">
+      <label>Confirmation mot de passe</label>
+      <input type="password" name="confirmationMotDePasse">
+    </div>
+
+    <div th:if="${error}" class="error">
+      <p th:text="${error}"></p>
+    </div>
 
     <div class="actions">
       <button type="submit">Créer</button>

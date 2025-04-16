@@ -5,9 +5,7 @@ import com.eni.encheres.dao.IDAOUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/profil")
@@ -28,8 +26,16 @@ public class UtilisateurController {
         return "profil";
     }
 
-   @PostMapping
-    public String addUtilisateur(Utilisateur utilisateur) {
+    @PostMapping
+    public String addUtilisateur(@RequestParam String motDePasse,
+                                 @RequestParam String confirmationMotDePasse,
+                                 @ModelAttribute Utilisateur utilisateur,
+                                 Model model) {
+        if (!motDePasse.equals(confirmationMotDePasse)) {
+            model.addAttribute("error", "Les mots de passe ne correspondent pas.");
+            return "profil";
+        }
+
         utilisateurDao.addUtilisateur(utilisateur);
         return "profil";
     }

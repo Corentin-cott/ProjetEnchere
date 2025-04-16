@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                         .loginPage("/connection") // ta page de login custom
                         .loginProcessingUrl("/connection")     // POST → soumission du form ici
                         .defaultSuccessUrl("/", false)
+                        .failureUrl("/connection?error")
                         .permitAll()
                 )
                 // quand on se déconnecte=> on redirige vers l'accueil
@@ -54,17 +55,4 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
-    // ATTENTION : désactiver ce bean lorsqu'on utilise une gestion personalisée des utilisateurs
-     //@Bean  //on définit un bean pour la gestion des utilisateurs en mémoire
-    public InMemoryUserDetailsManager userDetailsService() {
-        // je gère à la manoo une liste d'utilisateurs Spring qui doivent implémenter l'interface UserDetails (ici on prend la classe User de Spring Security)
-        List<UserDetails> userDetailsList = new ArrayList<>();
-        userDetailsList.add(User.withUsername("membre").password(passwordEncoder().encode("membre123"))
-                .roles("user").build());
-        userDetailsList.add(User.withUsername("admin").password(passwordEncoder().encode("admin123"))
-                .roles("admin", "user").build());
-        return new InMemoryUserDetailsManager(userDetailsList);
-    }
-
 }

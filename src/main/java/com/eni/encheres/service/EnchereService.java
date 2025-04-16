@@ -16,28 +16,62 @@ public class EnchereService {
     @Autowired
     IDAOEnchere daoEnchere;
 
-    public List<Enchere> getEncheresEnCours() {
-        List<Enchere> toutes = daoEnchere.findAll(); // tu dois avoir ou ajouter cette méthode dans le DAO
-
+    public List<Enchere> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente, String pseudoConnecte) {
+        List<Enchere> toutes = daoEnchere.findAll();
         LocalDateTime maintenant = LocalDateTime.now();
 
         return toutes.stream()
                 .filter(e -> {
                     ArticleVendu article = e.getArticle();
-                    return article.getDateDebutEncheres().isBefore(maintenant)
-                            && article.getDateFinEncheres().isAfter(maintenant);
+
+                    boolean matchAchat = filtresAchat == null || filtresAchat.isEmpty() || filtresAchat.stream().anyMatch(filtre -> {
+                        switch (filtre) {
+                            case "ouverts":
+                                return article.getDateDebutEncheres().isBefore(maintenant);
+                            case "enCours":
+                                return isEnCours(article, maintenant);
+                            case "terminees":
+                                return article.getDateFinEncheres().isBefore(maintenant);
+                            default:
+                                return false;
+                        }
+                    });
+
+                    boolean matchVente = (filtresVente == null || filtresVente.isEmpty())
+                            || (pseudoConnecte != null
+                            && article.getVendeur() != null
+                            && article.getVendeur().getPseudo() != null
+                            && article.getVendeur().getPseudo().equals(pseudoConnecte)
+                            && filtresVente.stream().anyMatch(filtre -> {
+                        switch (filtre) {
+                            case "fermees":
+                                return article.getDateDebutEncheres().isAfter(maintenant);
+                            case "enCours":
+                                return isEnCours(article, maintenant);
+                            case "terminees":
+                                return article.getDateFinEncheres().isBefore(maintenant);
+                            default:
+                                return false;
+                        }
+                    }));
+
+                    return matchAchat && matchVente;
                 })
                 .collect(Collectors.toList());
     }
 
-
-    public ServiceResponse<String> ajouterEnchere(Enchere enchere) {
-        // logiquement ici tu peux vérifier que le montant est supérieur à la mise actuelle
-        daoEnchere.ajouterEnchere(enchere);
-        return ServiceResponse.buildResponse("00", "Enchère enregistrée", null);
+    private boolean isEnCours(ArticleVendu article, LocalDateTime maintenant) {
+        return article.getDateDebutEncheres().isBefore(maintenant)
+                && article.getDateFinEncheres().isAfter(maintenant);
     }
 
     public List<Enchere> getEncheresParArticle(long idArticle) {
         return daoEnchere.findByArticleId(idArticle);
     }
+
+    public ServiceResponse<String> ajouterEnchere(Enchere enchere) {
+        daoEnchere.ajouterEnchere(enchere);
+        return ServiceResponse.buildResponse("00", "Enchère enregistrée", null);
+    }
 }
+

@@ -9,7 +9,8 @@
     <div class="eni-box-container" style="display: block">
         <h2 class="eni-h2">Filtres</h2>
         <div class="eni-box-content">
-            <form method="get" th:action="@{/listeEncheres}" style="width: 100%">
+            <form method="get" th:action="@{/encheres}" style="width: 100%">
+                <section sec:authorize="isAuthenticated()">
                 <label class="eni-label">Achats</label>
                 <div class="eni-radio-input-container">
                     <input type="checkbox" id="radioAcahat1" name="encheresAchat" value="ouverts" />
@@ -24,16 +25,20 @@
                 </div>
                 <label class="eni-label">Mes ventes</label>
                 <div class="eni-radio-input-container">
-                    <input type="checkbox" id="radioVente1" name="encheresVente" value="fermees" />
+                    <input type="checkbox" id="radioVente1" name="encheresVente" value="fermees"
+                           th:checked="${encheresVente != null and encheresVente.contains('fermees')}"/>
                     <label for="radioVente1">Mes ventes non débutées</label>
                     <br>
-                    <input type="checkbox" id="radioVente2" name="encheresVente" value="enCours" />
+                    <input type="checkbox" id="radioVente2" name="encheresVente" value="enCours"
+                           th:checked="${encheresVente != null and encheresVente.contains('enCours')}"/>
                     <label for="radioVente2">Mes ventes en cours</label>
                     <br>
-                    <input type="checkbox" id="radioVente3" name="encheresVente" value="terminees" />
+                    <input type="checkbox" id="radioVente3" name="encheresVente" value="terminees"
+                           th:checked="${encheresVente != null and encheresVente.contains('terminees')}"/>
                     <label for="radioVente3">Mes ventes terminées</label>
                     <br>
                 </div>
+                </section>
                 <label for="categorie" class="eni-label">Catégorie</label>
                 <select class="eni-select" name="categorie" id="categorie">
                     <option value="PLACEHOLDER1">PLACEHOLDER1</option>
@@ -48,19 +53,19 @@
         </div>
     </div>
     <div class="product-list">
-        <div class="eni-box-container">
-            <img src="/imgs/placeholder.png" alt="Image du produit" />
+        <div th:each="enchere : ${encheres}" class="eni-box-container">
+            <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" />
             <div class="eni-box-content">
-                <a th:href="perdu.com" th:text="PLACEHOLDER">titre</a>
-                <p>Prix : <span th:text="PLACEHOLDER">0</span>€</p>
-                <p>Classement : <span th:text="PLACEHOLDER">0</span></p>
-                <p>Fin de l'enchère : <span th:text="PLACEHOLDER">01/01/2020</span></p>
+                <a th:href="@{'/detail/' + ${enchere.article.id}}" th:text="${enchere.article.nom}">titre</a>
+                <p>Prix : <span th:text="${enchere.montantEnchere}">0</span>€</p>
+                <p>Classement : <span th:text="${enchere.article.id}">TODO</span></p>
+                <p>Fin de l'enchère : <span th:text="${#temporals.format(enchere.article.dateFinEncheres, 'dd/MM/yyyy')}">01/01/2020</span></p>
                 <p>Retrait :
-                    <span th:text="PLACEHOLDER">adresse</span>,
-                    <span th:text="PLACEHOLDER">00000</span>
-                    <span th:text="PLACEHOLDER">ville</span>
+                    <span th:text="${enchere.article?.retrait?.adresse ?: 'Adresse non renseignée'}">adresse</span>,
+                    <span th:text="${enchere.article?.retrait?.codePostal ?: '00000'}">00000</span>
+                    <span th:text="${enchere.article?.retrait?.ville ?: 'Ville non renseignée'}">ville</span>
                 </p>
-                <p>Vendeur : <span th:text="PLACEHOLDER">vendeur</span></p>
+                <span th:text="${enchere.article?.vendeur?.pseudo ?: 'Vendeur inconnu'}">vendeur</span>
             </div>
         </div>
     </div>

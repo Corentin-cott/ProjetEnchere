@@ -1,0 +1,76 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Connexion</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('photo_article');
+            const preview = document.getElementById('preview-image');
+
+            input.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '/imgs/placeholder.png';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<main layout:fragment="content">
+    <form method="get" th:action="@{/nouvelleVente.html}" style="width: 100%">
+        <div class="eni-box-container" style="display: block">
+            <h2 class="eni-h2">Nouvelle Vente</h2>
+            <div class="eni-box-content">
+                <label class="eni-label" for="nom_article">Nom de l'article</label>
+                <input type="text" id="nom_article" name="nom_article" value=""/>
+                <br><br>
+                <label for="categorie" class="eni-label">Catégorie</label>
+                <select name="categorie" id="categorie">
+                    <option value="PLACEHOLDER1">PLACEHOLDER1</option>
+                    <option value="PLACEHOLDER2">PLACEHOLDER2</option>
+                    <option value="PLACEHOLDER3">PLACEHOLDER3</option>
+                    <option value="PLACEHOLDER4">PLACEHOLDER4</option>
+                </select>
+                <br><br>
+                <label for="categorie" class="eni-label">Prix Initial</label>
+                <input type="number" id="prix_article" name="prix_article" value="" min="0" max="10000000000"/>
+                <br><br>
+                <label for="categorie" class="eni-label">Début de l'enchère</label>
+                <input type="date" id="date_deb_enchere" name="date_deb_enchere"/>
+                <br><br>
+                <label for="categorie" class="eni-label">Fin de l'enchère</label>
+                <input type="date" id="date_fin_enchere" name="date_fin_enchere"/>
+                <br><br>
+                <label for="categorie" class="eni-label">Retrait :</label>
+                <input type="text" id="retrait_article" name="retrait_article" value="quelque part dans le monde ?" readonly/>
+                <br><br>
+            </div>
+        </div>
+        <div class="product-list">
+            <div class="eni-box-container">
+                <img id="preview-image" src="/imgs/placeholder.png" alt="Image du produit" />
+                <div class="eni-box-content">
+                    <label class="eni-label" for="photo_article">Photo de l'article</label>
+                    <input type="file" id="photo_article" name="photo_article" accept="image/png, image/jpeg" />
+                </div>
+            </div>
+            <div class="eni-box-container">
+                <div class="eni-box-content">
+                    <button class="eni-button" type="submit" style="width: 100%">Enregistrer</button>
+                    <br><br>
+                    <div class="eni-important-button" th:onclick="|location.href='@{/}'|">Annuler</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -29,6 +29,15 @@ public class DAOUtilisateurMock implements IDAOUtilisateur {
         return null;
     }
 
+    public Utilisateur getUtilisateurByEmail(String email){
+        for (Utilisateur utilisateur : utilisateurs) {
+            if (utilisateur.getEmail().equals(email)) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+
     public void deleteUtilisateurById(double id){
         for (int i = 0; i < utilisateurs.size(); i++) {
             if (utilisateurs.get(i).getId() == id) {

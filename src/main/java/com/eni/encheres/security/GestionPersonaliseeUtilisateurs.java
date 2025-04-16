@@ -23,8 +23,12 @@ public class GestionPersonaliseeUtilisateurs implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Utilisateur membreTrouve =  utilisateurDao.getUtilisateurByPseudo(username);
-
-        // je retourne le membre dans son "wrapper"
+        if(membreTrouve == null) {
+            membreTrouve =  utilisateurDao.getUtilisateurByEmail(username);
+            if(membreTrouve == null) {
+                throw new UsernameNotFoundException("Utilisateur non trouvé");
+            }
+        }
         return new UtilisateurSpringSecurity(membreTrouve);
     }
 }

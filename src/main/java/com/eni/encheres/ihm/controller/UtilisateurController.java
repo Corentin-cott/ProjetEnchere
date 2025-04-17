@@ -3,6 +3,7 @@ package com.eni.encheres.ihm.controller;
 import com.eni.encheres.bo.Utilisateur;
 import com.eni.encheres.dao.IDAOUtilisateur;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -91,8 +92,9 @@ public class UtilisateurController {
     }
 
     @PostMapping("/delete")
-    public String deleteUtilisateur(int idToDelete) {
+    public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request) {
         utilisateurDao.deleteUtilisateurById(idToDelete);
-        return "profil";
+        request.getSession().invalidate(); // sécurité
+        return "redirect:/"; // vers ton endpoint perso
     }
 }

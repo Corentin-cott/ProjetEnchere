@@ -44,7 +44,9 @@ public class ArticleVendu {
         this.vendeur = vendeur;
     }
 
-    public ArticleVendu(long id, String nom, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEncheres, double miseAPrix, double prixVente, Utilisateur vendeur) {
+    public ArticleVendu(long id, String nom, String description, LocalDateTime dateDebutEncheres,
+                        LocalDateTime dateFinEncheres, double miseAPrix, double prixVente,
+                        Utilisateur vendeur) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -53,5 +55,19 @@ public class ArticleVendu {
         this.miseAPrix = miseAPrix;
         this.prixVente = prixVente;
         this.vendeur = vendeur;
+    }
+
+    public ArticleVendu(long id, String nom, String description, LocalDateTime dateDebutEncheres,
+                        LocalDateTime dateFinEncheres, double miseAPrix, double prixVente,
+                        Utilisateur vendeur, Categorie categorie) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEncheres = dateFinEncheres;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.vendeur = vendeur;
+        this.categorie = categorie;
     }
 }

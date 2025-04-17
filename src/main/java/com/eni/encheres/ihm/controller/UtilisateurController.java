@@ -69,7 +69,7 @@ public class UtilisateurController {
             model.addAttribute("error", "Cet email est déjà utilisé.");
             return "profil";
         }
-
+        model.addAttribute("success", true);
         utilisateurDao.addUtilisateur(utilisateur);
         return "connection";
     }
@@ -91,15 +91,16 @@ public class UtilisateurController {
             model.addAttribute("error", "Cet email est déjà utilisé.");
             return "redirect:/profil/\"+id";
         }
-
+        model.addAttribute("success", true);
         utilisateurDao.updateUtilisateur(utilisateur);
-        return "redirect:/profil/"+id;
+        return "profil";
     }
 
     @PostMapping("/delete")
-    public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request) {
+    public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request,Model model) {
         utilisateurDao.deleteUtilisateurById(idToDelete);
         request.getSession().invalidate(); // sécurité
-        return "redirect:/"; // vers ton endpoint perso
+        model.addAttribute("success", true);
+        return "listeEncheres"; // vers ton endpoint perso
     }
 }

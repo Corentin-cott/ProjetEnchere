@@ -8,6 +8,13 @@
 <main layout:fragment="content">
     <div class="eni-box-container" style="display: block">
         <h2 class="eni-h2">Filtres</h2>
+
+        <div th:if="${success}" class="eni-danger-container">
+            <div class="eni-box-content" style="width: 100%;">
+                <p>Compte supprimé.</p>
+            </div>
+        </div>
+
         <div class="eni-box-content">
             <form method="get" th:action="@{/encheres}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">

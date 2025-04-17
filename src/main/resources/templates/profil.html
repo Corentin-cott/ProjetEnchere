@@ -6,6 +6,12 @@
 <body>
   <main layout:fragment="content">
 
+    <div th:if="${success}" class="eni-succes-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <p>Modifications effectuées.</p>
+      </div>
+    </div>
+
     <div sec:authorize="!isAuthenticated()">
 
       <div class="eni-box-container" style="display: block">

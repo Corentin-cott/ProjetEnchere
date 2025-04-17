@@ -156,6 +156,21 @@
           </form>
 
         </div>
+
+        <br>
+        <form th:action="@{/profil/delete}" method="post" onsubmit="return confirmerSuppression();">
+          <input type="hidden" name="idToDelete" th:value="${utilisateur.id}" />
+          <button class="eni-button">
+            Supprimer le compte !
+          </button>
+        </form>
+
+        <script>
+          function confirmerSuppression() {
+            return confirm("Attention, cette action est irréversible ! Êtes-vous sur de vouloir supprimer le compte ?");
+          }
+        </script>
+
       </div>
 
     </div>

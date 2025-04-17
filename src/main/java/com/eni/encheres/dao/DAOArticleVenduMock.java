@@ -3,12 +3,14 @@ package com.eni.encheres.dao;
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Utilisateur;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Primary
 @Component
 public class DAOArticleVenduMock implements IDAOArticleVendu {
 
@@ -16,6 +18,10 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
     private int idCourant = 100;
 
     Utilisateur vendeur = new Utilisateur(1L, "Alice", "alice@example.com", "motdepasse");
+
+    Categorie informatique = new Categorie(1L, "Informatique");
+    Categorie sport = new Categorie(2L, "Sport");
+    Categorie telephone = new Categorie(3L, "Téléphone");
 
     public DAOArticleVenduMock() {
         articlesVendus.add(new ArticleVendu(
@@ -26,7 +32,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 1000,
                 1200,
-                vendeur
+                vendeur,
+                informatique
         ));
 
         articlesVendus.add(new ArticleVendu(
@@ -37,7 +44,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 1000,
                 1200,
-                vendeur
+                vendeur,
+                sport
         ));
 
         articlesVendus.add(new ArticleVendu(
@@ -48,7 +56,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 5, 15, 0, 0),
                 200,
                 300,
-                vendeur
+                vendeur,
+                telephone
         ));
     }
 

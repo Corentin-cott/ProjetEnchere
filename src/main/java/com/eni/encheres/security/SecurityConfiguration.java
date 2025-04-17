@@ -27,8 +27,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                        .requestMatchers("nouvelleVente").authenticated()
+                        .requestMatchers("/profil/nouveau").not().authenticated()
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().authenticated()
         )
                 // on effectue une authentification basique (user/mdp)
                 .httpBasic(AbstractHttpConfigurer::disable)

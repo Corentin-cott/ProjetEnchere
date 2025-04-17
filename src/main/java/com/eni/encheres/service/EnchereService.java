@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,43 +16,45 @@ public class EnchereService {
     @Autowired
     IDAOEnchere daoEnchere;
 
-    public List<Enchere> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente, String pseudoConnecte) {
+    public List<Enchere> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente, String pseudoConnecte, String recherche, Long idCategorie) {
         List<Enchere> toutes = daoEnchere.findAll();
         LocalDateTime maintenant = LocalDateTime.now();
 
-        Set<Enchere> resultats = new HashSet<>();
-
-        if (filtresAchat != null && !filtresAchat.isEmpty()) {
-            toutes.stream()
-                    .filter(e -> {
-                        ArticleVendu article = e.getArticle();
-                        return filtresAchat.stream().anyMatch(filtre -> {
-                            switch (filtre) {
-                                case "ouverts":
-                                    return article.getDateDebutEncheres().isBefore(maintenant);
-                                case "enCours":
-                                    return isEnCours(article, maintenant);
-                                case "terminees":
-                                    return article.getDateFinEncheres().isBefore(maintenant);
-                                default:
-                                    return false;
-                            }
-                        });
-                    })
-                    .forEach(resultats::add);
+        // Si aucun filtre, retourne tout
+        if ((filtresAchat == null || filtresAchat.isEmpty()) &&
+                (filtresVente == null || filtresVente.isEmpty()) &&
+                (recherche == null || recherche.isEmpty())) {
+            return toutes;
         }
 
-        if (filtresVente != null && !filtresVente.isEmpty() && pseudoConnecte != null) {
-            System.out.println("Filtrage des enchères pour l'utilisateur : " + pseudoConnecte);
-            System.out.println("Filtres de vente reçus : " + filtresVente);
+        return toutes.stream()
+                .filter(e -> {
+                    ArticleVendu article = e.getArticle();
 
-            toutes.stream()
-                    .filter(e -> {
-                        ArticleVendu article = e.getArticle();
-                        System.out.println("Vérification de l'article : " + article.getNom());
-                        return article.getVendeur() != null &&
-                                article.getVendeur().getPseudo() != null &&
-                                article.getVendeur().getPseudo().equals(pseudoConnecte) &&
+                    // Filtrage par recherche texte (sur le nom)
+                    boolean matchTexte = (recherche == null || recherche.isEmpty()) ||
+                            article.getNom().toLowerCase().contains(recherche.toLowerCase());
+
+                    // Filtrage achat
+                    boolean matchAchat = (filtresAchat == null || filtresAchat.isEmpty()) || filtresAchat.stream().anyMatch(filtre -> {
+                        switch (filtre) {
+                            case "ouverts":
+                                return article.getDateDebutEncheres().isBefore(maintenant);
+                            case "enCours":
+                                return isEnCours(article, maintenant);
+                            case "terminees":
+                                return article.getDateFinEncheres().isBefore(maintenant);
+                            default:
+                                return false;
+                        }
+                    });
+
+                    // Filtrage vente
+                    boolean matchVente = true;
+                    if (filtresVente != null && !filtresVente.isEmpty()) {
+                        matchVente = pseudoConnecte != null &&
+                                article.getVendeur() != null &&
+                                pseudoConnecte.equals(article.getVendeur().getPseudo()) &&
                                 filtresVente.stream().anyMatch(filtre -> {
                                     switch (filtre) {
                                         case "fermees":
@@ -68,16 +67,16 @@ public class EnchereService {
                                             return false;
                                     }
                                 });
-                    })
-                    .forEach(resultats::add);
-        }
+                    }
 
-        // Si aucun filtre, retourner tout
-        if ((filtresAchat == null || filtresAchat.isEmpty()) && (filtresVente == null || filtresVente.isEmpty())) {
-            return toutes;
-        }
+                    // Catégorie
+                    boolean matchCategorie = (idCategorie == null)
+                            || (article.getCategorie() != null && article.getCategorie().getId() == idCategorie);
 
-        return new ArrayList<>(resultats);
+
+                    return matchTexte && matchAchat && matchVente && matchCategorie;
+                })
+                .collect(Collectors.toList());
     }
 
     private boolean isEnCours(ArticleVendu article, LocalDateTime maintenant) {

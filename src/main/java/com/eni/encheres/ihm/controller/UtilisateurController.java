@@ -31,6 +31,11 @@ public class UtilisateurController {
 
     @GetMapping("/{id}")
     public String afficherProfilUtilisateur(@PathVariable int id, Model model) {
+        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+        if(id!=utilisateurConnecte.getId()) {
+            return "redirect:/profil/" + utilisateurConnecte.getId();
+        }
         Utilisateur utilisateur = utilisateurDao.getUtilisateurById(id); // ou autre méthode
         model.addAttribute("utilisateur", utilisateur);
         return "profil"; // vue dédiée au profil utilisateur

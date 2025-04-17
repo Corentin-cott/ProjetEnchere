@@ -16,8 +16,11 @@ public class EnchereService {
     @Autowired
     IDAOEnchere daoEnchere;
 
-    public List<Enchere> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente, String pseudoConnecte, String recherche, Long idCategorie) {
+    public List<Enchere> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente,
+                                         String pseudoConnecte, String recherche, Long idCategorie) {
         List<Enchere> toutes = daoEnchere.findAll();
+        System.out.println(">> Nb d’enchères récupérées : " + toutes.size());
+
         LocalDateTime maintenant = LocalDateTime.now();
 
         // Si aucun filtre, retourne tout
@@ -70,8 +73,8 @@ public class EnchereService {
                     }
 
                     // Catégorie
-                    boolean matchCategorie = (idCategorie == null)
-                            || (article.getCategorie() != null && article.getCategorie().getId() == idCategorie);
+                    boolean matchCategorie = (idCategorie == null) ||
+                            (article.getCategorie() != null && idCategorie.equals((long) article.getCategorie().getId()));
 
 
                     return matchTexte && matchAchat && matchVente && matchCategorie;

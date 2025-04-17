@@ -17,7 +17,6 @@ public class RouteController {
         return "listeEncheres";
     }
 
-
     @GetMapping("/connection")
     public String loginPage() {
         return "connection";

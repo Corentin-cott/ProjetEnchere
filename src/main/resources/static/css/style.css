@@ -76,10 +76,10 @@ input[type="password"]:focus {
     --clr-sucess-dark-bg: #184900;
     --clr-warning-bg: #bf937d;
     --clr-warning: #bf3f00;
-    --clr-warning-dark-bg: #672100;
+    --clr-warning-dark-bg: #832a00;
     --clr-danger-bg: #dca3a3;
     --clr-danger: #980000;
-    --clr-danger-dark-bg: #530000;
+    --clr-danger-dark-bg: #600000;
     --clr-white: #fff;
     --clr-black: #000;
 }
@@ -207,6 +207,45 @@ input[type="password"]:focus {
 }
 .eni-success-important-button:hover {
     background-color: var(--clr-sucess-dark-bg);
+    color: var(--clr-white);
+}
+
+.eni-danger-button {
+    padding: 0.7rem 1.5rem;
+
+    background-color: var(--clr-danger);
+    color: var(--clr-white);
+    transition: background-color 0.3s;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-danger);
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+.eni-danger-button:hover {
+    background-color: var(--clr-danger-dark-bg);
+}
+
+.eni-danger-important-button {
+    padding: 0.7rem 1.5rem;
+
+    background-color: var(--clr-white);
+    color: var(--clr-success);
+    transition: all 0.3s ease;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-danger-dark-bg);
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+.eni-danger-important-button:hover {
+    background-color: var(--clr-danger-dark-bg);
     color: var(--clr-white);
 }
 

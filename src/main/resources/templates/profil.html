@@ -4,75 +4,162 @@
   <title layout:fragment="title">Création compte</title>
 </head>
 <body>
-<main layout:fragment="content">
-  <div class="eni-box-container" style="display: block">
-    <h2 class="eni-h2">Inscription</h2>
-    <div class="eni-box-content">
-      <form class="n-form" th:action="@{/profil}" method="post">
-        <div class="form-element">
-          <label>Pseudo</label>
-          <input type="text" th:field="*{utilisateur.pseudo}" required pattern="[a-zA-Z0-9]+" title="Seul les lettres et les chiffres sont acceptés">
-        </div>
+  <main layout:fragment="content">
 
-        <div class="form-element">
-          <label>Nom</label>
-          <input type="text" th:field="*{utilisateur.nom}">
-        </div>
+    <div sec:authorize="!isAuthenticated()">
 
-        <div class="form-element">
-          <label>Prénom</label>
-          <input type="text" th:field="*{utilisateur.prenom}">
-        </div>
+      <div class="eni-box-container" style="display: block">
+        <h2 class="eni-h2">Inscription</h2>
+        <div class="eni-box-content">
 
-        <div class="form-element">
-          <label>Email</label>
-          <input type="text" required th:field="*{utilisateur.email}">
-        </div>
+          <form class="n-form" th:action="@{/profil/nouveau}" method="post">
 
-        <div class="form-element">
-          <label>Téléphone</label>
-          <input type="text" th:field="*{utilisateur.telephone}">
-        </div>
+            <div class="form-element">
+              <label>Pseudo</label>
+              <input type="text" th:field="*{utilisateur.pseudo}" required pattern="[a-zA-Z0-9]+" title="Seul les lettres et les chiffres sont acceptés">
+            </div>
 
-        <div class="form-element">
-          <label>Rue</label>
-          <input type="text" required th:field="*{utilisateur.rue}">
-        </div>
+            <div class="form-element">
+              <label>Nom</label>
+              <input type="text" th:field="*{utilisateur.nom}">
+            </div>
 
-        <div class="form-element">
-          <label>Code postal</label>
-          <input type="text" required th:field="*{utilisateur.codePostal}">
-        </div>
+            <div class="form-element">
+              <label>Prénom</label>
+              <input type="text" th:field="*{utilisateur.prenom}">
+            </div>
 
-        <div class="form-element">
-          <label>Ville</label>
-          <input type="text" required th:field="*{utilisateur.ville}">
-        </div>
+            <div class="form-element">
+              <label>Email</label>
+              <input type="text" required th:field="*{utilisateur.email}">
+            </div>
 
-        <div class="form-element">
-          <label>Mot de passe</label>
-          <input type="password" required th:field="*{utilisateur.motDePasse}">
-        </div>
+            <div class="form-element">
+              <label>Téléphone</label>
+              <input type="text" th:field="*{utilisateur.telephone}">
+            </div>
 
-        <div class="form-element">
-          <label>Confirmation mot de passe</label>
-          <input type="password" required name="confirmationMotDePasse">
-        </div>
+            <div class="form-element">
+              <label>Rue</label>
+              <input type="text" required th:field="*{utilisateur.rue}">
+            </div>
 
-        <div th:if="${error}" class="eni-error-text">
-          <p th:text="${error}"></p>
-        </div>
+            <div class="form-element">
+              <label>Code postal</label>
+              <input type="text" required th:field="*{utilisateur.codePostal}">
+            </div>
 
-        <div class="actions">
-          <button class="eni-button" type="submit">Créer</button>
-        </div>
+            <div class="form-element">
+              <label>Ville</label>
+              <input type="text" required th:field="*{utilisateur.ville}">
+            </div>
 
-        <div class="actions">
-          <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|">Annuler</button>
+            <div class="form-element">
+              <label>Mot de passe</label>
+              <input type="password" required th:field="*{utilisateur.motDePasse}">
+            </div>
+
+            <div class="form-element">
+              <label>Confirmation mot de passe</label>
+              <input type="password" required name="confirmationMotDePasse">
+            </div>
+
+            <div th:if="${error}" class="eni-error-text">
+              <p th:text="${error}"></p>
+            </div>
+
+            <div class="actions">
+              <button class="eni-button" type="submit">Créer</button>
+            </div>
+
+            <div class="actions">
+              <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|">Annuler</button>
+            </div>
+
+          </form>
+
         </div>
-      </form>
+      </div>
+
     </div>
-  </div>
-</main>
+
+    <div sec:authorize="isAuthenticated()">
+
+      <div class="eni-box-container" style="display: block">
+        <h2 class="eni-h2">Profil</h2>
+        <div class="eni-box-content">
+
+          <form class="n-form" th:action="@{'/profil/'+${utilisateur.id}}" method="post" th:object="${utilisateur}">
+
+            <div class="form-element">
+              <label>Pseudo</label>
+              <input type="text" th:field="*{pseudo}" required pattern="[a-zA-Z0-9]+" title="Seul les lettres et les chiffres sont acceptés">
+            </div>
+
+            <div class="form-element">
+              <label>Nom</label>
+              <input type="text" th:field="*{nom}">
+            </div>
+
+            <div class="form-element">
+              <label>Prénom</label>
+              <input type="text" th:field="*{prenom}">
+            </div>
+
+            <div class="form-element">
+              <label>Email</label>
+              <input type="text" required th:field="*{email}">
+            </div>
+
+            <div class="form-element">
+              <label>Téléphone</label>
+              <input type="text" th:field="*{telephone}">
+            </div>
+
+            <div class="form-element">
+              <label>Rue</label>
+              <input type="text" required th:field="*{rue}">
+            </div>
+
+            <div class="form-element">
+              <label>Code postal</label>
+              <input type="text" required th:field="*{codePostal}">
+            </div>
+
+            <div class="form-element">
+              <label>Ville</label>
+              <input type="text" required th:field="*{ville}">
+            </div>
+
+            <div class="form-element">
+              <label>Mot de passe</label>
+              <input type="password" th:field="*{motDePasse}">
+            </div>
+
+            <div class="form-element">
+              <label>Confirmation mot de passe</label>
+              <input type="password" name="confirmationMotDePasse">
+            </div>
+
+            <div th:if="${error}" class="eni-error-text">
+              <p th:text="${error}"></p>
+            </div>
+
+            <div class="actions">
+              <button class="eni-button" type="submit">Enregistrer modifications</button>
+            </div>
+
+            <div class="actions">
+              <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|">Annuler modifications</button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
 </body>
 </html>

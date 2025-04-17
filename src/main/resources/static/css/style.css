@@ -233,7 +233,7 @@ input[type="password"]:focus {
     padding: 0.7rem 1.5rem;
 
     background-color: var(--clr-white);
-    color: var(--clr-success);
+    color: var(--clr-danger);
     transition: all 0.3s ease;
 
     text-align: center;

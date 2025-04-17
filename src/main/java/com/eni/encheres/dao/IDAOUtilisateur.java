@@ -11,4 +11,5 @@ public interface IDAOUtilisateur {
     public void deleteUtilisateurById(double id);
     public void addUtilisateur(Utilisateur utilisateur);
     public List<Utilisateur> getUtilisateurs();
+    public void updateUtilisateur(Utilisateur utilisateur);
 }

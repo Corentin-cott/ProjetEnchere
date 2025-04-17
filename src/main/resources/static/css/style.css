@@ -71,9 +71,15 @@ input[type="password"]:focus {
     --clr-secondary: #002888;
     --clr-text: #2e2e2e;
     --clr-light-text: #4a4a4a;
-    --clr-success: #359300;
+    --clr-success-bg: rgba(167, 191, 161, 0.5);
+    --clr-success: #216100;
+    --clr-sucess-dark-bg: #184900;
+    --clr-warning-bg: #bf937d;
     --clr-warning: #bf3f00;
+    --clr-warning-dark-bg: #832a00;
+    --clr-danger-bg: #dca3a3;
     --clr-danger: #980000;
+    --clr-danger-dark-bg: #600000;
     --clr-white: #fff;
     --clr-black: #000;
 }
@@ -141,7 +147,6 @@ input[type="password"]:focus {
 
     cursor: pointer;
 }
-
 .eni-button:hover {
     background-color: var(--clr-secondary);
 }
@@ -161,9 +166,86 @@ input[type="password"]:focus {
 
     cursor: pointer;
 }
-
 .eni-important-button:hover {
     background-color: var(--clr-secondary);
+    color: var(--clr-white);
+}
+
+.eni-success-button {
+    padding: 0.7rem 1.5rem;
+
+    background-color: var(--clr-success);
+    color: var(--clr-white);
+    transition: background-color 0.3s;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-success);
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+.eni-success-button:hover {
+    background-color: var(--clr-sucess-dark-bg);
+}
+
+.eni-success-important-button {
+    padding: 0.7rem 1.5rem;
+
+    background-color: var(--clr-white);
+    color: var(--clr-success);
+    transition: all 0.3s ease;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-success);
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+.eni-success-important-button:hover {
+    background-color: var(--clr-sucess-dark-bg);
+    color: var(--clr-white);
+}
+
+.eni-danger-button {
+    padding: 0.7rem 1.5rem;
+
+    background-color: var(--clr-danger);
+    color: var(--clr-white);
+    transition: background-color 0.3s;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-danger);
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+.eni-danger-button:hover {
+    background-color: var(--clr-danger-dark-bg);
+}
+
+.eni-danger-important-button {
+    padding: 0.7rem 1.5rem;
+
+    background-color: var(--clr-white);
+    color: var(--clr-danger);
+    transition: all 0.3s ease;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 2px solid var(--clr-danger-dark-bg);
+    border-radius: 12px;
+
+    cursor: pointer;
+}
+.eni-danger-important-button:hover {
+    background-color: var(--clr-danger-dark-bg);
     color: var(--clr-white);
 }
 
@@ -189,12 +271,24 @@ input[type="password"]:focus {
     color: var(--clr-danger);
 }
 
+.eni-succes-container {
+    background-color: var(--clr-success-bg);
+    color: var(--clr-success);
+    display: flex;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+}
+
 .eni-box-container {
     display: flex;
     padding: 1rem;
     margin-bottom: 1rem;
     width: 100%;
     background-color: var(--clr-white);
+    border-radius: 0.5rem;
     box-sizing: border-box;
 }
 
@@ -215,7 +309,6 @@ input[type="password"]:focus {
 .eni-box-content p {
     margin: 0.3rem 0;
     font-size: 0.95rem;
-    color: var(--clr-black);
 }
 
 .eni-action-container {

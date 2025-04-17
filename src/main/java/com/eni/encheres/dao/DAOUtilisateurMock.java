@@ -70,6 +70,23 @@ public class DAOUtilisateurMock implements IDAOUtilisateur {
         utilisateurs.add(utilisateur);
     }
 
+    public void updateUtilisateur(Utilisateur utilisateur) {
+        for (int i = 0; i < utilisateurs.size(); i++) {
+            if (utilisateurs.get(i).getId() == utilisateur.getId()) {
+                if (!utilisateur.getMotDePasse().isEmpty()) {
+                    utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
+                }
+                else{
+                    utilisateur.setMotDePasse(utilisateurs.get(i).getMotDePasse());
+                }
+                utilisateurs.set(i, utilisateur);
+                return;
+            }
+        }
+    }
+
+
+
     public List<Utilisateur> getUtilisateurs(){
         return utilisateurs;
     }

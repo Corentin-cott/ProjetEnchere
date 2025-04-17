@@ -116,11 +116,12 @@
             <div th:if="${error}" class="eni-error-text">
               <p th:text="${error}"></p>
             </div>
+            <br>
 
             <div class="actions">
               <button class="eni-button" type="submit">Enregistrer modifications</button>
             </div>
-
+            <br>
             <div class="actions">
               <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|">Annuler modifications</button>
             </div>
@@ -132,7 +133,7 @@
         <br>
         <form th:action="@{/profil/delete}" method="post" onsubmit="return confirmerSuppression();">
           <input type="hidden" name="idToDelete" th:value="${utilisateur.id}" />
-          <button class="eni-button">
+          <button class="eni-danger-button">
             Supprimer le compte !
           </button>
         </form>

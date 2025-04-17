@@ -15,4 +15,9 @@ public class Enchere {
     private double montantEnchere;
     private ArticleVendu article;
     private Utilisateur encherisseur;
+
+    public Enchere(ArticleVendu article, Utilisateur encherisseur) {
+        this.article = article;
+        this.encherisseur = encherisseur;
+    }
 }

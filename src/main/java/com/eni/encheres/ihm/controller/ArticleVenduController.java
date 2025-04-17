@@ -80,20 +80,9 @@ public class ArticleVenduController {
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
         Retrait retrait = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
 
-        ArticleVendu article = new ArticleVendu();
-        article.setNom(nom);
-        article.setDescription(description);
-        article.setCategorie(categorie);
-        article.setMiseAPrix(miseAPrix);
-        article.setPrixVente(miseAPrix);
-        article.setDateDebutEncheres(dateDebut.atStartOfDay());
-        article.setDateFinEncheres(dateFin.atStartOfDay());
-        article.setVendeur(vendeur);
-        article.setRetrait(retrait);
+        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),retrait,vendeur);
 
-        Enchere enchere = new Enchere();
-        enchere.setArticle(article);
-        enchere.setEncherisseur(vendeur);
+        Enchere enchere = new Enchere(article,vendeur);
         enchereIDAO.ajouterEnchere(enchere);
 
         articleVenduDAO.addArticleVendu(article);

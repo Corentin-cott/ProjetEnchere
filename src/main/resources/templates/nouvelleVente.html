@@ -25,36 +25,46 @@
 </head>
 <body>
 <main layout:fragment="content">
+    <div th:if="${success}" class="eni-succes-container">
+        <div class="eni-box-content" style="width: 100%;">
+            <p>Succès ! Votre article à été mise en vente dans la liste des enchères !</p>
+            <br>
+            <form method="get" th:action="@{/}" style="width: 100%">
+                <button class="eni-success-important-button" type="submit" style="width: 100%">Retour à la liste des enchères</button>
+            </form>
+        </div>
+    </div>
     <form method="post" th:action="@{/nouvelleVente}" style="width: 100%">
-        <input type="hidden" id="utilisateur_name" name="utilisateur_name" th:value="${#authentication.name}">
+        <input required type="hidden" id="utilisateur_name" name="utilisateur_name" th:value="${#authentication.name}">
         <div class="eni-box-container" style="display: block">
             <h2 class="eni-h2">Nouvelle Vente</h2>
             <div class="eni-box-content">
                 <label class="eni-label" for="nom_article">Nom de l'article</label>
-                <input type="text" id="nom_article" name="nom_article" value=""/>
+                <input required type="text" id="nom_article" name="nom_article" value=""/>
                 <br><br>
                 <label class="eni-label" for="description_article">Description de l'article</label>
-                <input type="text" id="description_article" name="description_article" value=""/>
+                <input required type="text" id="description_article" name="description_article" value=""/>
                 <br><br>
                 <label for="categorie" class="eni-label">Catégorie</label>
-                <select name="categorie" id="categorie">
-                    <option value="PLACEHOLDER1">PLACEHOLDER1</option>
-                    <option value="PLACEHOLDER2">PLACEHOLDER2</option>
-                    <option value="PLACEHOLDER3">PLACEHOLDER3</option>
-                    <option value="PLACEHOLDER4">PLACEHOLDER4</option>
+                <select required name="categorie" id="categorie">
+                    <option value="" disabled selected>Choisir une catégorie</option>
+                    <option th:each="categorie : ${categories}"
+                            th:value="${categorie.id}"
+                            th:text="${categorie.libelle}">
+                    </option>
                 </select>
                 <br><br>
                 <label for="categorie" class="eni-label">Prix Initial</label>
-                <input type="number" id="prix_article" name="prix_article" value="" min="0" max="10000000000"/>
+                <input required type="number" id="prix_article" name="prix_article" value="" min="0" max="10000000000"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Début de l'enchère</label>
-                <input type="date" id="date_deb_enchere" name="date_deb_enchere"/>
+                <input required type="date" id="date_deb_enchere" name="date_deb_enchere"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Fin de l'enchère</label>
-                <input type="date" id="date_fin_enchere" name="date_fin_enchere"/>
+                <input required type="date" id="date_fin_enchere" name="date_fin_enchere"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Retrait :</label>
-                <input type="text" id="retrait_article" name="retrait_article" value="quelque part dans le monde ?" readonly/>
+                <input required type="text" id="retrait_article" name="retrait_article" th:value="${adresse}" readonly/>
                 <br><br>
             </div>
         </div>

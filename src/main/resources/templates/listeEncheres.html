@@ -42,11 +42,13 @@
                 </section>
                 <br>
                 <label for="categorie" class="eni-label">Catégorie</label>
-                <select class="eni-select" name="categorie" id="categorie">
-                    <option value="PLACEHOLDER1">PLACEHOLDER1</option>
-                    <option value="PLACEHOLDER2">PLACEHOLDER2</option>
-                    <option value="PLACEHOLDER3">PLACEHOLDER3</option>
-                    <option value="PLACEHOLDER4">PLACEHOLDER4</option>
+                <select class="eni-select" name="idCategorie" id="categorie">
+                    <option value="">-- Toutes les catégories --</option>
+                    <option th:each="categorie : ${categories}"
+                            th:value="${categorie.id}"
+                            th:text="${categorie.libelle}"
+                            th:selected="${categorie.id} == ${param.idCategorie}">
+                    </option>
                 </select>
                 <br><br>
                 <label for="recherche" class="eni-label">Recherche par nom</label>

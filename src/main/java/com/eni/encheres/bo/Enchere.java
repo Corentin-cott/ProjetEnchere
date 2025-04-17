@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Enchere {
+    private long id;
     private long noUtilisateur;
     private LocalDateTime dateEnchere;
     private double montantEnchere;

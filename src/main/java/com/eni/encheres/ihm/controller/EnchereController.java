@@ -3,6 +3,7 @@ package com.eni.encheres.ihm.controller;
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Enchere;
+import com.eni.encheres.bo.Utilisateur;
 import com.eni.encheres.dao.IDAOArticleVendu;
 import com.eni.encheres.service.EnchereService;
 import jakarta.annotation.PostConstruct;
@@ -63,5 +64,19 @@ public class EnchereController {
         model.addAttribute("username", pseudoUtilisateur != null ? pseudoUtilisateur : "Anonyme");
 
         return "listeEncheres";
+    }
+    @GetMapping("/encheres/details/{id}")
+    public String detailsVente(
+            @PathVariable int id,
+            Model model
+    )
+    {
+        Enchere enchere = enchereService.getEncheresParId(id);
+        if (enchere == null) {
+            return "redirect:/error";
+        }
+
+        model.addAttribute("enchere", enchere);
+        return "detailsVente";
     }
 }

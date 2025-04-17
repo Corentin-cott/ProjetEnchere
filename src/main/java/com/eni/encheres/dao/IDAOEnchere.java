@@ -11,4 +11,6 @@ public interface IDAOEnchere {
     void ajouterEnchere(Enchere enchere);
 
     List<Enchere> findByArticleId(long idArticle);
+
+    Enchere findByEnchereId(long idEnchere);
 }

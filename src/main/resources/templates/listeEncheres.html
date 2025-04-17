@@ -69,7 +69,7 @@
         <div th:each="enchere : ${encheres}" class="eni-box-container">
             <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" style="width: 9em;"/>
             <div class="eni-box-content" style="width: 100%;">
-                <a th:href="@{'/detail/' + ${enchere.article.id}}" th:text="${enchere.article.nom} + ' (' + (${enchere.article.categorie} != null ? ${enchere.article.categorie.libelle} : 'Aucune catégorie') + ')'">
+                <a th:href="@{'encheres/details/' + ${enchere.article.id}}" th:text="${enchere.article.nom} + ' (' + (${enchere.article.categorie} != null ? ${enchere.article.categorie.libelle} : 'Aucune catégorie') + ')'">
                     titre
                 </a>
                 <p>Description : <span th:text="${enchere.article.getDescription()}"></span></p>

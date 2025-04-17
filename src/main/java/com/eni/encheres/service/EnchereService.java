@@ -84,12 +84,16 @@ public class EnchereService {
                 && article.getDateFinEncheres().isAfter(maintenant);
     }
 
-    public List<Enchere> getEncheresParArticle(long idArticle) {
+    public List<Enchere> getEncheresParArticleId(long idArticle) {
         return daoEnchere.findByArticleId(idArticle);
     }
 
     public ServiceResponse<String> ajouterEnchere(Enchere enchere) {
         daoEnchere.ajouterEnchere(enchere);
         return ServiceResponse.buildResponse("00", "Enchère enregistrée", null);
+    }
+
+    public Enchere getEncheresParId(long idEnchere) {
+        return daoEnchere.findByEnchereId(idEnchere);
     }
 }

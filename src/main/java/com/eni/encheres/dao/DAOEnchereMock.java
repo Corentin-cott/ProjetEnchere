@@ -94,12 +94,12 @@ public class DAOEnchereMock implements IDAOEnchere {
         );
         articleFutur.setVendeur(utilisateur2);
 
-        encheres.add(new Enchere(1L, LocalDateTime.now().minusHours(3), 620.0, articleEnCours1, utilisateur1));
-        encheres.add(new Enchere(2L, LocalDateTime.now().minusDays(5), 400.0, articleTermine, utilisateur2));
-        encheres.add(new Enchere(1L, LocalDateTime.now().plusDays(3), 820.0, articleFutur, utilisateur1));
-        encheres.add(new Enchere(3L, LocalDateTime.now().minusHours(2), 850.0, articleEnCours2, utilisateur2));
-        encheres.add(new Enchere(4L, LocalDateTime.now().minusHours(4), 400.0, articleEnCours3, utilisateur1));
-        encheres.add(new Enchere(5L, LocalDateTime.now().minusHours(1), 300.0, articleEnCours4, utilisateur2));
+        encheres.add(new Enchere(1L, 1L, LocalDateTime.now().minusHours(3), 620.0, articleEnCours1, utilisateur1));
+        encheres.add(new Enchere(2L, 1L, LocalDateTime.now().minusDays(5), 400.0, articleTermine, utilisateur2));
+        encheres.add(new Enchere(3L, 1L, LocalDateTime.now().plusDays(3), 820.0, articleFutur, utilisateur1));
+        encheres.add(new Enchere(4L, 3L, LocalDateTime.now().minusHours(2), 850.0, articleEnCours2, utilisateur2));
+        encheres.add(new Enchere(5L, 4L, LocalDateTime.now().minusHours(4), 400.0, articleEnCours3, utilisateur1));
+        encheres.add(new Enchere(6L, 2L, LocalDateTime.now().minusHours(1), 300.0, articleEnCours4, utilisateur2));
     }
 
     @Override
@@ -118,4 +118,13 @@ public class DAOEnchereMock implements IDAOEnchere {
                 .filter(e -> e.getArticle().getId() == idArticle)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Enchere findByEnchereId(long idEnchere) {
+        return encheres.stream()
+                .filter(e -> e.getId() == idEnchere)
+                .findFirst()
+                .orElse(null);
+    }
+
 }

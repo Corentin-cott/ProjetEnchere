@@ -27,6 +27,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
+                        .requestMatchers("nouvelleVente").authenticated()
                         .requestMatchers("/profil/nouveau").not().authenticated()
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()

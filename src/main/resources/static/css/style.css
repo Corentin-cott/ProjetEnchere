@@ -51,11 +51,11 @@ input[type="password"]:focus {
 
 @media (max-width: 700px) {
     body {
-        padding: 1.5rem 1rem;
+        padding: 1.5em 1rem;
     }
 
     form {
-        padding: 1.5rem;
+        padding: 0rem;
     }
 
     h1 {
@@ -258,7 +258,7 @@ input[type="password"]:focus {
     align-items: center;
     justify-content: space-between;
     color: var(--clr-text);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .eni-error-container {
@@ -335,6 +335,10 @@ input[type="password"]:focus {
     height: 70%;
     object-fit: cover;
     margin-right: 1rem;
+}
+
+.eni-encheres-logo {
+    height: 5rem;
 }
 
 /* TITLES */

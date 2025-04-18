@@ -3,6 +3,8 @@ package com.eni.encheres.dao;
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Enchere;
 import com.eni.encheres.bo.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,13 +16,17 @@ import java.util.stream.Collectors;
 public class DAOEnchereMock implements IDAOEnchere {
 
     private List<Enchere> encheres = new ArrayList<>();
+    public IDAOArticleVendu daoArticleVendu = new DAOArticleVenduMock();
+
+    @Autowired
+    private IDAOUtilisateur utilisateurdao=new DAOUtilisateurMock(new BCryptPasswordEncoder());
 
     public DAOEnchereMock() {
-        Utilisateur utilisateur1 = new Utilisateur(1L, "Alice", "alice@example.com", "motdepasse");
-        Utilisateur utilisateur2 = new Utilisateur(2L, "Bob", "bob@example.com", "motdepasse");
 
         // Enchère EN COURS
-        ArticleVendu articleEnCours1 = new ArticleVendu(
+
+
+       /* ArticleVendu articleEnCours1 = new ArticleVendu(
                 1L,
                 "Ordinateur portable",
                 "Dell XPS 13",
@@ -28,9 +34,8 @@ public class DAOEnchereMock implements IDAOEnchere {
                 LocalDateTime.now().plusDays(2),
                 500.0,
                 650.0,
-                utilisateur1
+                utilisateurdao.getUtilisateurById(1)
         );
-        articleEnCours1.setVendeur(utilisateur1);
 
         ArticleVendu articleEnCours2 = new ArticleVendu(
                 2L,
@@ -40,9 +45,8 @@ public class DAOEnchereMock implements IDAOEnchere {
                 LocalDateTime.now().plusDays(3),
                 800.0,
                 1000.0,
-                utilisateur1
+                utilisateurdao.getUtilisateurById(2)
         );
-        articleEnCours2.setVendeur(utilisateur2);
 
         ArticleVendu articleEnCours3 = new ArticleVendu(
                 3L,
@@ -52,9 +56,8 @@ public class DAOEnchereMock implements IDAOEnchere {
                 LocalDateTime.now().plusDays(1),
                 300.0,
                 450.0,
-                utilisateur2
+                utilisateurdao.getUtilisateurById(3)
         );
-        articleEnCours3.setVendeur(utilisateur1);
 
         ArticleVendu articleEnCours4 = new ArticleVendu(
                 4L,
@@ -64,9 +67,8 @@ public class DAOEnchereMock implements IDAOEnchere {
                 LocalDateTime.now().plusDays(2),
                 250.0,
                 350.0,
-                utilisateur1
+                utilisateurdao.getUtilisateurById(1)
         );
-        articleEnCours4.setVendeur(utilisateur2);
 
         // Enchère TERMINÉE
         ArticleVendu articleTermine = new ArticleVendu(
@@ -77,9 +79,8 @@ public class DAOEnchereMock implements IDAOEnchere {
                 LocalDateTime.now().minusDays(2),
                 300.0,
                 450.0,
-                utilisateur1
+                utilisateurdao.getUtilisateurById(4)
         );
-        articleTermine.setVendeur(utilisateur1);
 
         // Enchère NON DÉMARRÉE
         ArticleVendu articleFutur = new ArticleVendu(
@@ -90,16 +91,15 @@ public class DAOEnchereMock implements IDAOEnchere {
                 LocalDateTime.now().plusDays(10),
                 800.0,
                 0.0,
-                utilisateur1
-        );
-        articleFutur.setVendeur(utilisateur2);
+                utilisateurdao.getUtilisateurById(3)
+        );*/
 
-        encheres.add(new Enchere(1L, 1L, LocalDateTime.now().minusHours(3), 620.0, articleEnCours1, utilisateur1));
-        encheres.add(new Enchere(2L, 1L, LocalDateTime.now().minusDays(5), 400.0, articleTermine, utilisateur2));
-        encheres.add(new Enchere(3L, 1L, LocalDateTime.now().plusDays(3), 820.0, articleFutur, utilisateur1));
-        encheres.add(new Enchere(4L, 3L, LocalDateTime.now().minusHours(2), 850.0, articleEnCours2, utilisateur2));
-        encheres.add(new Enchere(5L, 4L, LocalDateTime.now().minusHours(4), 400.0, articleEnCours3, utilisateur1));
-        encheres.add(new Enchere(6L, 2L, LocalDateTime.now().minusHours(1), 300.0, articleEnCours4, utilisateur2));
+        encheres.add(new Enchere(1L, 620.0, 1));
+        encheres.add(new Enchere(4L, 400.0, 2));
+        encheres.add(new Enchere(3L, 820.0, 3));
+        encheres.add(new Enchere(2L, 850.0, 1));
+        encheres.add(new Enchere(3L, 400.0, 2));
+        encheres.add(new Enchere(1L, 300.0, 3));
     }
 
     @Override
@@ -115,7 +115,7 @@ public class DAOEnchereMock implements IDAOEnchere {
     @Override
     public List<Enchere> findByArticleId(long idArticle) {
         return encheres.stream()
-                .filter(e -> e.getArticle().getId() == idArticle)
+                .filter(e -> e.getIdArticle() == idArticle)
                 .collect(Collectors.toList());
     }
 

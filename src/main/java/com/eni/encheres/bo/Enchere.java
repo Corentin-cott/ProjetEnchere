@@ -12,13 +12,11 @@ import java.time.LocalDateTime;
 public class Enchere {
     private long id;
     private long noUtilisateur;
-    private LocalDateTime dateEnchere;
     private double montantEnchere;
-    private ArticleVendu article;
-    private Utilisateur encherisseur;
+    private long idArticle;
 
-    public Enchere(ArticleVendu article, Utilisateur encherisseur) {
-        this.article = article;
-        this.encherisseur = encherisseur;
+    public Enchere(long idArticle, long noUtilisateur) {
+        this.idArticle = idArticle;
+        this.noUtilisateur = noUtilisateur;
     }
 }

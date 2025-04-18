@@ -14,4 +14,6 @@ public interface IDAOArticleVendu {
         public void addArticleVendu(ArticleVendu articleVendu);
         public ArticleVendu getArticleVenduByName(String articleVenduName);
 
+        public ArticleVendu selectById(long id);
+
 }

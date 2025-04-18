@@ -1,10 +1,7 @@
 package com.eni.encheres.ihm.controller;
 
 import com.eni.encheres.bo.*;
-import com.eni.encheres.dao.DAOCategorieMock;
-import com.eni.encheres.dao.IDAOArticleVendu;
-import com.eni.encheres.dao.IDAOEnchere;
-import com.eni.encheres.dao.IDAOUtilisateur;
+import com.eni.encheres.dao.*;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
 import com.eni.encheres.service.CategorieService;
 import jdk.jshell.execution.Util;
@@ -30,6 +27,8 @@ public class ArticleVenduController {
     ArticleVenduService articleVenduService;
     @Autowired
     private CategorieService categorieService;
+    @Autowired
+    private IDAOCategorie categorieDAO;
 
     @GetMapping("/liste-articles")
     public String articleVendu(Model model) {
@@ -57,4 +56,5 @@ public class ArticleVenduController {
         model.addAttribute("adresse", adresse);
         return "nouvelleVente.html";
     }
+
 }

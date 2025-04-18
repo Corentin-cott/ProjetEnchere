@@ -26,7 +26,7 @@ public class DAOEnchereMock implements IDAOEnchere {
         // Enchère EN COURS
 
 
-        ArticleVendu articleEnCours1 = new ArticleVendu(
+       /* ArticleVendu articleEnCours1 = new ArticleVendu(
                 1L,
                 "Ordinateur portable",
                 "Dell XPS 13",
@@ -92,14 +92,14 @@ public class DAOEnchereMock implements IDAOEnchere {
                 800.0,
                 0.0,
                 utilisateurdao.getUtilisateurById(3)
-        );
+        );*/
 
-        encheres.add(new Enchere(1L, LocalDateTime.now().minusHours(3), 620.0, articleEnCours1, utilisateurdao.getUtilisateurById(1)));
-        encheres.add(new Enchere(2L, LocalDateTime.now().minusDays(5), 400.0, articleTermine, utilisateurdao.getUtilisateurById(4)));
-        encheres.add(new Enchere(1L, LocalDateTime.now().plusDays(3), 820.0, articleFutur, utilisateurdao.getUtilisateurById(3)));
-        encheres.add(new Enchere(3L, LocalDateTime.now().minusHours(2), 850.0, articleEnCours2, utilisateurdao.getUtilisateurById(2)));
-        encheres.add(new Enchere(4L, LocalDateTime.now().minusHours(4), 400.0, articleEnCours3, utilisateurdao.getUtilisateurById(3)));
-        encheres.add(new Enchere(5L, LocalDateTime.now().minusHours(1), 300.0, articleEnCours4, utilisateurdao.getUtilisateurById(1)));
+        encheres.add(new Enchere(1L, LocalDateTime.now().minusHours(3), 620.0, daoArticleVendu.selectById(1), utilisateurdao.getUtilisateurById(1)));
+        encheres.add(new Enchere(2L, LocalDateTime.now().minusDays(5), 400.0, daoArticleVendu.selectById(2), utilisateurdao.getUtilisateurById(4)));
+        encheres.add(new Enchere(1L, LocalDateTime.now().plusDays(3), 820.0, daoArticleVendu.selectById(3), utilisateurdao.getUtilisateurById(3)));
+        encheres.add(new Enchere(3L, LocalDateTime.now().minusHours(2), 850.0, daoArticleVendu.selectById(1), utilisateurdao.getUtilisateurById(2)));
+        encheres.add(new Enchere(4L, LocalDateTime.now().minusHours(4), 400.0, daoArticleVendu.selectById(2), utilisateurdao.getUtilisateurById(3)));
+        encheres.add(new Enchere(5L, LocalDateTime.now().minusHours(1), 300.0, daoArticleVendu.selectById(3), utilisateurdao.getUtilisateurById(1)));
 
     }
 

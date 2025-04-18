@@ -6,18 +6,70 @@
 </head>
 <body>
   <main layout:fragment="content">
-    <div th:if="true" class="eni-danger-container">
+    <div th:if="${enchere.article.dateFinEncheres <= T(java.time.LocalDateTime).now()}" class="eni-danger-container">
       <div class="eni-box-content" style="width: 100%;">
         <p>Cette vente est désormais terminée.</p>
       </div>
     </div>
 
+    <div th:if="${success}" class="eni-succes-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <p>Succès ! Votre article à été mise en vente dans la liste des enchères !</p>
+        <br>
+        <form method="get" th:action="@{/}" style="width: 100%">
+          <button class="eni-success-important-button" type="submit" style="width: 100%">Retour à la liste des enchères</button>
+        </form>
+      </div>
+    </div>
+
     <div class="eni-box-container" style="display: block">
       <h2 class="eni-h2" th:text="${enchere.article.nom}">Détails sur l'enchere</h2>
+      <div class="eni-medium-image-container">
+        <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" style="width: 60%;"/>
+      </div>
 
       <div class="eni-box-content">
+        <h2>
+          Article de <span th:text="${enchere.article.vendeur.pseudo != null ? enchere.article.vendeur.pseudo : 'Vendeur inconnu'}"></span>
+        </h2>
+        <div style="display: flex; gap: 2rem;">
+          <p>
+            Meilleure offre : <span th:text="${enchere.montantEnchere != null ? enchere.montantEnchere : 'Aucune offre'}"></span>
+          </p>
+          <p>
+            Mise à prix : <span th:text="${enchere.article.miseAPrix != null ? enchere.article.miseAPrix : 'Non spécifiée'}"></span>
+          </p>
+        </div>
+        <p>
+          Fin de l'enchère : <span th:text="${enchere.article.dateFinEncheres != null ? enchere.article.dateFinEncheres : 'Date inconnue'}"></span>
+        </p>
+        <p>
+          Retrait :
+          <span th:with="retrait=${enchere.article.retrait}"
+                th:text="${retrait != null} ?
+                retrait.rue + ', ' + retrait.code_postal + ', ' + retrait.ville :
+                'Rue inconnue, Code postal inconnu, Ville inconnue'">
+          </span>
+        </p>
+        <br><br>
+        <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/}'|">Retour a la liste</button>
+      </div>
+
+    </div>
+
+    <div sec:authorize="isAuthenticated()" th:if="${enchere.article.vendeur.pseudo} == ${#authentication.name}" class="eni-danger-container" style="background-color: var(--clr-white);">
+      <div class="eni-box-content" style="width: 100%;">
+
+        <form th:action="@{/encheres/delete}" method="post" onsubmit="return confirmerSuppression();">
+          <input type="hidden" name="enchereIdToDelete" th:value="0" />
+          <button class="eni-danger-button" style="width: 100%">
+            Supprimer l'enchère
+          </button>
+        </form>
 
       </div>
+    </div>
+
   </main>
 </body>
 </html>

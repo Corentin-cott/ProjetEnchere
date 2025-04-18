@@ -29,12 +29,6 @@ public class ArticleVenduController {
     @Autowired
     ArticleVenduService articleVenduService;
     @Autowired
-    IDAOArticleVendu articleVenduDAO;
-    @Autowired
-    IDAOEnchere enchereIDAO;
-    @Autowired
-    IDAOUtilisateur utilisateurIDAO;
-    @Autowired
     private CategorieService categorieService;
 
     @GetMapping("/liste-articles")
@@ -63,34 +57,4 @@ public class ArticleVenduController {
         model.addAttribute("adresse", adresse);
         return "nouvelleVente.html";
     }
-
-    @PostMapping("/nouvelleVente")
-    public String addArticleVendu(
-            @RequestParam("utilisateur_name") String pseudo,
-            @RequestParam("nom_article") String nom,
-            @RequestParam("description_article") String description,
-            @RequestParam("categorie") String libelleCategorie,
-            @RequestParam("prix_article") double miseAPrix,
-            @RequestParam("date_deb_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
-            @RequestParam("date_fin_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
-            @RequestParam("retrait_article") String retraitString,
-            Model model
-    ) {
-        Categorie categorie = DAOCategorieMock.trouveParLibelleMock(libelleCategorie);
-        Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
-        Retrait retrait = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
-
-        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),retrait,vendeur);
-
-        Enchere enchere = new Enchere(article,vendeur);
-        enchereIDAO.ajouterEnchere(enchere);
-
-        articleVenduDAO.addArticleVendu(article);
-
-        Boolean success = true;
-        model.addAttribute("success", success);
-
-        return "nouvelleVente.html";
-    }
-
 }

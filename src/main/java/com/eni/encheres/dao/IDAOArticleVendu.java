@@ -12,5 +12,6 @@ public interface IDAOArticleVendu {
 
         List<ArticleVendu> selectAll();
         public void addArticleVendu(ArticleVendu articleVendu);
+        public ArticleVendu getArticleVenduByName(String articleVenduName);
 
 }

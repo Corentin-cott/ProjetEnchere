@@ -3,7 +3,6 @@ package com.eni.encheres.dao;
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Utilisateur;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -69,5 +68,15 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
     public void addArticleVendu(ArticleVendu articleVendu) {
         articleVendu.setId(idCourant++);
         articlesVendus.add(articleVendu);
+    }
+
+    @Override
+    public ArticleVendu getArticleVenduByName(String articleVenduName) {
+        for (ArticleVendu articleVendu : articlesVendus) {
+            if (articleVendu.getNom().equals(articleVenduName)) {
+                return articleVendu;
+            }
+        }
+        return null;
     }
 }

@@ -11,13 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Enchere {
     private long noUtilisateur;
-    private LocalDateTime dateEnchere; //TODO : A enlever
     private double montantEnchere;
-    private ArticleVendu article; // TODO : Modifier en IdArticle
-    private Utilisateur encherisseur; //TODO : A enlever
+    private long idArticle;
 
-    public Enchere(ArticleVendu article, Utilisateur encherisseur) {
-        this.article = article;
-        this.encherisseur = encherisseur;
+    public Enchere(long idArticle, long noUtilisateur) {
+        this.idArticle = idArticle;
+        this.noUtilisateur = noUtilisateur;
     }
 }

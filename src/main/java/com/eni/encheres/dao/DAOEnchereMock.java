@@ -94,12 +94,12 @@ public class DAOEnchereMock implements IDAOEnchere {
                 utilisateurdao.getUtilisateurById(3)
         );*/
 
-        encheres.add(new Enchere(1L, LocalDateTime.now().minusHours(3), 620.0, daoArticleVendu.selectById(1), utilisateurdao.getUtilisateurById(1)));
-        encheres.add(new Enchere(2L, LocalDateTime.now().minusDays(5), 400.0, daoArticleVendu.selectById(2), utilisateurdao.getUtilisateurById(4)));
-        encheres.add(new Enchere(1L, LocalDateTime.now().plusDays(3), 820.0, daoArticleVendu.selectById(3), utilisateurdao.getUtilisateurById(3)));
-        encheres.add(new Enchere(3L, LocalDateTime.now().minusHours(2), 850.0, daoArticleVendu.selectById(1), utilisateurdao.getUtilisateurById(2)));
-        encheres.add(new Enchere(4L, LocalDateTime.now().minusHours(4), 400.0, daoArticleVendu.selectById(2), utilisateurdao.getUtilisateurById(3)));
-        encheres.add(new Enchere(5L, LocalDateTime.now().minusHours(1), 300.0, daoArticleVendu.selectById(3), utilisateurdao.getUtilisateurById(1)));
+        encheres.add(new Enchere(1L, 620.0, 1));
+        encheres.add(new Enchere(4L, 400.0, 2));
+        encheres.add(new Enchere(3L, 820.0, 3));
+        encheres.add(new Enchere(2L, 850.0, 1));
+        encheres.add(new Enchere(3L, 400.0, 2));
+        encheres.add(new Enchere(1L, 300.0, 3));
 
     }
 
@@ -116,7 +116,7 @@ public class DAOEnchereMock implements IDAOEnchere {
     @Override
     public List<Enchere> findByArticleId(long idArticle) {
         return encheres.stream()
-                .filter(e -> e.getArticle().getId() == idArticle)
+                .filter(e -> e.getIdArticle() == idArticle)
                 .collect(Collectors.toList());
     }
 }

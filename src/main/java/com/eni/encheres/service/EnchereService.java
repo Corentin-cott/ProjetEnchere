@@ -3,6 +3,7 @@ package com.eni.encheres.service;
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Enchere;
+import com.eni.encheres.dao.IDAOArticleVendu;
 import com.eni.encheres.dao.IDAOCategorie;
 import com.eni.encheres.dao.IDAOEnchere;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class EnchereService {
     @Autowired
     private IDAOCategorie daoCategorie;
 
+    @Autowired
+    private IDAOArticleVendu daoArticleVendu;
+
     public List<Enchere> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente,
                                          String pseudoConnecte, String recherche, Long idCategorie) {
 
@@ -38,13 +42,14 @@ public class EnchereService {
 
     private boolean filtreTexte(Enchere e, String recherche) {
         if (recherche == null || recherche.isEmpty()) return true;
-        return e.getArticle().getNom().toLowerCase().contains(recherche.toLowerCase());
+        ArticleVendu article= daoArticleVendu.selectById(e.getIdArticle());
+        return article.getNom().toLowerCase().contains(recherche.toLowerCase());
     }
 
     private boolean filtreAchat(Enchere e, List<String> filtresAchat, LocalDateTime maintenant) {
         if (filtresAchat == null || filtresAchat.isEmpty()) return true;
 
-        ArticleVendu article = e.getArticle();
+        ArticleVendu article = daoArticleVendu.selectById(e.getIdArticle());
         return filtresAchat.stream().anyMatch(filtre -> {
             switch (filtre) {
                 case "ouverts":
@@ -62,7 +67,7 @@ public class EnchereService {
     private boolean filtreVente(Enchere e, List<String> filtresVente, String pseudoConnecte, LocalDateTime maintenant) {
         if (filtresVente == null || filtresVente.isEmpty()) return true;
 
-        ArticleVendu article = e.getArticle();
+        ArticleVendu article = daoArticleVendu.selectById(e.getIdArticle());
         if (pseudoConnecte == null || article.getVendeur() == null ||
                 !pseudoConnecte.equals(article.getVendeur().getPseudo())) return false;
 
@@ -82,7 +87,8 @@ public class EnchereService {
 
     private boolean filtreCategorie(Enchere e, Long idCategorie) {
         if (idCategorie == null) return true;
-        Categorie categorie = e.getArticle().getCategorie();
+        ArticleVendu article = daoArticleVendu.selectById(e.getIdArticle());
+        Categorie categorie = article.getCategorie();
         System.out.println("categorie : " + categorie);
         return idCategorie.equals((long) categorie.getId());
     }

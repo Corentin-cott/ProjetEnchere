@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ public class EnchereController {
     @Autowired
     private IDAOCategorie daoCategorie;
 
+    @Autowired
+    private IDAOArticleVendu daoArticleVendu;
+
     @GetMapping
     public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,
                           @RequestParam(required = false) List<String> filtresVente,
@@ -35,10 +39,13 @@ public class EnchereController {
 
        List<Enchere> encheres = enchereService.getEncheres();
 
+        List<ArticleVendu> articles=new ArrayList<>();
+        encheres.forEach(enchere -> {articles.add(daoArticleVendu.selectById(enchere.getIdArticle()));});
+
         // Récupération des catégories via daoCategorie
         List<Categorie> categories = daoCategorie.trouveTout();
 
-        model.addAttribute("encheres", encheres);
+        model.addAttribute("articles", articles);
         model.addAttribute("categories", categories);
         model.addAttribute("filtresAchat", filtresAchat);
         model.addAttribute("filtresVente", filtresVente);
@@ -60,10 +67,13 @@ public class EnchereController {
         List<Enchere> encheres = enchereService.filtrerEncheres(
                 filtresAchat, filtresVente, pseudoConnecte, recherche, idCategorie);
 
+        List<ArticleVendu> articles=new ArrayList<>();
+        encheres.forEach(enchere -> {articles.add(daoArticleVendu.selectById(enchere.getIdArticle()));});
+
         // Récupération des catégories via daoCategorie
         List<Categorie> categories = daoCategorie.trouveTout();
 
-        model.addAttribute("encheres", encheres);
+        model.addAttribute("articles", articles);
         model.addAttribute("categories", categories);
         model.addAttribute("filtresAchat", filtresAchat);
         model.addAttribute("filtresVente", filtresVente);

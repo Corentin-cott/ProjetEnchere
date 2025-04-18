@@ -1,10 +1,7 @@
 package com.eni.encheres.ihm.controller;
 
 import com.eni.encheres.bo.*;
-import com.eni.encheres.dao.DAOCategorieMock;
-import com.eni.encheres.dao.IDAOArticleVendu;
-import com.eni.encheres.dao.IDAOEnchere;
-import com.eni.encheres.dao.IDAOUtilisateur;
+import com.eni.encheres.dao.*;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
 import com.eni.encheres.service.CategorieService;
 import jdk.jshell.execution.Util;
@@ -36,6 +33,8 @@ public class ArticleVenduController {
     IDAOUtilisateur utilisateurIDAO;
     @Autowired
     private CategorieService categorieService;
+    @Autowired
+    private IDAOCategorie categorieDAO;
 
     @GetMapping("/liste-articles")
     public String articleVendu(Model model) {
@@ -69,23 +68,23 @@ public class ArticleVenduController {
             @RequestParam("utilisateur_name") String pseudo,
             @RequestParam("nom_article") String nom,
             @RequestParam("description_article") String description,
-            @RequestParam("categorie") String libelleCategorie,
+            @RequestParam("categorie") long id,
             @RequestParam("prix_article") double miseAPrix,
             @RequestParam("date_deb_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
             @RequestParam("date_fin_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
             @RequestParam("retrait_article") String retraitString,
             Model model
     ) {
-        Categorie categorie = DAOCategorieMock.trouveParLibelleMock(libelleCategorie);
+        Categorie categorie = categorieDAO.trouveParId(id);
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
         Retrait retrait = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
 
         ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),retrait,vendeur);
-
-        Enchere enchere = new Enchere(article,vendeur);
+        articleVenduDAO.addArticleVendu(article);
+        Enchere enchere = new Enchere(article.getId(),vendeur.getId());
         enchereIDAO.ajouterEnchere(enchere);
 
-        articleVenduDAO.addArticleVendu(article);
+
 
         Boolean success = true;
         model.addAttribute("success", success);

@@ -17,6 +17,7 @@ public class DAOEnchereMock implements IDAOEnchere {
 
     private List<Enchere> encheres = new ArrayList<>();
     public IDAOArticleVendu daoArticleVendu = new DAOArticleVenduMock();
+    private int idCourant = 7;
 
     @Autowired
     private IDAOUtilisateur utilisateurdao=new DAOUtilisateurMock(new BCryptPasswordEncoder());
@@ -94,6 +95,7 @@ public class DAOEnchereMock implements IDAOEnchere {
                 utilisateurdao.getUtilisateurById(3)
         );*/
 
+<<<<<<< Updated upstream
         encheres.add(new Enchere(1L, 620.0, 1));
         encheres.add(new Enchere(4L, 400.0, 2));
         encheres.add(new Enchere(3L, 820.0, 3));
@@ -101,6 +103,14 @@ public class DAOEnchereMock implements IDAOEnchere {
         encheres.add(new Enchere(3L, 400.0, 2));
         encheres.add(new Enchere(1L, 300.0, 3));
 
+=======
+        encheres.add(new Enchere(1,1L, 620.0, 1));
+        encheres.add(new Enchere(2,4L, 400.0, 2));
+        encheres.add(new Enchere(3,3L, 820.0, 3));
+        encheres.add(new Enchere(4,2L, 850.0, 1));
+        encheres.add(new Enchere(5,3L, 400.0, 2));
+        encheres.add(new Enchere(6,1L, 300.0, 3));
+>>>>>>> Stashed changes
     }
 
     @Override
@@ -110,6 +120,7 @@ public class DAOEnchereMock implements IDAOEnchere {
 
     @Override
     public void ajouterEnchere(Enchere enchere) {
+        enchere.setId(idCourant++);
         encheres.add(enchere);
     }
 
@@ -119,4 +130,26 @@ public class DAOEnchereMock implements IDAOEnchere {
                 .filter(e -> e.getIdArticle() == idArticle)
                 .collect(Collectors.toList());
     }
+<<<<<<< Updated upstream
+=======
+
+    @Override
+    public Enchere findByEnchereId(long idEnchere) {
+        return encheres.stream()
+                .filter(e -> e.getId() == idEnchere)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Enchere getEncheresParArticleId(long articleId) {
+        for(int i=0; i<encheres.size(); i++) {
+            Enchere enchere = encheres.get(i);
+            if(enchere.getIdArticle() == articleId) {
+                return enchere;
+            }
+        }
+        return null;
+    }
+
+>>>>>>> Stashed changes
 }

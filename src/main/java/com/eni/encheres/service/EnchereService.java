@@ -3,6 +3,7 @@ package com.eni.encheres.service;
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Enchere;
+import com.eni.encheres.bo.Utilisateur;
 import com.eni.encheres.dao.IDAOArticleVendu;
 import com.eni.encheres.dao.IDAOCategorie;
 import com.eni.encheres.dao.IDAOEnchere;
@@ -109,6 +110,15 @@ public class EnchereService {
 
     public List<Enchere> getEncheres(){
         return daoEnchere.findAll();
+    }
+
+    public Enchere getEncheresParId(int id) {
+        for (Enchere enchere : daoEnchere.findAll()) {
+            if (enchere.getId() == id) {
+                return enchere;
+            }
+        }
+        return null;
     }
 }
 

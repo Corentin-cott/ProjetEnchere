@@ -16,7 +16,7 @@
         </div>
 
         <div class="eni-box-content">
-            <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">
+            <form method="get" th:action="@{/filtre}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">
                 <label class="eni-label">Achats</label>
                 <div class="eni-radio-input-container">
@@ -69,7 +69,11 @@
         <div th:each="article : ${articles}" class="eni-box-container">
             <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" style="width: 9em;"/>
             <div class="eni-box-content" style="width: 100%;">
+<<<<<<< Updated upstream
                 <a th:href="@{'/detail/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">
+=======
+                <a th:href="@{'encheres/details/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">
+>>>>>>> Stashed changes
                     titre
                 </a>
                 <p>Description : <span th:text="${article.getDescription()}"></span></p>

@@ -55,7 +55,7 @@ public class EnchereController {
         return "listeEncheres";
     }
 
-    @GetMapping("/encheres/filtre")
+    @GetMapping("/filtre")
     public String afficherEncheres(Model model,
                                    @RequestParam(required = false) List<String> filtresAchat,
                                    @RequestParam(required = false) List<String> filtresVente,
@@ -82,5 +82,63 @@ public class EnchereController {
 
         return "listeEncheres";
     }
+<<<<<<< Updated upstream
+=======
+
+    @GetMapping("encheres/details/{id}")
+    public String detailsVente(
+            @PathVariable int articleId, Model model
+    )
+    {
+        ArticleVendu article = articleVenduDAO.selectById(articleId);
+        if (article == null) {
+            model.addAttribute("errorNo", "404");
+            model.addAttribute("error", "Article non trouvée");
+            return "errors/error";
+        }
+
+        Enchere enchere = enchereIDAO.getEncheresParArticleId(articleId);
+
+        model.addAttribute("enchere", enchere);
+        model.addAttribute("article", article);
+        return "detailsVente";
+    }
+
+    @PostMapping("encheres/details/nouvelleVente")
+    public String addArticleVendu(
+            @RequestParam("utilisateur_name") String pseudo,
+            @RequestParam("nom_article") String nom,
+            @RequestParam("description_article") String description,
+            @RequestParam("categorie") Long categorieId,
+            @RequestParam("prix_article") double miseAPrix,
+            @RequestParam("date_deb_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
+            @RequestParam("date_fin_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
+            @RequestParam("retrait_article") String retraitString,
+            Model model
+    ) {
+        /* Vérification de si l'article éxiste déjà */
+        ArticleVendu ifArticle = articleVenduService.getArticleVenduByName(nom);
+        if (ifArticle != null) {
+            model.addAttribute("errorNo", "506");
+            model.addAttribute("error", "L'article éxiste déjà.");
+            return "errors/error";
+        }
+
+        Categorie categorie = daoCategorie.trouveParId(categorieId);
+
+        Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
+        Retrait retrait = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
+
+        ArticleVendu article = new ArticleVendu(nom, description, categorie, miseAPrix, miseAPrix, dateDebut.atStartOfDay(), dateFin.atStartOfDay(), retrait, vendeur);
+        articleVenduDAO.addArticleVendu(article);
+
+        Enchere enchere = new Enchere(article.getId(), vendeur.getId());
+        enchereIDAO.ajouterEnchere(enchere);
+
+        model.addAttribute("enchere", enchere);
+        model.addAttribute("success", true);
+        return "detailsVente";
+    }
+>>>>>>> Stashed changes
 }
 

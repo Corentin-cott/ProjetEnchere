@@ -18,4 +18,10 @@ public class Enchere {
         this.idArticle = idArticle;
         this.noUtilisateur = noUtilisateur;
     }
+
+    public Enchere(long noUtilisateur, double montantEnchere, long idArticle) {
+        this.noUtilisateur = noUtilisateur;
+        this.montantEnchere = montantEnchere;
+        this.idArticle = idArticle;
+    }
 }

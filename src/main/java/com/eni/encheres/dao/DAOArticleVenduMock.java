@@ -18,9 +18,16 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
 
     Utilisateur vendeur = new Utilisateur(1L, "Alice", "alice@example.com", "motdepasse");
 
-    Categorie informatique = new Categorie(1L, "Informatique");
-    Categorie sport = new Categorie(2L, "Sport");
-    Categorie telephone = new Categorie(3L, "Téléphone");
+    IDAOCategorie daoCategorie = new DAOCategorieMock();
+    IDAOUtilisateur daoUtilisateur = new DAOUtilisateurMock();
+
+    @Override
+    public ArticleVendu selectById(long id) {
+        return articlesVendus.stream()
+                .filter(c -> c.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
 
     public DAOArticleVenduMock() {
         articlesVendus.add(new ArticleVendu(
@@ -31,8 +38,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 1000,
                 1200,
-                vendeur,
-                informatique
+                daoUtilisateur.getUtilisateurById(1),
+                daoCategorie.trouveParId(1)
         ));
 
         articlesVendus.add(new ArticleVendu(
@@ -43,8 +50,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 4, 15, 0, 0),
                 1000,
                 1200,
-                vendeur,
-                sport
+                daoUtilisateur.getUtilisateurById(2),
+                daoCategorie.trouveParId(2)
         ));
 
         articlesVendus.add(new ArticleVendu(
@@ -55,8 +62,8 @@ public class DAOArticleVenduMock implements IDAOArticleVendu {
                 LocalDateTime.of(2025, 5, 15, 0, 0),
                 200,
                 300,
-                vendeur,
-                telephone
+                daoUtilisateur.getUtilisateurById(5),
+                daoCategorie.trouveParId(3)
         ));
     }
 

@@ -16,18 +16,18 @@
         </div>
 
         <div class="eni-box-content">
-            <form method="get" th:action="@{/encheres}" style="width: 100%">
+            <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">
                 <label class="eni-label">Achats</label>
                 <div class="eni-radio-input-container">
-                    <input type="checkbox" id="radioAcahat1" name="encheresAchat" value="ouverts" />
-                    <label for="radioAcahat1">Enchères ouvertes</label>
+                    <input type="checkbox" id="radioAcahat1" name="filtresAchat" value="ouverts" />
+                    <label for="radioAcahat1">Enchères ouvertes (Date fin > date aujd)</label>
                     <br>
-                    <input type="checkbox" id="radioAcahat2" name="encheresAchat" value="enCours" />
-                    <label for="radioAcahat2">Enchères en cours</label>
+                    <input type="checkbox" id="radioAcahat2" name="filtresAchat" value="enCours" />
+                    <label for="radioAcahat2">Mes enchères en cours (Ouvertes + utilisateur co participe) </label>
                     <br>
-                    <input type="checkbox" id="radioAcahat3" name="encheresAchat" value="terminees" />
-                    <label for="radioAcahat3">Enchères termineés</label>
+                    <input type="checkbox" id="radioAcahat3" name="filtresAchat" value="terminees" />
+                    <label for="radioAcahat3">Mes enchères remportées</label>
                     <br>
                 </div>
                 <br>

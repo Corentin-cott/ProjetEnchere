@@ -4,6 +4,7 @@ import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.bo.Enchere;
 import com.eni.encheres.dao.IDAOArticleVendu;
+import com.eni.encheres.dao.IDAOCategorie;
 import com.eni.encheres.service.EnchereService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@RequestMapping("/")
 @Controller
 public class EnchereController {
 
@@ -23,45 +25,52 @@ public class EnchereController {
     private EnchereService enchereService;
 
     @Autowired
-    private IDAOArticleVendu daoArticleVendu;
+    private IDAOCategorie daoCategorie;
 
-    @GetMapping("/")
-    public String redirigerVersEncheres() {
-        return "redirect:/encheres";
+    @GetMapping
+    public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,
+                          @RequestParam(required = false) List<String> filtresVente,
+                          @RequestParam(required = false) String recherche,
+                          @RequestParam(required = false) Long idCategorie) {
+
+       List<Enchere> encheres = enchereService.getEncheres();
+
+        // Récupération des catégories via daoCategorie
+        List<Categorie> categories = daoCategorie.trouveTout();
+
+        model.addAttribute("encheres", encheres);
+        model.addAttribute("categories", categories);
+        model.addAttribute("filtresAchat", filtresAchat);
+        model.addAttribute("filtresVente", filtresVente);
+        model.addAttribute("recherche", recherche);
+        model.addAttribute("idCategorie", idCategorie);
+
+        return "listeEncheres";
     }
 
-    @GetMapping("/encheres")
-    public String afficherEncheres(
-            @RequestParam(required = false) List<String> encheresAchat,
-            @RequestParam(required = false) List<String> encheresVente,
-            @RequestParam(required = false) String recherche,
-            @RequestParam(required = false) Long idCategorie,
-            Model model,
-            Principal principal) {
+    @GetMapping("/encheres/filtre")
+    public String afficherEncheres(Model model,
+                                   @RequestParam(required = false) List<String> filtresAchat,
+                                   @RequestParam(required = false) List<String> filtresVente,
+                                   @RequestParam(required = false) String recherche,
+                                   @RequestParam(required = false) Long idCategorie,
+                                   @SessionAttribute(name = "pseudo", required = false) String pseudoConnecte) {
 
-        // Récupération du pseudo utilisateur connecté
-        String pseudoUtilisateur = (principal != null) ? principal.getName() : null;
+        // Appel au service filtré
+        List<Enchere> encheres = enchereService.filtrerEncheres(
+                filtresAchat, filtresVente, pseudoConnecte, recherche, idCategorie);
 
-        // Appelle le service en lui passant les filtres achat, vente et l’utilisateur
-        List<Enchere> enchereList = enchereService.filtrerEncheres(
-                encheresAchat,
-                encheresVente,
-                pseudoUtilisateur,
-                recherche,
-                idCategorie
-        );
+        // Récupération des catégories via daoCategorie
+        List<Categorie> categories = daoCategorie.trouveTout();
 
-        //Ajout des catégories
-        List<Categorie> categories = daoArticleVendu.selectAll().stream()
-                .map(ArticleVendu::getCategorie)
-                .filter(Objects::nonNull)
-                .distinct()
-                .collect(Collectors.toList());
-
-        model.addAttribute("encheres", enchereList);
+        model.addAttribute("encheres", encheres);
         model.addAttribute("categories", categories);
-        model.addAttribute("username", pseudoUtilisateur != null ? pseudoUtilisateur : "Anonyme");
+        model.addAttribute("filtresAchat", filtresAchat);
+        model.addAttribute("filtresVente", filtresVente);
+        model.addAttribute("recherche", recherche);
+        model.addAttribute("idCategorie", idCategorie);
 
         return "listeEncheres";
     }
 }
+

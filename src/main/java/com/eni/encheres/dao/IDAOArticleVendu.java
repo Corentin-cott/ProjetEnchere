@@ -13,4 +13,6 @@ public interface IDAOArticleVendu {
         List<ArticleVendu> selectAll();
         public void addArticleVendu(ArticleVendu articleVendu);
 
+        public ArticleVendu selectById(long id);
+
 }

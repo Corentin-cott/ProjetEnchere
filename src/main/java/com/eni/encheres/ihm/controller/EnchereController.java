@@ -7,7 +7,6 @@ import com.eni.encheres.dao.IDAOEnchere;
 import com.eni.encheres.dao.IDAOUtilisateur;
 import com.eni.encheres.service.ArticleVenduService;
 import com.eni.encheres.service.EnchereService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -20,13 +19,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.eni.encheres.service.ArticleVenduService.*;
-
 @Controller
 public class EnchereController {
 
     @Autowired
     private EnchereService enchereService;
+
+    @Autowired
+    private ArticleVenduService articleVenduService;
 
     @Autowired
     private IDAOArticleVendu daoArticleVendu;
@@ -108,9 +108,11 @@ public class EnchereController {
             Model model
     ) {
         /* Vérification de si l'article éxiste déjà */
-        ArticleVendu ifArticle = ArticleVenduService.getArticleVenduByName(nom);
+        ArticleVendu ifArticle = articleVenduService.getArticleVenduByName(nom);
         if (ifArticle != null) {
-            return "redirect:/error"; // L'article éxiste déjà
+            model.addAttribute("errorNo", "506");
+            model.addAttribute("error", "L'article éxiste déjà.");
+            return "errors/error";
         }
 
         Categorie categorie = DAOCategorieMock.trouveParLibelleMock(libelleCategorie);

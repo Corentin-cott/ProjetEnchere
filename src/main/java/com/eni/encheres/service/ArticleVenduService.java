@@ -12,7 +12,7 @@ import java.util.List;
 public class ArticleVenduService {
 
     @Autowired
-    static IDAOArticleVendu daoArticleVendu;
+    IDAOArticleVendu daoArticleVendu;
 
     public ServiceResponse<List<ArticleVendu>> getAll() {
         List<ArticleVendu> articleVendus = daoArticleVendu.selectAll();
@@ -27,7 +27,7 @@ public class ArticleVenduService {
         return ServiceResponse.buildResponse ("2", "Liste des articles a été récupérée avec succès", articleVendus);
     }
 
-    public static ArticleVendu getArticleVenduByName(String articleName) {
+    public ArticleVendu getArticleVenduByName(String articleName) {
         return daoArticleVendu.getArticleVenduByName(articleName);
     }
 }

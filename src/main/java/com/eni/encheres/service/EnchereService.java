@@ -51,13 +51,21 @@ public class EnchereService {
 
         ArticleVendu article = daoArticleVendu.selectById(e.getIdArticle());
         return filtresAchat.stream().anyMatch(filtre -> {
+            System.out.println("article avant filtre achat : " + article);
             switch (filtre) {
                 case "ouverts":
-                    return article.getDateDebutEncheres().isBefore(maintenant);
+                    // Enchère ouvertes
+                    return article.getDateDebutEncheres().isBefore(maintenant)
+                            && article.getDateFinEncheres().isAfter(maintenant);
+
                 case "enCours":
-                    return isEnCours(article, maintenant);
+                    // Mes enchère en cours
+                    return isEnCours(article, maintenant); // À enrichir si "participation requise"
+
                 case "terminees":
+                    // Mes enchère remportés
                     return article.getDateFinEncheres().isBefore(maintenant);
+
                 default:
                     return false;
             }
@@ -68,16 +76,22 @@ public class EnchereService {
         if (filtresVente == null || filtresVente.isEmpty()) return true;
 
         ArticleVendu article = daoArticleVendu.selectById(e.getIdArticle());
-        if (pseudoConnecte == null || article.getVendeur() == null ||
-                !pseudoConnecte.equals(article.getVendeur().getPseudo())) return false;
+        if (article == null || article.getVendeur() == null || pseudoConnecte == null) return false;
+
+        // Vérifie si l'utilisateur connecté est bien le vendeur
+        if (!pseudoConnecte.equals(article.getVendeur().getPseudo())) return false;
 
         return filtresVente.stream().anyMatch(filtre -> {
             switch (filtre) {
                 case "fermees":
+                    // Ventes non débutées
                     return article.getDateDebutEncheres().isAfter(maintenant);
                 case "enCours":
-                    return isEnCours(article, maintenant);
+                    // Mes ventes en cours
+                    return article.getDateDebutEncheres().isBefore(maintenant)
+                            && article.getDateFinEncheres().isAfter(maintenant);
                 case "terminees":
+                    // Ventes terminées
                     return article.getDateFinEncheres().isBefore(maintenant);
                 default:
                     return false;
@@ -89,7 +103,6 @@ public class EnchereService {
         if (idCategorie == null) return true;
         ArticleVendu article = daoArticleVendu.selectById(e.getIdArticle());
         Categorie categorie = article.getCategorie();
-        System.out.println("categorie : " + categorie);
         return idCategorie.equals((long) categorie.getId());
     }
 

@@ -21,10 +21,10 @@
                 <label class="eni-label">Achats</label>
                 <div class="eni-radio-input-container">
                     <input type="checkbox" id="radioAcahat1" name="filtresAchat" value="ouverts" />
-                    <label for="radioAcahat1">Enchères ouvertes (Date fin > date aujd)</label>
+                    <label for="radioAcahat1">Enchères ouvertes</label>
                     <br>
                     <input type="checkbox" id="radioAcahat2" name="filtresAchat" value="enCours" />
-                    <label for="radioAcahat2">Mes enchères en cours (Ouvertes + utilisateur co participe) </label>
+                    <label for="radioAcahat2">Mes enchères en cours</label>
                     <br>
                     <input type="checkbox" id="radioAcahat3" name="filtresAchat" value="terminees" />
                     <label for="radioAcahat3">Mes enchères remportées</label>
@@ -75,15 +75,14 @@
                 <p>Description : <span th:text="${article.getDescription()}"></span></p>
                 <p>Prix : <span th:text="${article.getMiseAPrix()}" style="font-weight: bold;">prix</span><span style="font-weight: bold;"> PTS</span></p>
                 <p>Classement : <span th:text="${article.id}">classement</span></p>
-                <p style="justify-content: right; display: flex;">
                     <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
                         vendeur
                     </span>
-                    , fin le :
+                <p style="justify-content: right; display: flex;">
+                    fin le :
                     <span th:text="' ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}" style="font-weight: bold;">
                         date_fin
                     </span>
-                </p>
             </div>
         </div>
     </div>

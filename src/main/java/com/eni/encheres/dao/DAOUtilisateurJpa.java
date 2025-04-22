@@ -1,0 +1,70 @@
+package com.eni.encheres.dao;
+
+import com.eni.encheres.bo.ArticleVendu;
+import com.eni.encheres.bo.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Primary
+@Repository
+public class DAOUtilisateurJpa implements IDAOUtilisateur {
+    private final UtilisateurRepository repository;
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private IDAOArticleVendu articleVendu;
+
+    @Autowired
+    public DAOUtilisateurJpa(UtilisateurRepository repository,PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public Utilisateur getUtilisateurByPseudo(String pseudo) { return repository.findByPseudo(pseudo); }
+
+    @Override
+    public Utilisateur getUtilisateurByEmail(String email) { return repository.findByEmail(email); }
+
+    @Override
+    public Utilisateur getUtilisateurById(long id){return repository.findById(id).orElse(null);}
+
+    @Override
+    public void deleteUtilisateurById(long id) {
+        Utilisateur utilisateur = repository.findById(id).orElseThrow();
+
+        List<ArticleVendu> articles=articleVendu.selectAll();
+        List<ArticleVendu> articlesadelete=new ArrayList<>();
+        
+        articles.forEach(article->{
+            if(article.getVendeur().getId()==id){
+                articlesadelete.add(article);
+            }
+            if(article.getAcheteur()!=null && article.getAcheteur().getId()==id){
+                article.setAcheteur(null);
+                articleVendu.updateArticle(article);
+            }
+        });
+        articlesadelete.forEach(article -> articleVendu.deleteArticleById(article.getId()));
+
+        repository.deleteById(id);
+    }
+
+    @Override
+    public void addUtilisateur(Utilisateur utilisateur) {
+        utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
+        repository.save(utilisateur);
+    }
+
+    @Override
+    public List<Utilisateur> getUtilisateurs() { return repository.findAll(); }
+
+    @Override
+    public void updateUtilisateur(Utilisateur utilisateur) { repository.save(utilisateur); }
+}

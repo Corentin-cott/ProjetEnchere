@@ -1,20 +1,13 @@
-<!-- login.html -->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
-<head>
-    <title layout:fragment="title">Connexion</title>
-</head>
+<!-- login.html --><!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr"
+      layout:decorate="~{layout}">
+<head><title layout:fragment="title">Connexion</title></head>
 <body>
 <main layout:fragment="content">
-    <div class="eni-box-container" style="display: block">
-        <h2 class="eni-h2">Filtres</h2>
-
+    <div class="eni-box-container" style="display: block"><h2 class="eni-h2">Filtres</h2>
         <div th:if="${success}" class="eni-danger-container">
-            <div class="eni-box-content" style="width: 100%;">
-                <p>Compte supprimé.</p>
-            </div>
+            <div class="eni-box-content" style="width: 100%;"><p>Compte supprimé.</p></div>
         </div>
-
         <div class="eni-box-content">
             <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">
@@ -46,34 +39,59 @@
                     <label for="radioVente3">Mes ventes terminées</label>
                     <br>
                 </div>
+                <section sec:authorize="isAuthenticated()"><label class="eni-label">Achats</label>
+                    <div class="eni-radio-input-container"><input type="checkbox" id="radioAcahat1" name="filtresAchat"
+                                                                  value="ouverts"
+                                                                  th:checked="${filtresAchat != null and filtresAchat.contains('ouverts')}"/>
+                        <label for="radioAcahat1">Enchères ouvertes (Date fin > date aujd)</label>
+                        <input type="checkbox" id="radioAcahat2" name="filtresAchat" value="enCours"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('enCours')}"/> <label
+                                for="radioAcahat2">Mes enchères en cours (Ouvertes + utilisateur co participe) </label>
+                        <input type="checkbox" id="radioAcahat3" name="filtresAchat" value="terminees"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('terminees')}"/> <label
+                                for="radioAcahat3">Mes enchères remportées</label>
+                    </div>
+                    <label class="eni-label">Mes ventes</label>
+                    <div class="eni-radio-input-container"><input type="checkbox" id="radioVente1" name="filtresVente"
+                                                                  value="fermees"
+                                                                  th:checked="${filtresVente != null and filtresVente.contains('fermees')}"/>
+                        <label for="radioVente1">Mes ventes non débutées</label>
+                        <input type="checkbox" id="radioVente2" name="filtresVente" value="enCours"
+                               th:checked="${filtresVente != null and filtresVente.contains('enCours')}"/> <label
+                                for="radioVente2">Mes ventes en cours</label>
+                        <input type="checkbox" id="radioVente3" name="filtresVente" value="terminees"
+                               th:checked="${filtresVente != null and filtresVente.contains('terminees')}"/> <label
+                                for="radioVente3">Mes ventes terminées</label>
+                    </div>
                 </section>
-                <br>
-                <label for="categorie" class="eni-label">Catégorie</label>
-                <select class="eni-select" name="idCategorie" id="categorie">
-                    <option value="">-- Toutes les catégories --</option>
-                    <option th:each="categorie : ${categories}"
-                            th:value="${categorie.id}"
-                            th:text="${categorie.libelle}"
-                            th:selected="${categorie.id} == ${param.idCategorie}">
-                    </option>
-                </select>
-                <br><br>
-                <label for="recherche" class="eni-label">Recherche par nom</label>
-                <input class="eni-text-input" type="search" id="recherche" name="recherche" placeholder="Rechercher un article" style="width: 100%;">
+                <label for="categorie" class="eni-label">Catégorie</label> <select class="eni-select" name="idCategorie"
+                                                                                   id="categorie">
+                <option value="">-- Toutes les catégories --</option>
+                <option th:each="categorie : ${categories}" th:value="${categorie.id}" th:text="${categorie.libelle}"
+                        th:selected="${idCategorie != null and categorie.id == idCategorie}"></option>
+            </select>
 
-                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche</button>
+                <label for="recherche" class="eni-label">Recherche par nom</label> <input class="eni-text-input"
+                                                                                          type="search" id="recherche"
+                                                                                          name="recherche"
+                                                                                          placeholder="Rechercher un article"
+                                                                                          style="width: 100%;"
+                                                                                          th:value="${recherche}">
+                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche
+                </button>
             </form>
         </div>
     </div>
     <div class="product-list">
-        <div th:each="article : ${articles}" class="eni-box-container">
-            <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" style="width: 9em;"/>
-            <div class="eni-box-content" style="width: 100%;">
-                <a th:href="@{'/detail/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">
-                    titre
-                </a>
+        <div th:each="article : ${articles}" class="eni-box-container"><img class="eni-picture-image"
+                                                                            src="/imgs/placeholder.png"
+                                                                            alt="Image du produit" style="width: 9em;"/>
+            <div class="eni-box-content" style="width: 100%;"><a th:href="@{'/details/' + ${article.id}}"
+                                                                 th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">
+                titre </a>
                 <p>Description : <span th:text="${article.getDescription()}"></span></p>
-                <p>Prix : <span th:text="${article.getMiseAPrix()}" style="font-weight: bold;">prix</span><span style="font-weight: bold;"> PTS</span></p>
+                <p>Prix : <span th:text="${article.getMiseAPrix()}" style="font-weight: bold;">prix</span><span
+                        style="font-weight: bold;"> PTS</span></p>
                 <p>Classement : <span th:text="${article.id}">classement</span></p>
                     <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
                         vendeur
@@ -84,9 +102,13 @@
                         date_fin
                     </span>
             </div>
+                <p style="justify-content: right; display: flex;"><span
+                        th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">                        vendeur                    </span>
+                    , fin le : <span th:text="' ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}"
+                                     style="font-weight: bold;">                        date_fin                    </span>
+                </p></div>
         </div>
     </div>
-
 </main>
 </body>
 </html>

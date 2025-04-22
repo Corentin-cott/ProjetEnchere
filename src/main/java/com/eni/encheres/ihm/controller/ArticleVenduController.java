@@ -12,12 +12,10 @@ import com.eni.encheres.service.ArticleVenduService;
 import com.eni.encheres.service.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,11 +26,10 @@ public class ArticleVenduController {
     @Autowired
     IDAOArticleVendu articleVenduDAO;
     @Autowired
-    IDAOEnchere enchereIDAO;
-    @Autowired
     IDAOUtilisateur utilisateurIDAO;
     @Autowired
     private CategorieService categorieService;
+
     @Autowired
     private IDAOCategorie categorieDAO;
 
@@ -81,15 +78,78 @@ public class ArticleVenduController {
 
         ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),retrait,vendeur);
         articleVenduDAO.addArticleVendu(article);
-        Enchere enchere = new Enchere(article.getId(),vendeur.getId());
-        enchereIDAO.ajouterEnchere(enchere);
-
-
 
         Boolean success = true;
         model.addAttribute("success", success);
 
         return "nouvelleVente.html";
+    }
+
+    /*
+
+    ANCIENNEMENT DANS ENCHERE CONTROLLER
+
+     */
+
+    @GetMapping
+    public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,
+                          @RequestParam(required = false) List<String> filtresVente,
+                          @RequestParam(required = false) String recherche,
+                          @RequestParam(required = false) Long idCategorie) {
+
+        List<ArticleVendu> articles = articleVenduDAO.selectAll();
+
+        // Récupération des catégories via daoCategorie
+        List<Categorie> categories = categorieDAO.trouveTout();
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("articles", articles);
+        model.addAttribute("filtresAchat", filtresAchat);
+        model.addAttribute("filtresVente", filtresVente);
+        model.addAttribute("recherche", recherche);
+        model.addAttribute("idCategorie", idCategorie);
+
+        return "listeEncheres";
+    }
+
+    @GetMapping("/encheres/filtre")
+    public String afficherEncheres(Model model,
+                                   @RequestParam(required = false) List<String> filtresAchat,
+                                   @RequestParam(required = false) List<String> filtresVente,
+                                   @RequestParam(required = false) String recherche,
+                                   @RequestParam(required = false) Long idCategorie,
+                                   @SessionAttribute(name = "pseudo", required = false) String pseudoConnecte) {
+
+        // Appel au service filtré
+        List<ArticleVendu> articles = articleVenduService.filtrerEncheres(
+                filtresAchat, filtresVente, pseudoConnecte, recherche, idCategorie
+        );
+
+        // Récupération des catégories via daoCategorie
+        List<Categorie> categories = categorieDAO.trouveTout();
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("categories", categories);
+        model.addAttribute("filtresAchat", filtresAchat);
+        model.addAttribute("filtresVente", filtresVente);
+        model.addAttribute("recherche", recherche);
+        model.addAttribute("idCategorie", idCategorie);
+
+        return "listeEncheres";
+    }
+
+    @GetMapping("/details/{id}")public String detailsVente(
+            @PathVariable int id, Model model
+    ){
+        ArticleVendu article = articleVenduDAO.selectById(id);
+        if (article == null) {
+            model.addAttribute("errorNo", "404");
+            model.addAttribute("error", "Article non trouvée");
+            return "errors/error";
+        }
+        model.addAttribute("article", article);
+
+        return "detailsVente";
     }
 
 }

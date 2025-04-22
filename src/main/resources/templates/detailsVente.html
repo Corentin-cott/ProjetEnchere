@@ -1,0 +1,73 @@
+<!-- detailsVente.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+  <title layout:fragment="title">Détails sur l'enchère</title>
+</head>
+<body>
+  <main layout:fragment="content">
+    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now()}" class="eni-danger-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <p>Cette vente est désormais terminée.</p>
+      </div>
+    </div>
+
+    <div th:if="${success}" class="eni-succes-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <p>Succès ! Votre article à été mise en vente !</p>
+      </div>
+    </div>
+
+    <div class="eni-box-container" style="display: block">
+      <h2 class="eni-h2" th:text="${article.nom}">Détails sur l'enchere</h2>
+      <div class="eni-medium-image-container">
+        <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" style="width: 60%;"/>
+      </div>
+
+      <div class="eni-box-content">
+        <h2 style="margin-bottom: 0%;">
+          Article de <span th:text="${article.vendeur.pseudo != null ? article.vendeur.pseudo : 'Vendeur inconnu'}"></span>
+        </h2>
+        <p style="margin-bottom: 1em;">
+          <span th:text="${article.description != null ? article.description : 'Pas de description'}"></span>
+        </p>
+        <div style="display: flex; gap: 10rem;">
+          <p>
+            Mise à prix : <span th:text="${article.miseAPrix != null ? article.miseAPrix : 'Non spécifiée'}"></span>
+          </p>
+          <p>
+            Meilleure offre : <span th:text="${montantEnchere != null ? montantEnchere : 'Aucune offre'}"></span>
+          </p>
+        </div>
+        <p>
+          Fin de l'enchère : <span th:text="${article.dateFinEncheres != null ? article.dateFinEncheres : 'Date inconnue'}"></span>
+        </p>
+        <p>
+          Retrait :
+          <span th:with="retrait=${article.retrait}"
+                th:text="${retrait != null} ? ${retrait.rue} + ', ' + ${retrait.code_postal} + ', ' + ${retrait.ville} :
+                'Rue inconnue, Code postal inconnu, Ville inconnue'">
+          </span>
+        </p>
+        <br><br>
+        <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/}'|">Retour a la liste</button>
+      </div>
+
+    </div>
+
+    <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo} == ${#authentication.name}" class="eni-danger-container" style="background-color: var(--clr-white);">
+      <div class="eni-box-content" style="width: 100%;">
+
+        <form th:action="@{/encheres/delete}" method="post" onsubmit="return confirmerSuppression();">
+          <input type="hidden" name="enchereIdToDelete" th:value="0" />
+          <button class="eni-danger-button" style="width: 100%">
+            Supprimer l'enchère
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

@@ -58,11 +58,11 @@ public class ArticleVenduService {
 
         return filtresAchat.stream().anyMatch(filtre -> {
             switch (filtre) {
-                case "ouverts":
+                case "AchatOuverts":
                     return a.getDateDebutEncheres().isBefore(maintenant);
-                case "enCours":
+                case "AchatEnCours":
                     return isEnCours(a, maintenant);
-                case "terminees":
+                case "AchatTermines":
                     return a.getDateFinEncheres().isBefore(maintenant);
                 default:
                     return false;
@@ -78,11 +78,11 @@ public class ArticleVenduService {
 
         return filtresVente.stream().anyMatch(filtre -> {
             switch (filtre) {
-                case "fermees":
+                case "VentesFermees":
                     return a.getDateDebutEncheres().isAfter(maintenant);
-                case "enCours":
+                case "VenteEnCours":
                     return isEnCours(a, maintenant);
-                case "terminees":
+                case "VentesTerminees":
                     return a.getDateFinEncheres().isBefore(maintenant);
                 default:
                     return false;

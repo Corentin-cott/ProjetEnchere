@@ -44,10 +44,10 @@
         </p>
         <p>
           Retrait :
-          <span th:with="retrait=${article.retrait}"
-                th:text="${retrait != null} ? ${retrait.rue} + ', ' + ${retrait.code_postal} + ', ' + ${retrait.ville} :
-                'Rue inconnue, Code postal inconnu, Ville inconnue'">
-          </span>
+          <span th:text="${article.vendeur != null} ?
+               ${article.vendeur.rue + ', ' + article.vendeur.codePostal + ', ' + article.vendeur.ville} :
+               'Rue inconnue, Code postal inconnu, Ville inconnue'">
+</span>
         </p>
         <br><br>
         <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/}'|">Retour a la liste</button>

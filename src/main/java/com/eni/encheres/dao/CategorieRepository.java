@@ -4,7 +4,6 @@ import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository

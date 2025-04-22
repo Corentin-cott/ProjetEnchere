@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/profil")
@@ -97,10 +98,10 @@ public class UtilisateurController {
     }
 
     @PostMapping("/delete")
-    public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request,Model model) {
+    public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         utilisateurDao.deleteUtilisateurById(idToDelete);
         request.getSession().invalidate(); // sécurité
-        model.addAttribute("success", true);
-        return "listeEncheres"; // vers ton endpoint perso
+        redirectAttributes.addFlashAttribute("success", true);
+        return "redirect:/"; // vers ton endpoint perso
     }
 }

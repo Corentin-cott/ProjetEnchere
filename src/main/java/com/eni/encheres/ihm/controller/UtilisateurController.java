@@ -99,6 +99,7 @@ public class UtilisateurController {
 
     @PostMapping("/delete")
     public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
         utilisateurDao.deleteUtilisateurById(idToDelete);
         request.getSession().invalidate(); // sécurité
         redirectAttributes.addFlashAttribute("success", true);

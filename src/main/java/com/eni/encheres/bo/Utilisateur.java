@@ -29,7 +29,7 @@ public class Utilisateur {
     private String motDePasse;
 
     @Column(nullable = false)
-    private Double credit;
+    private double credit=0;
 
     @Column(nullable = false)
     private boolean admin = false;

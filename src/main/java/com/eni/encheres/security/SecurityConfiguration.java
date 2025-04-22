@@ -1,5 +1,6 @@
 package com.eni.encheres.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,9 @@ import java.util.List;
 public class SecurityConfiguration {
     GestionPersonaliseeUtilisateurs gestionPersonaliseeUtilisateurs;
 
+    @Value("${app.rememberme.key}")
+    private String remembermeKey;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
@@ -41,6 +45,12 @@ public class SecurityConfiguration {
                         .defaultSuccessUrl("/", false)
                         .failureUrl("/connection?error")
                         .permitAll()
+                )
+                .rememberMe(remember -> remember
+                        .key(remembermeKey)
+                        .rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(60 * 24 * 60 * 60)
+                        .userDetailsService(gestionPersonaliseeUtilisateurs)
                 )
                 // quand on se déconnecte=> on redirige vers l'accueil
                 .logout((logout) -> logout.logoutSuccessUrl("/"));

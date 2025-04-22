@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface IDAOCategorie {
     Categorie trouveParId(long id);
-    Categorie trouveParLibelle(String libelle);
+//    Categorie trouveParLibelle(String libelle);
     List<Categorie> trouveTout();
 }

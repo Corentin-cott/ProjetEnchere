@@ -65,11 +65,14 @@
                                 for="radioVente3">Mes ventes terminées</label>
                     </div>
                 </section>
-                <label for="categorie" class="eni-label">Catégorie</label> <select class="eni-select" name="idCategorie"
-                                                                                   id="categorie">
+                <label for="categorie" class="eni-label">Catégorie</label> <select class="eni-select" name="idCategorie" id="categorie">
                 <option value="">-- Toutes les catégories --</option>
-                <option th:each="categorie : ${categories}" th:value="${categorie.id}" th:text="${categorie.libelle}"
-                        th:selected="${idCategorie != null and categorie.id == idCategorie}"></option>
+                <option th:each="categorie : ${categories}"
+                        th:value="${categorie.id}"
+                        th:text="${categorie.libelle}"
+                        th:selected="${idCategorie != null and categorie.id == idCategorie}">
+
+                </option>
             </select>
 
                 <label for="recherche" class="eni-label">Recherche par nom</label> <input class="eni-text-input"

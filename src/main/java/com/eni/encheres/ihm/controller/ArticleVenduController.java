@@ -67,16 +67,15 @@ public class ArticleVenduController {
             @RequestParam("description_article") String description,
             @RequestParam("categorie") long id,
             @RequestParam("prix_article") double miseAPrix,
-            @RequestParam("date_deb_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
-            @RequestParam("date_fin_enchere") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
+            @RequestParam("dateDebutEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
+            @RequestParam("dateFinEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
             @RequestParam("retrait_article") String retraitString,
             Model model
     ) {
         Categorie categorie = categorieDAO.trouveParId(id);
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
-        Retrait retrait = new Retrait(vendeur.getRue(), vendeur.getCodePostal(), vendeur.getVille());
 
-        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),retrait,vendeur);
+        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
         articleVenduDAO.addArticleVendu(article);
 
         Boolean success = true;

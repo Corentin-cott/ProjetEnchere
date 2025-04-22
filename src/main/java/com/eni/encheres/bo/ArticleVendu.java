@@ -1,71 +1,71 @@
 package com.eni.encheres.bo;
 
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
+@Entity
+@Table(name = "articles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleVendu {
-    private long id;
-    private String nom;
-    private String description;
-    private LocalDateTime  dateDebutEncheres;
-    private LocalDateTime dateFinEncheres;
-    private double miseAPrix;
-    private double prixVente;
-    private boolean etatVente;
 
-    private Retrait retrait;
-    private Categorie categorie;
-    private Utilisateur acheteur;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nom;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "dateDebEnchere", nullable = false)
+    private LocalDateTime dateDebutEncheres;
+
+    @Column(name = "dateFinEnchere", nullable = false)
+    private LocalDateTime dateFinEncheres;
+
+    @Column(name = "miseAprix", nullable = false)
+    private Double miseAPrix;
+
+    @Column(name = "prixVente")
+    private Double prixVente;
+
+    @Column(name = "estVendu")
+    private boolean etatVente = false;
+
+    // Relations
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "no_utilisateur", nullable = false)
+    @JoinColumn(name = "categorieId", nullable = false)
+    private Categorie categorie;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "vendeurId", nullable = false)
     private Utilisateur vendeur;
 
-    public ArticleVendu(long id, String nom, String description, LocalDateTime dateDebutEncheres,
-                        LocalDateTime dateFinEncheres, double miseAPrix, double prixVente,
-                        Utilisateur vendeur) {
-        this.id = id;
-        this.nom = nom;
-        this.description = description;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEncheres = dateFinEncheres;
-        this.miseAPrix = miseAPrix;
-        this.prixVente = prixVente;
-        this.vendeur = vendeur;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "acheteurId")
+    private Utilisateur acheteur;
 
-    public ArticleVendu(long id, String nom, String description, LocalDateTime dateDebutEncheres,
-                        LocalDateTime dateFinEncheres, double miseAPrix, double prixVente,
-                        Utilisateur vendeur, Categorie categorie) {
-        this.id = id;
+    // Constructeurs personnalisés (inchangés ou ajustés légèrement si nécessaire)
+
+
+    public ArticleVendu(String nom, String description, Categorie categorie, Double miseAPrix, Double prixVente,
+                        LocalDateTime dateDebut, LocalDateTime dateFin, Utilisateur vendeur ) {
         this.nom = nom;
         this.description = description;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEncheres = dateFinEncheres;
+        this.dateDebutEncheres = dateDebut;
+        this.dateFinEncheres = dateFin;
         this.miseAPrix = miseAPrix;
         this.prixVente = prixVente;
         this.vendeur = vendeur;
         this.categorie = categorie;
     }
 
-    public ArticleVendu(String nom, String description, Categorie categorie, double miseAPrix, double prixVente, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEncheres, Retrait retrait, Utilisateur vendeur) {
-        this.nom = nom;
-        this.description = description;
-        this.categorie = categorie;
-        this.miseAPrix = miseAPrix;
-        this.prixVente = prixVente;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEncheres = dateFinEncheres;
-        this.retrait = retrait;
-        this.vendeur = vendeur;
-    }
 }

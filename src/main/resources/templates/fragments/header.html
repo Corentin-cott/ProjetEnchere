@@ -1,11 +1,13 @@
-<header>
+<header style="margin-bottom: 1em;">
     <link rel="icon" type="image/x-icon" href="/imgs/ENI-Encheres-Logo-Small.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <div class="eni-header-container">
         <a href="/" style="width: 40%;">
-            <!-- <h1 style="margin-bottom: 0; margin-top: 0;">ENI-Enchères</h1> -->
-            <img class="eni-encheres-logo" src="/imgs/ENI-Encheres-Logo-Small.png" alt="LogoSmall"/>
+            <picture>
+                <source srcset="/imgs/ENI-Encheres-Logo.png" media="(min-width: 700px)">
+                <img class="eni-encheres-logo" src="/imgs/ENI-Encheres-Logo-Small.png" alt="LogoSmall" style="height: 4.5em;"/>
+            </picture>
         </a>
         <nav>
             <section sec:authorize="isAuthenticated()" style="display: flex; justify-content: right;">

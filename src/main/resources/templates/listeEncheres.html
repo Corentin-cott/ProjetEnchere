@@ -11,60 +11,38 @@
         <div class="eni-box-content">
             <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">
-                <label class="eni-label">Achats</label>
-                <div class="eni-radio-input-container">
-                    <input type="checkbox" id="AchatOuverts" name="filtresAchat" value="AchatOuverts" />
-                    <label for="AchatOuverts">Enchères ouvertes</label>
+                    <label class="eni-label">Achats</label>
+                    <div class="eni-radio-input-container">
+                        <input type="checkbox" id="EncheresOuvertes" name="filtresAchat" value="EncheresOuvertes"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('EncheresOuvertes')}" />
+                        <label for="EncheresOuvertes">Enchères ouvertes</label>
+                        <br>
+                        <input type="checkbox" id="MesEncheresEnCours" name="filtresAchat" value="MesEncheresEnCours"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('MesEncheresEnCours')}" />
+                        <label for="MesEncheresEnCours">Mes enchères en cours</label>
+                        <br>
+                        <input type="checkbox" id="MesEncheresRemportees" name="filtresAchat" value="MesEncheresRemportees"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('MesEncheresRemportees')}" />
+                        <label for="MesEncheresRemportees">Mes enchères remportées</label>
+                        <br>
+                    </div>
                     <br>
-                    <input type="checkbox" id="AchatEnCours" name="filtresAchat" value="AchatEnCours" />
-                    <label for="AchatEnCours">Mes enchères en cours</label>
-                    <br>
-                    <input type="checkbox" id="AchatTermines" name="filtresAchat" value="AchatTermines" />
-                    <label for="AchatTermines">Mes enchères remportées</label>
-                    <br>
-                </div>
-                <br>
-                <label class="eni-label">Mes ventes</label>
-                <div class="eni-radio-input-container">
-                    <input type="checkbox" id="VentesFermees" name="encheresVente" value="VentesFermees"
-                           th:checked="${encheresVente != null and encheresVente.contains('fermees')}"/>
-                    <label for="VentesFermees">Mes ventes non débutées</label>
-                    <br>
-                    <input type="checkbox" id="VenteEnCours" name="encheresVente" value="VenteEnCours"
-                           th:checked="${encheresVente != null and encheresVente.contains('enCours')}"/>
-                    <label for="VenteEnCours">Mes ventes en cours</label>
-                    <br>
-                    <input type="checkbox" id="VentesTerminees" name="encheresVente" value="VentesTerminees"
-                           th:checked="${encheresVente != null and encheresVente.contains('terminees')}"/>
-                    <label for="VentesTerminees">Mes ventes terminées</label>
-                    <br>
-                </div>
+                    <label class="eni-label">Mes ventes</label>
+                    <div class="eni-radio-input-container">
+                        <input type="checkbox" id="VentesNonDebutees" name="filtresVente" value="VentesNonDebutees"
+                               th:checked="${filtresVente != null and filtresVente.contains('VentesNonDebutees')}" />
+                        <label for="VentesNonDebutees">Mes ventes non débutées</label>
+                        <br>
+                        <input type="checkbox" id="VentesEnCours" name="filtresVente" value="VentesEnCours"
+                               th:checked="${filtresVente != null and filtresVente.contains('VentesEnCours')}" />
+                        <label for="VentesEnCours">Mes ventes en cours</label>
+                        <br>
+                        <input type="checkbox" id="VentesTerminees" name="filtresVente" value="VentesTerminees"
+                               th:checked="${filtresVente != null and filtresVente.contains('VentesTerminees')}" />
+                        <label for="VentesTerminees">Mes ventes terminées</label>
+                        <br>
+                    </div>
                 </section>
-<!--                <section sec:authorize="isAuthenticated()"><label class="eni-label">Achats</label>-->
-<!--                    <div class="eni-radio-input-container"><input type="checkbox" id="radioAcahat1" name="filtresAchat"-->
-<!--                                                                  value="ouverts"-->
-<!--                                                                  th:checked="${filtresAchat != null and filtresAchat.contains('ouverts')}"/>-->
-<!--                        <label for="radioAcahat1">Enchères ouvertes (Date fin > date aujd)</label>-->
-<!--                        <input type="checkbox" id="radioAcahat2" name="filtresAchat" value="enCours"-->
-<!--                               th:checked="${filtresAchat != null and filtresAchat.contains('enCours')}"/> <label-->
-<!--                                for="radioAcahat2">Mes enchères en cours (Ouvertes + utilisateur co participe) </label>-->
-<!--                        <input type="checkbox" id="radioAcahat3" name="filtresAchat" value="terminees"-->
-<!--                               th:checked="${filtresAchat != null and filtresAchat.contains('terminees')}"/> <label-->
-<!--                                for="radioAcahat3">Mes enchères remportées</label>-->
-<!--                    </div>-->
-<!--                    <label class="eni-label">Mes ventes</label>-->
-<!--                    <div class="eni-radio-input-container"><input type="checkbox" id="radioVente1" name="filtresVente"-->
-<!--                                                                  value="fermees"-->
-<!--                                                                  th:checked="${filtresVente != null and filtresVente.contains('fermees')}"/>-->
-<!--                        <label for="radioVente1">Mes ventes non débutées</label>-->
-<!--                        <input type="checkbox" id="radioVente2" name="filtresVente" value="enCours"-->
-<!--                               th:checked="${filtresVente != null and filtresVente.contains('enCours')}"/> <label-->
-<!--                                for="radioVente2">Mes ventes en cours</label>-->
-<!--                        <input type="checkbox" id="radioVente3" name="filtresVente" value="terminees"-->
-<!--                               th:checked="${filtresVente != null and filtresVente.contains('terminees')}"/> <label-->
-<!--                                for="radioVente3">Mes ventes terminées</label>-->
-<!--                    </div>-->
-<!--                </section>-->
                 <label for="categorie" class="eni-label">Catégorie</label> <select class="eni-select" name="idCategorie" id="categorie">
                 <option value="">-- Toutes les catégories --</option>
                 <option th:each="categorie : ${categories}"
@@ -97,7 +75,7 @@
                 <p>Prix : <span th:text="${article.getMiseAPrix()}" style="font-weight: bold;">prix</span><span
                         style="font-weight: bold;"> PTS</span></p>
                 <p>Classement : <span th:text="${article.id}">classement</span></p>
-                    <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
+                <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
                         vendeur
                     </span>
                 <p style="justify-content: right; display: flex;">
@@ -107,7 +85,7 @@
                     </span>
             </div>
         </div>
-        </div>
+    </div>
     </div>
 </main>
 </body>

@@ -10,6 +10,20 @@ body {
     color: var(--clr-text);
 }
 
+.texte-flottant {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    min-width: 15em;
+    text-align: center;
+    background-color: rgba(0, 0.1, 0.1, 0.8);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 1000;
+}
+
 main {
     width: 100%;
 }

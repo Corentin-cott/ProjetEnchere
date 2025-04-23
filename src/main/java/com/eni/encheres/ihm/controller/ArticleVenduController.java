@@ -81,6 +81,16 @@ public class ArticleVenduController {
             @RequestParam("photo_article") MultipartFile photo,
             Model model
     ) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UtilisateurSpringSecurity) {
+            UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
+            Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+            model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+        } else {
+            String username = principal.toString();
+            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
+        }
+
         Categorie categorie = categorieDAO.trouveParId(id);
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
 
@@ -118,7 +128,17 @@ public class ArticleVenduController {
     public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,
                           @RequestParam(required = false) List<String> filtresVente,
                           @RequestParam(required = false) String recherche,
-                          @RequestParam(required = false) Long idCategorie) {
+                          @RequestParam(required = false) Long idCategorie)
+    {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UtilisateurSpringSecurity) {
+            UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
+            Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+            model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+        } else {
+            String username = principal.toString();
+            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
+        }
 
         List<ArticleVendu> articles = articleVenduDAO.selectAll();
 
@@ -163,6 +183,16 @@ public class ArticleVenduController {
     @GetMapping("/details/{id}")public String detailsVente(
             @PathVariable int id, Model model
     ){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UtilisateurSpringSecurity) {
+            UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
+            Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+            model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+        } else {
+            String username = principal.toString();
+            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
+        }
+        
         ArticleVendu article = articleVenduDAO.selectById(id);
         if (article == null) {
             model.addAttribute("errorNo", "404");

@@ -156,6 +156,8 @@
       </div>
     </div>
 
+    <div sec:authorize="isAuthenticated()" class="texte-flottant"><strong th:text="'Votre crédit : ' + ${utilisateurConnecte.credit} + ' PTS'" style="color: white"></strong></div>
+
   </main>
 </body>
 </html>

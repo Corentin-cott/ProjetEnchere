@@ -18,11 +18,11 @@
                 </form>
                 <form method="get" action="/profil">
                     <button class="eni-button" style="margin-left: 10px">
-                        <i class="bi bi-person-circle"></i> <!-- Icône pour "Profil" -->
+                        <i class="bi bi-gear"></i> <!-- Icône pour "Profil" -->
                     </button>
                 </form>
                 <form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
-                    <button class="eni-important-button" style="margin-top: 0; margin-left: 10px">
+                    <button class="eni-important-button" id="logout" style="margin-top: 0; margin-left: 10px">
                         Déconnection <!-- Icône pour "Déconnection" -->
                     </button>
                 </form>
@@ -36,4 +36,21 @@
             </section>
         </nav>
     </div>
+
+    <script>
+        function updateLogoutButton() {
+            const logoutButton = document.getElementById("logout");
+            if (window.innerWidth <= 500) {
+                logoutButton.innerHTML = '<i class="bi bi-person-circle"></i>';
+            } else {
+                logoutButton.innerHTML = 'Déconnection';
+            }
+        }
+
+        // Appel initial
+        updateLogoutButton();
+
+        // Réagir au redimensionnement
+        window.addEventListener("resize", updateLogoutButton);
+    </script>
 </header>

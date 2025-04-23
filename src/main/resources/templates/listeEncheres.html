@@ -3,6 +3,7 @@
       layout:decorate="~{layout}">
 <head><title layout:fragment="title">Page d'acceuil</title></head>
 <body>
+
 <main layout:fragment="content">
     <div th:if="${success}" class="eni-danger-container">
         <div class="eni-box-content" style="width: 100%;"><p>Compte supprimé.</p></div>
@@ -88,6 +89,8 @@
         </div>
     </div>
     </div>
+    <div sec:authorize="isAuthenticated()" class="texte-flottant"><strong th:text="'Votre crédit : ' + ${utilisateurConnecte.credit} + ' PTS'" style="color: white"></strong></div>
 </main>
+
 </body>
 </html>

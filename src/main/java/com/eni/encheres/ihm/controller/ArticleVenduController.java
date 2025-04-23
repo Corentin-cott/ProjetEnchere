@@ -85,7 +85,8 @@ public class ArticleVenduController {
         if (principal instanceof UtilisateurSpringSecurity) {
             UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
             Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-            model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+            Utilisateur utilisateur = utilisateurIDAO.getUtilisateurById(utilisateurConnecte.getId());
+            model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
             System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
@@ -164,7 +165,8 @@ public class ArticleVenduController {
         if (principal instanceof UtilisateurSpringSecurity) {
             UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
             Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-            model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+            Utilisateur utilisateur = utilisateurIDAO.getUtilisateurById(utilisateurConnecte.getId());
+            model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
             System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
@@ -217,7 +219,8 @@ public class ArticleVenduController {
         if (principal instanceof UtilisateurSpringSecurity) {
             UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
             Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-            model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+            Utilisateur utilisateur = utilisateurIDAO.getUtilisateurById(utilisateurConnecte.getId());
+            model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
             System.out.println("Utilisateur non authentifié avec UserDetails : " + username);

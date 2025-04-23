@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -184,6 +184,12 @@ public class ArticleVenduController {
         articleVenduDAO.updateArticle(article);
         redirectAttributes.addFlashAttribute("successmise", true);
         return "redirect:/details/"+id;
+    }
+
+    @PostMapping("/details/{id}/delete")public String deleteArticle(@PathVariable int id,RedirectAttributes redirectAttributes){
+        articleVenduDAO.deleteArticleById(id);
+        redirectAttributes.addFlashAttribute("successdeletearticle", true);
+        return "redirect:/";
     }
 
 }

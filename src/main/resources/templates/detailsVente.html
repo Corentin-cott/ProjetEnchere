@@ -90,7 +90,7 @@
     <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo} == ${#authentication.name}" class="eni-danger-container" style="background-color: var(--clr-white);">
       <div class="eni-box-content" style="width: 100%;">
 
-        <form th:action="@{/encheres/delete}" method="post" onsubmit="return confirmerSuppression();">
+        <form th:action="@{'/details/'+${article.id}+'/delete'}" method="post" onsubmit="return confirmerSuppression();">
           <input type="hidden" name="enchereIdToDelete" th:value="0" />
           <button class="eni-danger-button" style="width: 100%">
             Supprimer l'enchère

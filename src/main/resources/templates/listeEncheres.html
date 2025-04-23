@@ -1,13 +1,16 @@
 <!-- login.html --><!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr"
       layout:decorate="~{layout}">
-<head><title layout:fragment="title">Connexion</title></head>
+<head><title layout:fragment="title">Page d'acceuil</title></head>
 <body>
 <main layout:fragment="content">
+    <div th:if="${success}" class="eni-danger-container">
+        <div class="eni-box-content" style="width: 100%;"><p>Compte supprimé.</p></div>
+    </div>
+    <div th:if="${successdeletearticle}" class="eni-danger-container">
+        <div class="eni-box-content" style="width: 100%;"><p>Article supprimé.</p></div>
+    </div>
     <div class="eni-box-container" style="display: block"><h2 class="eni-h2">Filtres</h2>
-        <div th:if="${success}" class="eni-danger-container">
-            <div class="eni-box-content" style="width: 100%;"><p>Compte supprimé.</p></div>
-        </div>
         <div class="eni-box-content">
             <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">

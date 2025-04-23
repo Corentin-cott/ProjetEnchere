@@ -21,6 +21,13 @@
       </div>
     </div>
 
+    <div th:if="${error}" class="eni-danger-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0;">Echec !</h2>
+        <p>Vous n'avez pas assez de crédits pour faire cette offre</p>
+      </div>
+    </div>
+
     <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur != null}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
         <h2 style="margin: 0;">Vente terminée !</h2>

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -177,6 +178,17 @@ public class ArticleVenduController {
         model.addAttribute("article", article);
 
         return "detailsVente";
+    }
+
+    @PostMapping("/details/{id}/mise")public String nouvellemise(@PathVariable int id, RedirectAttributes redirectAttributes, @RequestParam double nouvelleoffre){
+        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+        ArticleVendu article = articleVenduDAO.selectById(id);
+        article.setAcheteur(utilisateurConnecte);
+        article.setPrixVente(nouvelleoffre);
+        articleVenduDAO.updateArticle(article);
+        redirectAttributes.addFlashAttribute("successmise", true);
+        return "redirect:/details/"+id;
     }
 
 }

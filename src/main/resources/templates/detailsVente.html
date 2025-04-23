@@ -6,7 +6,13 @@
 </head>
 <body>
   <main layout:fragment="content">
-    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now()}" class="eni-danger-container">
+    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur != null}" class="eni-succes-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <p th:text="${'Cette vente est désormais terminée. Le vainqueur est '+article.acheteur.pseudo+'!'}"></p>
+      </div>
+    </div>
+
+    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur==null}" class="eni-danger-container">
       <div class="eni-box-content" style="width: 100%;">
         <p>Cette vente est désormais terminée.</p>
       </div>
@@ -15,6 +21,12 @@
     <div th:if="${success}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
         <p>Succès ! Votre article à été mise en vente !</p>
+      </div>
+    </div>
+
+    <div th:if="${successmise}" class="eni-succes-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <p>Succès ! Votre nouvelle offre a été validée !</p>
       </div>
     </div>
 
@@ -36,7 +48,7 @@
             Mise à prix : <span th:text="${article.miseAPrix != null ? article.miseAPrix : 'Non spécifiée'}"></span>
           </p>
           <p>
-            Meilleure offre : <span th:text="${montantEnchere != null ? montantEnchere : 'Aucune offre'}"></span>
+            Meilleure offre : <span th:text="${article.prixVente != null ? article.prixVente : 'Aucune offre'}"></span>
           </p>
         </div>
         <p>
@@ -46,11 +58,25 @@
           Retrait :
           <span th:text="${article.vendeur != null} ?
                ${article.vendeur.rue + ', ' + article.vendeur.codePostal + ', ' + article.vendeur.ville} :
-               'Rue inconnue, Code postal inconnu, Ville inconnue'">
-</span>
+               'Rue inconnue, Code postal inconnu, Ville inconnue'"></span>
         </p>
         <br><br>
         <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/}'|">Retour a la liste</button>
+      </div>
+
+      <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-content" style="background-color: var(--clr-white);">
+        <div class="eni-box-content" style="width: 100%;">
+
+            <form th:action="@{'/details/'+${article.id}+'/mise'}" method="post">
+            <label class="eni-label">Nouvelle offre</label>
+            <input required type="number" id="nouvelleoffre" name="nouvelleoffre" value="" th:attr="min=${article.prixVente != null ? article.prixVente + 1 : article.miseAPrix}" oninvalid="this.setCustomValidity('Votre offre ne doit pas être inférieure au prix actuel !')" oninput="this.setCustomValidity('')"/>
+            <br>
+            <button class="eni-button" style="width: 100%">
+              Valider offre
+            </button>
+          </form>
+
+        </div>
       </div>
 
     </div>

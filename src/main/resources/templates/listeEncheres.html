@@ -64,7 +64,8 @@
             <div class="eni-box-content" style="width: 100%;">
                 <a th:href="@{'/details/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">titre</a>
                 <p>Description : <span th:text="${article.getDescription()}"></span></p>
-                <p>Prix : <span th:text="${article.getMiseAPrix()}" style="font-weight: bold;">prix</span><span style="font-weight: bold;"> PTS</span></p>
+                <p>Prix : <span th:text="${article.prixVente != null ? article.prixVente :article.miseAPrix}" style="font-weight: bold;">prix</span><span
+                        style="font-weight: bold;"> PTS</span></p>
                 <p>Classement : <span th:text="${article.id}">classement</span></p>
                     <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
                         vendeur

@@ -16,46 +16,55 @@
                 <section sec:authorize="isAuthenticated()">
                     <label class="eni-label">Achats</label>
                     <div class="eni-radio-input-container">
-                        <input type="checkbox" id="AchatOuverts" name="filtresAchat" value="AchatOuverts" />
-                        <label for="AchatOuverts">Enchères ouvertes</label>
+
+                        <input type="checkbox" id="EncheresOuvertes" name="filtresAchat" value="EncheresOuvertes"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('EncheresOuvertes')}" />
+                        <label for="EncheresOuvertes">Enchères ouvertes</label>
                         <br>
-                        <input type="checkbox" id="AchatEnCours" name="filtresAchat" value="AchatEnCours" />
-                        <label for="AchatEnCours">Mes enchères en cours</label>
+                        <input type="checkbox" id="MesEncheresEnCours" name="filtresAchat" value="MesEncheresEnCours"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('MesEncheresEnCours')}" />
+                        <label for="MesEncheresEnCours">Mes enchères en cours</label>
                         <br>
-                        <input type="checkbox" id="AchatTermines" name="filtresAchat" value="AchatTermines" />
-                        <label for="AchatTermines">Mes enchères remportées</label>
+                        <input type="checkbox" id="MesEncheresRemportees" name="filtresAchat" value="MesEncheresRemportees"
+                               th:checked="${filtresAchat != null and filtresAchat.contains('MesEncheresRemportees')}" />
+                        <label for="MesEncheresRemportees">Mes enchères remportées</label>
                         <br>
                     </div>
                     <br>
                     <label class="eni-label">Mes ventes</label>
                     <div class="eni-radio-input-container">
-                        <input type="checkbox" id="VentesFermees" name="encheresVente" value="VentesFermees"
-                               th:checked="${encheresVente != null and encheresVente.contains('fermees')}"/>
-                        <label for="VentesFermees">Mes ventes non débutées</label>
+                        <input type="checkbox" id="VentesNonDebutees" name="filtresVente" value="VentesNonDebutees"
+                               th:checked="${filtresVente != null and filtresVente.contains('VentesNonDebutees')}" />
+                        <label for="VentesNonDebutees">Mes ventes non débutées</label>
                         <br>
-                        <input type="checkbox" id="VenteEnCours" name="encheresVente" value="VenteEnCours"
-                               th:checked="${encheresVente != null and encheresVente.contains('enCours')}"/>
-                        <label for="VenteEnCours">Mes ventes en cours</label>
+                        <input type="checkbox" id="VentesEnCours" name="filtresVente" value="VentesEnCours"
+                               th:checked="${filtresVente != null and filtresVente.contains('VentesEnCours')}" />
+                        <label for="VentesEnCours">Mes ventes en cours</label>
                         <br>
-                        <input type="checkbox" id="VentesTerminees" name="encheresVente" value="VentesTerminees"
-                               th:checked="${encheresVente != null and encheresVente.contains('terminees')}"/>
+                        <input type="checkbox" id="VentesTerminees" name="filtresVente" value="VentesTerminees"
+                               th:checked="${filtresVente != null and filtresVente.contains('VentesTerminees')}" />
                         <label for="VentesTerminees">Mes ventes terminées</label>
                         <br>
                     </div>
                 </section>
-                <label for="categorie" class="eni-label">Catégorie</label>
-                <select class="eni-select" name="idCategorie" id="categorie">
-                    <option value="">-- Toutes les catégories --</option>
-                    <option
-                            th:each="categorie : ${categories}"
-                            th:value="${categorie.id}"
-                            th:text="${categorie.libelle}"
-                            th:selected="${idCategorie != null and categorie.id == idCategorie}">
-                    </option>
-                    <label for="recherche" class="eni-label">Recherche par nom</label>
-                    <input class="eni-text-input" type="search" id="recherche" name="recherche" placeholder="Rechercher un article" style="width: 100%;" th:value="${recherche}">
-                    <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche</button>
-                </select>
+                <label for="categorie" class="eni-label">Catégorie</label> <select class="eni-select" name="idCategorie" id="categorie">
+                <option value="">-- Toutes les catégories --</option>
+                <option th:each="categorie : ${categories}"
+                        th:value="${categorie.id}"
+                        th:text="${categorie.libelle}"
+                        th:selected="${idCategorie != null and categorie.id == idCategorie}">
+
+                </option>
+            </select>
+
+                <label for="recherche" class="eni-label">Recherche par nom</label> <input class="eni-text-input"
+                                                                                          type="search" id="recherche"
+                                                                                          name="recherche"
+                                                                                          placeholder="Rechercher un article"
+                                                                                          style="width: 100%;"
+                                                                                          th:value="${recherche}">
+                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche
+                </button>
             </form>
         </div>
     </div>
@@ -70,7 +79,7 @@
                 <p>Prix : <span th:text="${article.prixVente != null ? article.prixVente :article.miseAPrix}" style="font-weight: bold;">prix</span><span
                         style="font-weight: bold;"> PTS</span></p>
                 <p>Classement : <span th:text="${article.id}">classement</span></p>
-                    <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
+                <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
                         vendeur
                     </span>
                 <p style="justify-content: right; display: flex;">fin le :
@@ -80,7 +89,7 @@
                 </p>
             </div>
         </div>
-        </div>
+    </div>
     </div>
 </main>
 </body>

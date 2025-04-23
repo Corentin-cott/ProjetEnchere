@@ -4,6 +4,7 @@ import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
 import com.eni.encheres.dao.IDAOArticleVendu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class ArticleVenduService {
 
     @Autowired
+    @Qualifier("DAOArticleVenduJpa")
     IDAOArticleVendu daoArticleVendu;
 
     public ServiceResponse<List<ArticleVendu>> getAll() {
@@ -28,13 +30,13 @@ public class ArticleVenduService {
         // erreur 2 : Liste OK
         return ServiceResponse.buildResponse ("2", "Liste des articles a été récupérée avec succès", articleVendus);
     }
-    
+
     /*
             METHODES ANCIENNEMENT DANS EnchèreService
      */
 
     public List<ArticleVendu> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente,
-                                         String pseudoConnecte, String recherche, Long idCategorie) {
+                                              String pseudoConnecte, String recherche, Long idCategorie) {
 
         List<ArticleVendu> toutes = daoArticleVendu.selectAll();
 
@@ -42,7 +44,7 @@ public class ArticleVenduService {
 
         return toutes.stream()
                 .filter(e -> filtreTexte(e, recherche))
-                .filter(e -> filtreAchat(e, filtresAchat, maintenant))
+                .filter(e -> filtreAchat(e, filtresAchat, pseudoConnecte, maintenant))
                 .filter(e -> filtreVente(e, filtresVente, pseudoConnecte, maintenant))
                 .filter(e -> filtreCategorie(e, idCategorie))
                 .collect(Collectors.toList());
@@ -53,17 +55,25 @@ public class ArticleVenduService {
         return a.getNom().toLowerCase().contains(recherche.toLowerCase());
     }
 
-    private boolean filtreAchat(ArticleVendu a, List<String> filtresAchat, LocalDateTime maintenant) {
+    private boolean filtreAchat(ArticleVendu a, List<String> filtresAchat, String pseudoConnecte, LocalDateTime maintenant) {
         if (filtresAchat == null || filtresAchat.isEmpty()) return true;
 
         return filtresAchat.stream().anyMatch(filtre -> {
             switch (filtre) {
-                case "AchatOuverts":
-                    return a.getDateDebutEncheres().isBefore(maintenant);
-                case "AchatEnCours":
-                    return isEnCours(a, maintenant);
-                case "AchatTermines":
-                    return a.getDateFinEncheres().isBefore(maintenant);
+                case "EncheresOuvertes":
+                    return a.getDateDebutEncheres().isBefore(maintenant)
+                            && a.getDateFinEncheres().isAfter(maintenant);
+
+                case "EncheresEnCours":
+                    return a.getAcheteur() != null
+                            && a.getAcheteur().getPseudo().equals(pseudoConnecte)
+                            && a.getDateFinEncheres().isAfter(maintenant);
+
+                case "EncheresRemportees":
+                    return a.getAcheteur() != null
+                            && a.getAcheteur().getPseudo().equals(pseudoConnecte)
+                            && a.getDateFinEncheres().isBefore(maintenant);
+
                 default:
                     return false;
             }
@@ -78,9 +88,9 @@ public class ArticleVenduService {
 
         return filtresVente.stream().anyMatch(filtre -> {
             switch (filtre) {
-                case "VentesFermees":
+                case "VentesNonDebutees":
                     return a.getDateDebutEncheres().isAfter(maintenant);
-                case "VenteEnCours":
+                case "VentesEnCours":
                     return isEnCours(a, maintenant);
                 case "VentesTerminees":
                     return a.getDateFinEncheres().isBefore(maintenant);
@@ -93,7 +103,6 @@ public class ArticleVenduService {
     private boolean filtreCategorie(ArticleVendu a, Long idCategorie) {
         if (idCategorie == null) return true;
         Categorie categorie = a.getCategorie();
-        System.out.println("categorie : " + categorie);
         return idCategorie.equals((long) categorie.getId());
     }
 

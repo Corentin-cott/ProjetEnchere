@@ -53,7 +53,7 @@ input[type="password"]:focus {
 
 @media (max-width: 700px) {
     body {
-        padding: 1.5em 1rem;
+        padding: 1.5em;
     }
 
     form {

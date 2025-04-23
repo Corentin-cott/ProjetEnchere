@@ -4,7 +4,7 @@ import com.eni.encheres.bo.*;
 import com.eni.encheres.dao.*;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
 import com.eni.encheres.service.CategorieService;
-import jdk.jshell.execution.Util;
+import java.nio.file.Path;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -13,7 +13,13 @@ import com.eni.encheres.service.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +76,7 @@ public class ArticleVenduController {
             @RequestParam("dateDebutEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
             @RequestParam("dateFinEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
             @RequestParam("retrait_article") String retraitString,
+            @RequestParam("photo_article") MultipartFile photo,
             Model model
     ) {
         Categorie categorie = categorieDAO.trouveParId(id);
@@ -78,8 +85,29 @@ public class ArticleVenduController {
         ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
         articleVenduDAO.addArticleVendu(article);
 
-        Boolean success = true;
-        model.addAttribute("success", success);
+        String message = "Succès ! Votre article à été mise en vente dans la liste des enchères ! ";
+
+        if (!photo.isEmpty()) {
+            try {
+                Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "articles");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+                String fileName = vendeur.getId().toString() + "-" + article.getId().toString() + ".png";
+
+                Path filePath = uploadDir.resolve(fileName);
+                Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                article.setPhotoPath("/imgs/Articles/" + fileName);
+                articleVenduDAO.updateArticle(article);
+            } catch (IOException e) {
+                e.printStackTrace();
+                message = message + "Mais l'image de votre article à rencontrer une erreur.";
+            }
+        }
+
+        model.addAttribute("success", true);
+        model.addAttribute("message", message);
 
         return "nouvelleVente.html";
     }

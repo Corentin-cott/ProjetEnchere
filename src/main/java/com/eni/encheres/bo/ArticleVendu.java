@@ -39,6 +39,9 @@ public class ArticleVendu {
     @Column(name = "estVendu")
     private boolean etatVente = false;
 
+    @Column(name = "photoPath")
+    private String photoPath;
+
     // Relations
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -54,8 +57,6 @@ public class ArticleVendu {
     private Utilisateur acheteur;
 
     // Constructeurs personnalisés (inchangés ou ajustés légèrement si nécessaire)
-
-
     public ArticleVendu(String nom, String description, Categorie categorie, Double miseAPrix, Double prixVente,
                         LocalDateTime dateDebut, LocalDateTime dateFin, Utilisateur vendeur ) {
         this.nom = nom;
@@ -66,6 +67,20 @@ public class ArticleVendu {
         this.prixVente = prixVente;
         this.vendeur = vendeur;
         this.categorie = categorie;
+        this.photoPath = "";
+    }
+
+    public ArticleVendu(String nom, String description, Categorie categorie, Double miseAPrix, Double prixVente,
+                        LocalDateTime dateDebut, LocalDateTime dateFin, Utilisateur vendeur, String photoPath ) {
+        this.nom = nom;
+        this.description = description;
+        this.dateDebutEncheres = dateDebut;
+        this.dateFinEncheres = dateFin;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.vendeur = vendeur;
+        this.categorie = categorie;
+        this.photoPath = photoPath;
     }
 
 }

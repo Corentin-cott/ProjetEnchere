@@ -64,12 +64,12 @@ public class ArticleVenduService {
                     return a.getDateDebutEncheres().isBefore(maintenant)
                             && a.getDateFinEncheres().isAfter(maintenant);
 
-                case "EncheresEnCours":
+                case "MesEncheresEnCours":
                     return a.getAcheteur() != null
                             && a.getAcheteur().getPseudo().equals(pseudoConnecte)
                             && a.getDateFinEncheres().isAfter(maintenant);
 
-                case "EncheresRemportees":
+                case "MesEncheresRemportees":
                     return a.getAcheteur() != null
                             && a.getAcheteur().getPseudo().equals(pseudoConnecte)
                             && a.getDateFinEncheres().isBefore(maintenant);

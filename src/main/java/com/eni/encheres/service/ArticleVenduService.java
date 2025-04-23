@@ -2,9 +2,12 @@ package com.eni.encheres.service;
 
 import com.eni.encheres.bo.ArticleVendu;
 import com.eni.encheres.bo.Categorie;
+import com.eni.encheres.bo.Utilisateur;
 import com.eni.encheres.dao.IDAOArticleVendu;
+import com.eni.encheres.security.UtilisateurSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,7 +39,7 @@ public class ArticleVenduService {
      */
 
     public List<ArticleVendu> filtrerEncheres(List<String> filtresAchat, List<String> filtresVente,
-                                              String pseudoConnecte, String recherche, Long idCategorie) {
+                                              String recherche, Long idCategorie) {
 
         List<ArticleVendu> toutes = daoArticleVendu.selectAll();
 
@@ -44,8 +47,8 @@ public class ArticleVenduService {
 
         return toutes.stream()
                 .filter(e -> filtreTexte(e, recherche))
-                .filter(e -> filtreAchat(e, filtresAchat, pseudoConnecte, maintenant))
-                .filter(e -> filtreVente(e, filtresVente, pseudoConnecte, maintenant))
+                .filter(e -> filtreAchat(e, filtresAchat, maintenant))
+                .filter(e -> filtreVente(e, filtresVente, maintenant))
                 .filter(e -> filtreCategorie(e, idCategorie))
                 .collect(Collectors.toList());
     }
@@ -55,8 +58,14 @@ public class ArticleVenduService {
         return a.getNom().toLowerCase().contains(recherche.toLowerCase());
     }
 
-    private boolean filtreAchat(ArticleVendu a, List<String> filtresAchat, String pseudoConnecte, LocalDateTime maintenant) {
+    private boolean filtreAchat(ArticleVendu a, List<String> filtresAchat, LocalDateTime maintenant) {
+
+
         if (filtresAchat == null || filtresAchat.isEmpty()) return true;
+
+        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+        String pseudoConnecte = utilisateurConnecte.getPseudo();
 
         return filtresAchat.stream().anyMatch(filtre -> {
             switch (filtre) {
@@ -80,8 +89,13 @@ public class ArticleVenduService {
         });
     }
 
-    private boolean filtreVente(ArticleVendu a, List<String> filtresVente, String pseudoConnecte, LocalDateTime maintenant) {
+    private boolean filtreVente(ArticleVendu a, List<String> filtresVente, LocalDateTime maintenant) {
+
         if (filtresVente == null || filtresVente.isEmpty()) return true;
+
+        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+        String pseudoConnecte = utilisateurConnecte.getPseudo();
 
         if (pseudoConnecte == null || a.getVendeur() == null ||
                 !pseudoConnecte.equals(a.getVendeur().getPseudo())) return false;

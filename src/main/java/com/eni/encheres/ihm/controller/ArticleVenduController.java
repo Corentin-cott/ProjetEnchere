@@ -177,12 +177,36 @@ public class ArticleVenduController {
     @PostMapping("/details/{id}/mise")public String nouvellemise(@PathVariable int id, RedirectAttributes redirectAttributes, @RequestParam double nouvelleoffre){
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-        ArticleVendu article = articleVenduDAO.selectById(id);
-        article.setAcheteur(utilisateurConnecte);
-        article.setPrixVente(nouvelleoffre);
-        articleVenduDAO.updateArticle(article);
-        redirectAttributes.addFlashAttribute("successmise", true);
-        return "redirect:/details/"+id;
+
+        if(nouvelleoffre>utilisateurConnecte.getCredit()){
+            redirectAttributes.addFlashAttribute("error", true);
+            return "redirect:/details/"+id;
+        }
+        else {
+            utilisateurConnecte.setCredit(utilisateurConnecte.getCredit()-nouvelleoffre);
+
+            ArticleVendu article = articleVenduDAO.selectById(id);
+
+            if(article.getAcheteur()!=null) {
+                if(utilisateurConnecte.getId()==article.getAcheteur().getId()){
+                    utilisateurConnecte.setCredit(utilisateurConnecte.getCredit() + article.getPrixVente());
+                }
+                else{
+                    article.getAcheteur().setCredit(article.getAcheteur().getCredit() + article.getPrixVente());
+                    utilisateurIDAO.updateUtilisateur(article.getAcheteur());
+                }
+            }
+
+            article.setAcheteur(utilisateurConnecte);
+            article.setPrixVente(nouvelleoffre);
+
+            utilisateurIDAO.updateUtilisateur(utilisateurConnecte);
+            articleVenduDAO.updateArticle(article);
+
+            redirectAttributes.addFlashAttribute("successmise", true);
+
+            return "redirect:/details/" + id;
+        }
     }
 
     @PostMapping("/details/{id}/delete")public String deleteArticle(@PathVariable int id,RedirectAttributes redirectAttributes){

@@ -4,6 +4,7 @@
 <head>
     <title layout:fragment="title">Connexion</title>
     <script>
+        // Changement dynamique de l'image
         document.addEventListener('DOMContentLoaded', function () {
             const input = document.getElementById('photo_article');
             const preview = document.getElementById('preview-image');
@@ -27,14 +28,14 @@
 <main layout:fragment="content">
     <div th:if="${success}" class="eni-succes-container">
         <div class="eni-box-content" style="width: 100%;">
-            <p>Succès ! Votre article à été mise en vente dans la liste des enchères !</p>
+            <p th:text="${message}"></p>
             <br>
             <form method="get" th:action="@{/}" style="width: 100%">
                 <button class="eni-success-important-button" type="submit" style="width: 100%">Retour à la liste des enchères</button>
             </form>
         </div>
     </div>
-    <form method="post" th:action="@{/nouvelleVente}" style="width: 100%">
+    <form method="post" th:action="@{/nouvelleVente}" enctype="multipart/form-data" style="width: 100%">
         <input required type="hidden" id="utilisateur_name" name="utilisateur_name" th:value="${#authentication.name}">
         <div class="eni-box-container" style="display: block">
             <h2 class="eni-h2">Nouvelle Vente</h2>

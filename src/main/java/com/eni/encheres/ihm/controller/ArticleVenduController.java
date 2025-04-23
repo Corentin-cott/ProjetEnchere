@@ -142,14 +142,9 @@ public class ArticleVenduController {
                                    @RequestParam(required = false) String recherche,
                                    @RequestParam(required = false) Long idCategorie) {
 
-        // Récupère l'utilisateur
-        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-
-
         // Appel au service filtré
         List<ArticleVendu> articles = articleVenduService.filtrerEncheres(
-                filtresAchat, filtresVente, utilisateurConnecte.getPseudo(), recherche, idCategorie
+                filtresAchat, filtresVente, recherche, idCategorie
         );
 
         // Récupération des catégories via daoCategorie

@@ -36,33 +36,40 @@
         </div>
     </div>
     <form method="post" th:action="@{/nouvelleVente}" enctype="multipart/form-data" style="width: 100%">
-        <input required type="hidden" id="utilisateur_name" name="utilisateur_name" th:value="${#authentication.name}">
+        <input required type="hidden" id="utilisateur_name" name="utilisateur_name"
+               th:value="${article != null} ? ${article.vendeur.pseudo} : ${#authentication.name}" />
         <div class="eni-box-container" style="display: block">
             <h2 class="eni-h2">Nouvelle Vente</h2>
             <div class="eni-box-content">
                 <label class="eni-label" for="nom_article">Nom de l'article</label>
-                <input required type="text" id="nom_article" name="nom_article" value=""/>
+                <input required type="text" id="nom_article" name="nom_article"
+                       th:value="${article != null} ? ${article.nom} : ''"/>
                 <br><br>
                 <label class="eni-label" for="description_article">Description de l'article</label>
-                <input required type="text" id="description_article" name="description_article" value=""/>
+                <input required type="text" id="description_article" name="description_article"
+                       th:value="${article != null} ? ${article.description} : ''"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Catégorie</label>
                 <select required name="categorie" id="categorie">
                     <option value="" disabled selected>Choisir une catégorie</option>
                     <option th:each="categorie : ${categories}"
                             th:value="${categorie.id}"
-                            th:text="${categorie.libelle}">
+                            th:text="${categorie.libelle}"
+                            th:selected="${article != null} ? ${article.categorie.id == categorie.id} : false">>
                     </option>
                 </select>
                 <br><br>
                 <label for="categorie" class="eni-label">Prix Initial</label>
-                <input required type="number" id="prix_article" name="prix_article" value="" min="0" max="10000000000"/>
+                <input required type="number" id="prix_article" name="prix_article"
+                       th:value="${article != null} ? ${article.miseAPrix} : ''" min="0" max="10000000000"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Début de l'enchère</label>
-                <input required type="date" id="dateDebutEncheres" name="dateDebutEncheres"/>
+                <input required type="date" id="dateDebutEncheres" name="dateDebutEncheres"
+                       th:value="${article != null} ? ${#temporals.format(article.dateDebutEncheres, 'yyyy-MM-dd')} : ''"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Fin de l'enchère</label>
-                <input required type="date" id="dateFinEncheres" name="dateFinEncheres"/>
+                <input required type="date" id="dateFinEncheres" name="dateFinEncheres"
+                       th:value="${article != null} ? ${#temporals.format(article.dateFinEncheres, 'yyyy-MM-dd')} : ''"/>
                 <br><br>
                 <label for="categorie" class="eni-label">Retrait :</label>
                 <input required type="text" id="retrait_article" name="retrait_article" th:value="${adresse}" readonly/>

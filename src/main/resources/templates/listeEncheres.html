@@ -58,8 +58,9 @@
     </div>
     <div class="product-list">
         <div th:each="article : ${articles}" class="eni-box-container">
-            <img class="eni-picture-image" th:src="@{article.photoPath != null ? article.photoPath : '/imgs/placeholder.png'}"
-                                                                            alt="Image du produit" style="width: 9em;" />
+            <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image produit" style="width: 9em;" />
+            <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image placeholder" style="width: 9em;" />
+
             <div class="eni-box-content" style="width: 100%;">
                 <a th:href="@{'/details/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">titre</a>
                 <p>Description : <span th:text="${article.getDescription()}"></span></p>

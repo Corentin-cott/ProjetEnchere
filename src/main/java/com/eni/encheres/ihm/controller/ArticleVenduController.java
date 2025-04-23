@@ -87,17 +87,16 @@ public class ArticleVenduController {
 
         String message = "Succès ! Votre article à été mise en vente dans la liste des enchères ! ";
 
-        String photoFolder = "src/main/resources/static/imgs/Articles";
         if (!photo.isEmpty()) {
             try {
-                Path uploadPath = (Path) Paths.get(photoFolder);
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
+                Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "articles");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
                 }
-
                 String fileName = vendeur.getId().toString() + "-" + article.getId().toString() + ".png";
-                InputStream inputStream = photo.getInputStream();
-                Files.copy(inputStream, uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+
+                Path filePath = uploadDir.resolve(fileName);
+                Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
                 article.setPhotoPath("/imgs/Articles/" + fileName);
                 articleVenduDAO.updateArticle(article);

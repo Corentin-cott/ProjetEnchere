@@ -124,6 +124,36 @@ public class ArticleVenduController {
         return "redirect:/details/"+article.getId().toString();
     }
 
+    @PostMapping("/details/{id}/modifier")
+    public String modifierEnchere(@PathVariable Long id, Model model) {
+        // Récupérer l’article avec l’ID
+        ArticleVendu article = articleVenduDAO.selectById(id);
+        model.addAttribute("article", article);
+
+        // Ajouter les champs nécessaires pour pré-remplir le formulaire
+        model.addAttribute("adresse", article.getVendeur().getRue() + ", " +
+                article.getVendeur().getCodePostal() + " " +
+                article.getVendeur().getVille());
+
+        model.addAttribute("categories", categorieDAO.trouveTout());
+
+        return "nouvelleVente"; // vue avec le formulaire pré-rempli
+    }
+
+    @GetMapping("/details/{id}/modifier")
+    public String afficherFormulaireModification(@PathVariable Long id, Model model) {
+        ArticleVendu article = articleVenduDAO.selectById(id);
+        model.addAttribute("article", article);
+        model.addAttribute("categories", categorieDAO.trouveTout());
+
+        String adresse = article.getVendeur().getRue() + ", " +
+                article.getVendeur().getCodePostal() + " " +
+                article.getVendeur().getVille();
+        model.addAttribute("adresse", adresse);
+
+        return "nouvelleVente"; // le nom de ta page .html
+    }
+
     @GetMapping
     public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,
                           @RequestParam(required = false) List<String> filtresVente,

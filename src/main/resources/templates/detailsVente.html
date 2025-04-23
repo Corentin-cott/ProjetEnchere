@@ -24,7 +24,7 @@
     <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur != null}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
         <h2 style="margin: 0;">Vente terminée !</h2>
-        <p th:text="${'Cette vente est désormais terminée. Le vainqueur est '+article.acheteur.pseudo+' ! Félicitaitons !!'}"></p>
+        <p th:text="${'Cette vente est désormais terminée. Le vainqueur est '+article.acheteur.pseudo+' ! Félicitation !!'}"></p>
       </div>
     </div>
 
@@ -37,58 +37,107 @@
 
     <div class="eni-box-container" style="display: block">
       <h2 class="eni-h2" th:text="${article.nom}">Détails sur l'enchere</h2>
-      <div class="eni-medium-image-container">
-        <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image du produit" style="width: 60%; max-width: 300px;" />
-        <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image du produit" style="width: 60%; max-width: 300px;" />
+      <div class="eni-medium-image-container" style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+        <img class="eni-picture-image"
+             th:if="${article.photoPath != null}"
+             th:src="${article.photoPath}"
+             alt="Image du produit"
+             style="width: 100%; max-width: 300px; border-radius: 1rem; object-fit: cover;" />
+        <img class="eni-picture-image"
+             th:unless="${article.photoPath != null}"
+             th:src="@{/imgs/placeholder.png}"
+             alt="Image du produit"
+             style="width: 100%; max-width: 300px; border-radius: 1rem; object-fit: cover;" />
       </div>
 
-      <div class="eni-box-content">
-        <h2 style="margin-bottom: 0%;">
+      <div class="eni-box-content" style="padding: 1.5rem; border-radius: 1rem; max-width: 1000px; margin: auto;">
+        <h2 style="margin-bottom: 0.5rem; font-size: 1.5rem;">
           Article de <span th:text="${article.vendeur.pseudo != null ? article.vendeur.pseudo : 'Vendeur inconnu'}"></span>
         </h2>
-        <p style="margin-bottom: 1em;">
+
+        <p style="margin-bottom: 0.5rem; text-align: center;">
+          <strong> <span th:text="${article.dateFinEncheres != null ? #temporals.format(article.dateDebutEncheres, 'dd/MM/yyyy HH''h''mm') + ' ⸻ ' + #temporals.format(article.dateFinEncheres, 'dd/MM/yyyy HH''h''mm') : 'Date inconnue'}"></span></strong>
+        </p>
+
+        <br>
+
+        <p style="margin-bottom: 1rem; font-size: 1rem; line-height: 1.5;">
           <span th:text="${article.description != null ? article.description : 'Pas de description'}"></span>
         </p>
-        <div style="display: flex; gap: 10rem;">
+
+        <div class="responsive-div">
+          <p style="flex: 1; min-width: 150px;"><strong>Mise à prix :</strong> <span th:text="${article.miseAPrix != null ? article.miseAPrix : 'Non spécifiée'}"></span></p>
+          <p style="flex: 1; min-width: 150px;"><strong>Meilleure offre :</strong> <span th:text="${article.prixVente != null ? article.prixVente : 'Aucune offre'}"></span></p>
+        </div>
+
+        <div th:if="${article.acheteur != null}" class="responsive-div">
+          <p style="flex: 1; min-width: 150px;"><strong>Article de </strong><span th:text="${article.vendeur != null ? article.vendeur.pseudo : 'Non spécifiée'}"></span></p>
+          <p style="flex: 1; min-width: 150px;"><strong>Enchère de </strong><span th:text="${article.acheteur.pseudo != null ? article.acheteur.pseudo : 'Non spécifiée'}"></span></p>
+        </div>
+
+        <div th:if="${article.vendeur != null and article.acheteur != null and article.acheteur.pseudo == #authentication.name and article.dateFinEncheres < T(java.time.LocalDateTime).now()}">
+          <h2 style="margin-bottom: 0.5rem; font-size: 1.5rem;">Retrait & Contact</h2>
           <p>
-            Mise à prix : <span th:text="${article.miseAPrix != null ? article.miseAPrix : 'Non spécifiée'}"></span>
+            <strong>Nom du vendeur :</strong>
+            <span th:text="${article.vendeur.nom} + ' ' + ${article.vendeur.prenom}"></span>
           </p>
           <p>
-            Meilleure offre : <span th:text="${article.prixVente != null ? article.prixVente : 'Aucune offre'}"></span>
+            <strong>Adresse de retrait : </strong>
+            <span
+               th:text="${article.vendeur != null} ? ${article.vendeur.rue + ', ' + article.vendeur.codePostal + ' ' + article.vendeur.ville} : 'Adresse de retrait inconnue'">
+            </span>
+          </p>
+          <p>
+            <strong>Téléphone du vendeur :</strong>
+            <span th:text="${article.vendeur.telephone}"></span>
           </p>
         </div>
-        <p>
-          Fin de l'enchère : <span th:text="${article.dateFinEncheres != null ? article.dateFinEncheres : 'Date inconnue'}"></span>
-        </p>
-        <p>
-          Retrait :
-          <span th:text="${article.vendeur != null} ?
-               ${article.vendeur.rue + ', ' + article.vendeur.codePostal + ', ' + article.vendeur.ville} :
-               'Rue inconnue, Code postal inconnu, Ville inconnue'"></span>
-        </p>
-        <br><br>
-        <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/}'|">Retour a la liste</button>
-      </div>
 
-      <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-content" style="background-color: var(--clr-white);">
-        <div class="eni-box-content" style="width: 100%;">
-
-            <form th:action="@{'/details/'+${article.id}+'/mise'}" method="post">
-            <label class="eni-label">Nouvelle offre</label>
-            <input required type="number" id="nouvelleoffre" name="nouvelleoffre" value="" th:attr="min=${article.prixVente != null ? article.prixVente + 1 : article.miseAPrix}" oninvalid="this.setCustomValidity('Votre offre ne doit pas être inférieure au prix actuel !')" oninput="this.setCustomValidity('')"/>
-            <br>
-            <button class="eni-button" style="width: 100%">
-              Valider offre
-            </button>
-          </form>
-
+        <div style="text-align: right; margin-top: 2em;">
+          <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/}'|">Retour à la liste</button>
         </div>
       </div>
 
     </div>
 
+    <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-container" style="background-color: var(--clr-white);">
+      <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0;">Faire une enchère</h2><br>
+
+        <form th:action="@{'/details/'+${article.id}+'/mise'}" method="post">
+          <label class="eni-label">Nouvelle offre</label>
+          <input required type="number" id="nouvelleoffre" name="nouvelleoffre" value="" th:attr="min=${article.prixVente != null ? article.prixVente + 1 : article.miseAPrix}" oninvalid="this.setCustomValidity('Votre offre ne doit pas être inférieure au prix actuel !')" oninput="this.setCustomValidity('')"/>
+          <br><br>
+          <button class="eni-button" style="width: 100%">
+            Valider offre
+          </button>
+        </form>
+
+      </div>
+    </div>
+
     <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo} == ${#authentication.name}" class="eni-danger-container" style="background-color: var(--clr-white);">
       <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0; color: var(--clr-text)">Administrer votre vente</h2>
+        <br>
+
+        <form th:action="@{'/details/'+${article.id}+'/modifier'}" method="post">
+          <input type="hidden" name="enchereIdToEdit" th:value="0" />
+          <button class="eni-important-button" style="width: 100%">
+            Annuler l'enchère
+          </button>
+        </form>
+
+        <br>
+
+        <form th:action="@{'/details/'+${article.id}+'/modifier'}" method="post">
+          <input type="hidden" name="enchereIdToEdit" th:value="0" />
+          <button class="eni-button" style="width: 100%">
+            Modifier l'enchère
+          </button>
+        </form>
+
+        <br>
 
         <form th:action="@{'/details/'+${article.id}+'/delete'}" method="post" onsubmit="return confirmerSuppression();">
           <input type="hidden" name="enchereIdToDelete" th:value="0" />

@@ -123,21 +123,21 @@
       </div>
     </div>
 
-    <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo} == ${#authentication.name}" class="eni-danger-container" style="background-color: var(--clr-white);">
+    <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo == #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-danger-container" style="background-color: var(--clr-white);">
       <div class="eni-box-content" style="width: 100%;">
         <h2 style="margin: 0; color: var(--clr-text)">Administrer votre vente</h2>
         <br>
 
-        <form th:action="@{'/details/'+${article.id}+'/modifier'}" method="post">
+        <form th:action="@{'/details/'+${article.id}+'/modifier'}" th:if="${article.dateFinEncheres > T(java.time.LocalDateTime).now() and article.dateDebutEncheres<T(java.time.LocalDateTime).now()}" method="post">
           <input type="hidden" name="enchereIdToEdit" th:value="0" />
           <button class="eni-important-button" style="width: 100%">
-            Annuler l'enchère
+            Arreter l'enchère
           </button>
         </form>
 
         <br>
 
-        <form th:action="@{'/details/'+${article.id}+'/modifier'}" method="post">
+        <form th:action="@{'/details/'+${article.id}+'/modifier'}" th:if="${article.dateDebutEncheres>T(java.time.LocalDateTime).now()}" method="post">
           <input type="hidden" name="enchereIdToEdit" th:value="0" />
           <button class="eni-button" style="width: 100%">
             Modifier l'enchère
@@ -146,7 +146,7 @@
 
         <br>
 
-        <form th:action="@{'/details/'+${article.id}+'/delete'}" method="post" onsubmit="return confirmerSuppression();">
+        <form th:action="@{'/details/'+${article.id}+'/delete'}" method="post" th:if="${article.dateDebutEncheres>T(java.time.LocalDateTime).now()}" onsubmit="return confirmerSuppression();">
           <input type="hidden" name="enchereIdToDelete" th:value="0" />
           <button class="eni-danger-button" style="width: 100%">
             Supprimer l'enchère

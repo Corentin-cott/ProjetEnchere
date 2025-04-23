@@ -4,7 +4,7 @@ import com.eni.encheres.bo.*;
 import com.eni.encheres.dao.*;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
 import com.eni.encheres.service.CategorieService;
-import jdk.jshell.execution.Util;
+import java.nio.file.Path;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -13,7 +13,14 @@ import com.eni.encheres.service.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +69,7 @@ public class ArticleVenduController {
 
     @PostMapping("/nouvelleVente")
     public String addArticleVendu(
+            RedirectAttributes redirectAttributes,
             @RequestParam("utilisateur_name") String pseudo,
             @RequestParam("nom_article") String nom,
             @RequestParam("description_article") String description,
@@ -70,25 +78,41 @@ public class ArticleVenduController {
             @RequestParam("dateDebutEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
             @RequestParam("dateFinEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
             @RequestParam("retrait_article") String retraitString,
+            @RequestParam("photo_article") MultipartFile photo,
             Model model
     ) {
         Categorie categorie = categorieDAO.trouveParId(id);
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
 
-        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
+        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,null,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
         articleVenduDAO.addArticleVendu(article);
 
-        Boolean success = true;
-        model.addAttribute("success", success);
+        String message = "Succès ! Votre article à été mise en vente dans la liste des enchères ! ";
 
-        return "nouvelleVente.html";
+        if (!photo.isEmpty()) {
+            try {
+                Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "articles");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+                String fileName = vendeur.getId().toString() + "-" + article.getId().toString() + ".png";
+
+                Path filePath = uploadDir.resolve(fileName);
+                Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                article.setPhotoPath("/imgs/Articles/" + fileName);
+                articleVenduDAO.updateArticle(article);
+            } catch (IOException e) {
+                e.printStackTrace();
+                message = message + "Mais l'image de votre article à rencontrer une erreur.";
+            }
+        }
+
+        redirectAttributes.addFlashAttribute("success_creation", true);
+        redirectAttributes.addFlashAttribute("message", message);
+
+        return "redirect:/details/"+article.getId().toString();
     }
-
-    /*
-
-    ANCIENNEMENT DANS ENCHERE CONTROLLER
-
-     */
 
     @GetMapping
     public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,
@@ -153,6 +177,23 @@ public class ArticleVenduController {
         model.addAttribute("article", article);
 
         return "detailsVente";
+    }
+
+    @PostMapping("/details/{id}/mise")public String nouvellemise(@PathVariable int id, RedirectAttributes redirectAttributes, @RequestParam double nouvelleoffre){
+        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+        ArticleVendu article = articleVenduDAO.selectById(id);
+        article.setAcheteur(utilisateurConnecte);
+        article.setPrixVente(nouvelleoffre);
+        articleVenduDAO.updateArticle(article);
+        redirectAttributes.addFlashAttribute("successmise", true);
+        return "redirect:/details/"+id;
+    }
+
+    @PostMapping("/details/{id}/delete")public String deleteArticle(@PathVariable int id,RedirectAttributes redirectAttributes){
+        articleVenduDAO.deleteArticleById(id);
+        redirectAttributes.addFlashAttribute("successdeletearticle", true);
+        return "redirect:/";
     }
 
 }

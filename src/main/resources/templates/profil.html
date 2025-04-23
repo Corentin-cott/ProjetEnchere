@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
 <head>
-  <title layout:fragment="title">Création compte</title>
+  <title layout:fragment="title" th:text="${#authorization.expression('isAuthenticated()') ? 'Profil' : 'Création compte'}"></title>
 </head>
 <body>
   <main layout:fragment="content">

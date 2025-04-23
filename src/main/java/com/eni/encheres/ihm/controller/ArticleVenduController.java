@@ -69,6 +69,7 @@ public class ArticleVenduController {
 
     @PostMapping("/nouvelleVente")
     public String addArticleVendu(
+            RedirectAttributes redirectAttributes,
             @RequestParam("utilisateur_name") String pseudo,
             @RequestParam("nom_article") String nom,
             @RequestParam("description_article") String description,
@@ -83,7 +84,7 @@ public class ArticleVenduController {
         Categorie categorie = categorieDAO.trouveParId(id);
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
 
-        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,miseAPrix,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
+        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,null,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
         articleVenduDAO.addArticleVendu(article);
 
         String message = "Succès ! Votre article à été mise en vente dans la liste des enchères ! ";
@@ -107,17 +108,11 @@ public class ArticleVenduController {
             }
         }
 
-        model.addAttribute("success", true);
-        model.addAttribute("message", message);
+        redirectAttributes.addFlashAttribute("success_creation", true);
+        redirectAttributes.addFlashAttribute("message", message);
 
-        return "nouvelleVente.html";
+        return "redirect:/details/"+article.getId().toString();
     }
-
-    /*
-
-    ANCIENNEMENT DANS ENCHERE CONTROLLER
-
-     */
 
     @GetMapping
     public String accueil(Model model,@RequestParam(required = false) List<String> filtresAchat,

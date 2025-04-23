@@ -6,34 +6,40 @@
 </head>
 <body>
   <main layout:fragment="content">
-    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur != null}" class="eni-succes-container">
-      <div class="eni-box-content" style="width: 100%;">
-        <p th:text="${'Cette vente est désormais terminée. Le vainqueur est '+article.acheteur.pseudo+'!'}"></p>
-      </div>
-    </div>
 
-    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur==null}" class="eni-danger-container">
+    <div th:if="${success_creation}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
-        <p>Cette vente est désormais terminée.</p>
-      </div>
-    </div>
-
-    <div th:if="${success}" class="eni-succes-container">
-      <div class="eni-box-content" style="width: 100%;">
-        <p>Succès ! Votre article à été mise en vente !</p>
+        <h2 style="margin: 0;">Succès !</h2>
+        <p th:text="${message}"></p>
       </div>
     </div>
 
     <div th:if="${successmise}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0;">Succès !</h2>
         <p>Succès ! Votre nouvelle offre a été validée !</p>
+      </div>
+    </div>
+
+    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur != null}" class="eni-succes-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0;">Vente terminée !</h2>
+        <p th:text="${'Cette vente est désormais terminée. Le vainqueur est '+article.acheteur.pseudo+' ! Félicitaitons !!'}"></p>
+      </div>
+    </div>
+
+    <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur==null}" class="eni-danger-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0;">Vente terminée sans enchères.</h2>
+        <p>Cette vente est désormais terminée. Aucune enchère sur cet article.</p>
       </div>
     </div>
 
     <div class="eni-box-container" style="display: block">
       <h2 class="eni-h2" th:text="${article.nom}">Détails sur l'enchere</h2>
       <div class="eni-medium-image-container">
-        <img class="eni-picture-image" src="/imgs/placeholder.png" alt="Image du produit" style="width: 60%;"/>
+        <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image du produit" style="width: 60%; max-width: 300px;" />
+        <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image du produit" style="width: 60%; max-width: 300px;" />
       </div>
 
       <div class="eni-box-content">

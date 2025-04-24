@@ -5,7 +5,7 @@
     <div class="eni-header-container">
         <a href="/" style="width: 40%;">
             <picture>
-                <source srcset="/imgs/ENI-Encheres-Logo.png" media="(min-width: 700px)">
+                <source srcset="/imgs/ENI-Encheres-Logo.png" media="(min-width: 701px)">
                 <img class="eni-encheres-logo" src="/imgs/ENI-Encheres-Logo-Small.png" alt="LogoSmall" style="height: 4.5em;"/>
             </picture>
         </a>
@@ -47,7 +47,7 @@
         function updateLogoutButton() {
             const logoutButton = document.getElementById("logout");
             if (window.innerWidth <= 500) {
-                logoutButton.innerHTML = '<i class="bi bi-person-circle"></i>';
+                logoutButton.innerHTML = '<i class="bi bi-chevron-bar-right"></i>';
             } else {
                 logoutButton.innerHTML = 'Déconnection';
             }

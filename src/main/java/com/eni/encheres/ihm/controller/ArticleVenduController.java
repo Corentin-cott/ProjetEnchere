@@ -72,12 +72,13 @@ public class ArticleVenduController {
     }
 
     @PostMapping("/nouvelleVente")
-    public String addArticleVendu(
+    public String AjoutOuUpdateArticleVendu(
             RedirectAttributes redirectAttributes,
+            @RequestParam(name = "id_article", required = false) Long idArticle,
             @RequestParam("utilisateur_name") String pseudo,
             @RequestParam("nom_article") String nom,
             @RequestParam("description_article") String description,
-            @RequestParam("categorie") long id,
+            @RequestParam("categorie") long idCategorie,
             @RequestParam("prix_article") double miseAPrix,
             @RequestParam("dateDebutEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
             @RequestParam("dateFinEncheres") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
@@ -96,22 +97,43 @@ public class ArticleVenduController {
             System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
 
-        Categorie categorie = categorieDAO.trouveParId(id);
+        if (dateFin.isBefore(LocalDate.now().plusDays(1))) {
+            throw new IllegalArgumentException("La date de fin doit être ultérieure à aujourd'hui.");
+        }
+
+        if (!dateFin.isAfter(dateDebut)) {
+            throw new IllegalArgumentException("La date de fin doit être après la date de début.");
+        }
+
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
+        Categorie categorie = categorieDAO.trouveParId(idCategorie);
 
-        ArticleVendu article = new ArticleVendu(nom,description,categorie,miseAPrix,null,dateDebut.atStartOfDay(),dateFin.atStartOfDay(),vendeur);
-        articleVenduDAO.addArticleVendu(article);
+        ArticleVendu article;
 
-        String message = "Succès ! Votre article à été mise en vente dans la liste des enchères ! ";
+        if (idArticle != null && idArticle != 0) {
+            // Modification
+            article = articleVenduDAO.selectById(idArticle);
+            article.setNom(nom);
+            article.setDescription(description);
+            article.setCategorie(categorie);
+            article.setMiseAPrix(miseAPrix);
+            article.setDateDebutEncheres(dateDebut.atStartOfDay());
+            article.setDateFinEncheres(dateFin.atStartOfDay());
+            articleVenduDAO.updateArticle(article);
+        } else {
+            // Nouvelle création
+            article = new ArticleVendu(nom, description, categorie, miseAPrix, null,
+                    dateDebut.atStartOfDay(), dateFin.atStartOfDay(), vendeur, null);
+            articleVenduDAO.addArticleVendu(article);
+        }
 
+        // Gestion de l’image
         if (!photo.isEmpty()) {
             try {
                 Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "articles");
-                if (!Files.exists(uploadDir)) {
-                    Files.createDirectories(uploadDir);
-                }
-                String fileName = vendeur.getId().toString() + "-" + article.getId().toString() + ".png";
+                if (!Files.exists(uploadDir)) Files.createDirectories(uploadDir);
 
+                String fileName = vendeur.getId() + "-" + article.getId() + ".png";
                 Path filePath = uploadDir.resolve(fileName);
                 Files.copy(photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -119,14 +141,12 @@ public class ArticleVenduController {
                 articleVenduDAO.updateArticle(article);
             } catch (IOException e) {
                 e.printStackTrace();
-                message = message + "Mais l'image de votre article à rencontrer une erreur.";
             }
         }
 
         redirectAttributes.addFlashAttribute("success_creation", true);
-        redirectAttributes.addFlashAttribute("message", message);
-
-        return "redirect:/details/"+article.getId().toString();
+        redirectAttributes.addFlashAttribute("message", "Article enregistré avec succès !");
+        return "redirect:/details/" + article.getId();
     }
 
     @PostMapping("/details/{id}/modifier")

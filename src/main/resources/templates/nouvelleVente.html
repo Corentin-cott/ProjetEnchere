@@ -22,6 +22,31 @@
                 }
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const dateDebut = document.getElementById("dateDebutEncheres");
+            const dateFin = document.getElementById("dateFinEncheres");
+
+            function updateMinDateFin() {
+                const today = new Date().toISOString().split("T")[0];
+                const debut = dateDebut.value;
+
+                // La date minimale est la date la plus tardive entre aujourd'hui et la date de début
+                let minDate = today;
+                if (debut && debut > today) {
+                    minDate = debut;
+                }
+                // Ajouter un jour pour s'assurer que la fin est *ultérieure*
+                const minDateObj = new Date(minDate);
+                minDateObj.setDate(minDateObj.getDate() + 1);
+                const newMinDate = minDateObj.toISOString().split("T")[0];
+                dateFin.min = newMinDate;
+            }
+
+            // Met à jour la date min quand on charge la page et quand la date de début change
+            updateMinDateFin();
+            dateDebut.addEventListener("change", updateMinDateFin);
+        });
     </script>
 </head>
 <body>
@@ -41,15 +66,13 @@
         <div class="eni-box-container" style="display: block">
             <h2 class="eni-h2">Nouvelle Vente</h2>
             <div class="eni-box-content">
-                <label class="eni-label" for="nom_article">Nom de l'article</label>
-                <input required type="text" id="nom_article" name="nom_article"
-                       th:value="${article != null} ? ${article.nom} : ''"/>
+                <label class="eni-label" for="nom_article">Nom de l'article</label><br>
+                <input required type="text" id="nom_article" name="nom_article" th:value="${article != null} ? ${article.nom} : ''"/>
                 <br><br>
-                <label class="eni-label" for="description_article">Description de l'article</label>
-                <input required type="text" id="description_article" name="description_article"
-                       th:value="${article != null} ? ${article.description} : ''"/>
+                <label class="eni-label" for="description_article">Description de l'article</label><br>
+                <input required type="text" id="description_article" name="description_article" th:value="${article != null} ? ${article.description} : ''"/>
                 <br><br>
-                <label for="categorie" class="eni-label">Catégorie</label>
+                <label for="categorie" class="eni-label">Catégorie<br>
                 <select required name="categorie" id="categorie">
                     <option value="" disabled selected>Choisir une catégorie</option>
                     <option th:each="categorie : ${categories}"
@@ -59,19 +82,16 @@
                     </option>
                 </select>
                 <br><br>
-                <label for="categorie" class="eni-label">Prix Initial</label>
-                <input required type="number" id="prix_article" name="prix_article"
-                       th:value="${article != null} ? ${article.miseAPrix} : ''" min="0" max="10000000000"/>
+                <label for="categorie" class="eni-label">Prix Initial</label><br>
+                <input required type="number" id="prix_article" name="prix_article" th:value="${article != null} ? ${article.miseAPrix} : ''" min="0" max="10000000000"/>
                 <br><br>
-                <label for="categorie" class="eni-label">Début de l'enchère</label>
-                <input required type="date" id="dateDebutEncheres" name="dateDebutEncheres"
-                       th:value="${article != null} ? ${#temporals.format(article.dateDebutEncheres, 'yyyy-MM-dd')} : ''"/>
+                <label for="categorie" class="eni-label">Début de l'enchère</label><br>
+                <input required type="date" id="dateDebutEncheres" name="dateDebutEncheres" th:value="${article != null} ? ${#temporals.format(article.dateDebutEncheres, 'yyyy-MM-dd')} : ''"/>
                 <br><br>
-                <label for="categorie" class="eni-label">Fin de l'enchère</label>
-                <input required type="date" id="dateFinEncheres" name="dateFinEncheres"
-                       th:value="${article != null} ? ${#temporals.format(article.dateFinEncheres, 'yyyy-MM-dd')} : ''"/>
+                <label for="categorie" class="eni-label">Fin de l'enchère</label><br>
+                <input required type="date" id="dateFinEncheres" name="dateFinEncheres" th:value="${article != null} ? ${#temporals.format(article.dateFinEncheres, 'yyyy-MM-dd')} : ''"/>
                 <br><br>
-                <label for="categorie" class="eni-label">Retrait :</label>
+                <label for="categorie" class="eni-label">Retrait :</label><br>
                 <input required type="text" id="retrait_article" name="retrait_article" th:value="${adresse}" readonly/>
                 <br><br>
             </div>
@@ -91,6 +111,7 @@
                     <div class="eni-important-button" th:onclick="|location.href='@{/}'|">Annuler</div>
                 </div>
             </div>
+            <input type="hidden" name="id_article" th:value="${article != null} ? ${article.id} : 0" />
         </div>
     </form>
 </main>

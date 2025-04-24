@@ -93,13 +93,21 @@ public class ArticleVenduController {
             System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
 
+        if (dateFin.isBefore(LocalDate.now().plusDays(1))) {
+            throw new IllegalArgumentException("La date de fin doit être ultérieure à aujourd'hui.");
+        }
+
+        if (!dateFin.isAfter(dateDebut)) {
+            throw new IllegalArgumentException("La date de fin doit être après la date de début.");
+        }
+
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
         Categorie categorie = categorieDAO.trouveParId(idCategorie);
 
         ArticleVendu article;
 
         if (idArticle != null && idArticle != 0) {
-            // 🔁 Modification
+            // Modification
             article = articleVenduDAO.selectById(idArticle);
             article.setNom(nom);
             article.setDescription(description);
@@ -109,13 +117,13 @@ public class ArticleVenduController {
             article.setDateFinEncheres(dateFin.atStartOfDay());
             articleVenduDAO.updateArticle(article);
         } else {
-            // ➕ Nouvelle création
+            // Nouvelle création
             article = new ArticleVendu(nom, description, categorie, miseAPrix, null,
-                    dateDebut.atStartOfDay(), dateFin.atStartOfDay(), vendeur);
+                    dateDebut.atStartOfDay(), dateFin.atStartOfDay(), vendeur, null);
             articleVenduDAO.addArticleVendu(article);
         }
 
-        // 📷 Gestion de l’image
+        // Gestion de l’image
         if (!photo.isEmpty()) {
             try {
                 Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "articles");

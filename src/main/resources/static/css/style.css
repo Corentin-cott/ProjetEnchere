@@ -88,6 +88,13 @@ strong {
     }
 }
 
+@media (max-width: 460px) {
+    #vente {
+        display: grid;
+        justify-items: center;
+    }
+}
+
 /* ENI CSS */
 /* VARIABLES */
 

@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="product-list">
-        <div th:each="article : ${articles}" class="eni-box-container">
+        <div th:each="article : ${articles}" id="vente" class="eni-box-container">
             <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image produit" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
             <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image placeholder" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
 

@@ -1,0 +1,54 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+  <title layout:fragment="title">Page Admin</title>
+</head>
+<body>
+<main layout:fragment="content">
+  <div th:if="${success}" class="eni-danger-container">
+    <div class="eni-box-content" style="width: 100%;"><p>Compte supprimé.</p></div>
+  </div>
+  <div th:if="${success_desactive}" class="eni-danger-container">
+    <div class="eni-box-content" style="width: 100%;"><p>Compte désactivé/activé.</p></div>
+  </div>
+  <div class="eni-box-container" style="display: block">
+    <h2>Liste des utilisateurs</h2>
+
+    <table class="full-width">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Pseudo</th>
+        <th>Email</th>
+        <th>Admin</th>
+        <th>Actif</th>
+        <th>Profil</th>
+        <th>Désactiver/Activer</th>
+        <th>Supprimer</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--pour chaque film contenu dans ma liste "films" (attribut du modèle, je vais créer un tr avec th:each-->
+      <tr th:each="utilisateur : ${utilisateurs}">
+        <td th:text="${utilisateur.id}"></td>
+        <td th:text="${utilisateur.pseudo}"></td>
+        <td th:text="${utilisateur.email}"></td>
+        <td th:text="${utilisateur.admin ? '✔' :'❌'}" style="color: green"></td>
+        <td th:text="${utilisateur.disabled ? '❌' :'✔'}" style="color: green"></td>
+        <td><a th:href="@{|/profil/${utilisateur.id}|}">profil</a></td>
+        <td>
+          <form th:action="@{/admin/disable}" method="post">
+            <button name="idToDisable" th:value="${utilisateur.id}" class="disable-button">X</button>
+          </form></td>
+        <td>
+          <form th:action="@{/admin/delete}" method="post">
+            <button name="idToDelete" th:value="${utilisateur.id}" class="delete-button">X</button>
+          </form></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+</body>
+</html>

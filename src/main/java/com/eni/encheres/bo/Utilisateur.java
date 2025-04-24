@@ -37,8 +37,11 @@ public class Utilisateur {
     @OneToMany(mappedBy = "vendeur")
     private List<ArticleVendu> articles;
 
+    @Column(nullable = false)
+    private boolean disabled=false;
+
     // Constructeurs
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, double credit, boolean admin) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, double credit, boolean admin,boolean disabled) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -50,5 +53,6 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
         this.credit = credit;
         this.admin = admin;
+        this.disabled=disabled;
     }
 }

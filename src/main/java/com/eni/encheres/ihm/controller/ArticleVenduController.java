@@ -53,13 +53,17 @@ public class ArticleVenduController {
     }
 
     @GetMapping("/nouvelleVente")
-    public String nouvelleVente(Model model) {
+    public String nouvelleVente(Model model,RedirectAttributes redirectAttributes) {
         // Liste les catégories
         List<Categorie> categories = categorieService.getAll();
         // Récupère l'utilisateur
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
         String adresse = utilisateurConnecte.getRue() + ", " + utilisateurConnecte.getCodePostal() + " " + utilisateurConnecte.getVille();
+        if(utilisateurConnecte.isDisabled()){
+            redirectAttributes.addFlashAttribute("compte_desac", true);
+            return"redirect:/";
+        }
 
         model.addAttribute("categories", categories);
         model.addAttribute("utilisateurConnecte", utilisateurConnecte);
@@ -271,6 +275,11 @@ public class ArticleVenduController {
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
         Utilisateur utilisateur = utilisateurIDAO.getUtilisateurById(utilisateurConnecte.getId());
+
+        if(utilisateurConnecte.isDisabled()){
+            redirectAttributes.addFlashAttribute("compte_desac", true);
+            return"redirect:/";
+        }
 
         if(nouvelleoffre>utilisateur.getCredit()){
             redirectAttributes.addFlashAttribute("error", true);

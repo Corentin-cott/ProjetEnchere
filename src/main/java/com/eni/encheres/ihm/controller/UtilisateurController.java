@@ -34,7 +34,7 @@ public class UtilisateurController {
     public String afficherProfilUtilisateur(@PathVariable int id, Model model) {
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-        if(id!=utilisateurConnecte.getId()) {
+        if(id!=utilisateurConnecte.getId()&&!utilisateurConnecte.isAdmin()) {
             return "redirect:/profil/" + utilisateurConnecte.getId();
         }
         Utilisateur utilisateur = utilisateurDao.getUtilisateurById(id); // ou autre méthode
@@ -103,6 +103,6 @@ public class UtilisateurController {
         utilisateurDao.deleteUtilisateurById(idToDelete);
         request.getSession().invalidate(); // sécurité
         redirectAttributes.addFlashAttribute("success", true);
-        return "redirect:/"; // vers ton endpoint perso
+        return "redirect:/";
     }
 }

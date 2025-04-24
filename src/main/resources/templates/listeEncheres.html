@@ -11,6 +11,9 @@
     <div th:if="${successdeletearticle}" class="eni-danger-container">
         <div class="eni-box-content" style="width: 100%;"><p>Article supprimé.</p></div>
     </div>
+    <div th:if="${compte_desac}" class="eni-danger-container">
+        <div class="eni-box-content" style="width: 100%;"><p>Votre compte est désactivé, vous ne pouvez pas réaliser cette action !</p></div>
+    </div>
     <div class="eni-box-container" style="display: block"><h2 class="eni-h2">Filtres</h2>
         <div class="eni-box-content">
             <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">

@@ -37,22 +37,7 @@ public class DAOUtilisateurJpa implements IDAOUtilisateur {
 
     @Override
     public void deleteUtilisateurById(long id) {
-        Utilisateur utilisateur = repository.findById(id).orElseThrow();
-
-        List<ArticleVendu> articles=articleVendu.selectAll();
-        List<ArticleVendu> articlesadelete=new ArrayList<>();
-        
-        articles.forEach(article->{
-            if(article.getVendeur().getId()==id){
-                articlesadelete.add(article);
-            }
-            if(article.getAcheteur()!=null && article.getAcheteur().getId()==id){
-                article.setAcheteur(null);
-                articleVendu.updateArticle(article);
-            }
-        });
-        articlesadelete.forEach(article -> articleVendu.deleteArticleById(article.getId()));
-
+        supprEncheresUtilisateur(id);
         repository.deleteById(id);
     }
 
@@ -67,4 +52,35 @@ public class DAOUtilisateurJpa implements IDAOUtilisateur {
 
     @Override
     public void updateUtilisateur(Utilisateur utilisateur) { repository.save(utilisateur); }
+
+    @Override
+    public void disableUtilisateur(long id){
+        Utilisateur utilisateur = repository.findById(id).orElseThrow();
+        supprEncheresUtilisateur(id);
+
+        if(utilisateur.isDisabled()){
+            utilisateur.setDisabled(false);
+        }
+        else{
+            utilisateur.setDisabled(true);
+        }
+        repository.save(utilisateur);
+    }
+
+    public void supprEncheresUtilisateur(long id){
+        List<ArticleVendu> articles=articleVendu.selectAll();
+        List<ArticleVendu> articlesadelete=new ArrayList<>();
+
+        articles.forEach(article->{
+            if(article.getVendeur().getId()==id){
+                articlesadelete.add(article);
+            }
+            if(article.getAcheteur()!=null && article.getAcheteur().getId()==id){
+                article.setAcheteur(null);
+                article.setPrixVente(null);
+                articleVendu.updateArticle(article);
+            }
+        });
+        articlesadelete.forEach(article -> articleVendu.deleteArticleById(article.getId()));
+    }
 }

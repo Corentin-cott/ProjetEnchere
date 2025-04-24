@@ -16,4 +16,5 @@ public interface IDAOUtilisateur {
     public void addUtilisateur(Utilisateur utilisateur);
     public List<Utilisateur> getUtilisateurs();
     public void updateUtilisateur(Utilisateur utilisateur);
+    public void disableUtilisateur(long id);
 }

@@ -11,6 +11,12 @@
         </a>
         <nav>
             <section sec:authorize="isAuthenticated()" style="display: flex; justify-content: right;">
+                <form method="get" action="/admin">
+                    <button class="eni-button">
+                        <i></i>
+                        <p>Page admin</p>
+                    </button>
+                </form>
                 <form method="get" action="/nouvelleVente">
                     <button class="eni-button">
                         <i class="bi bi-tag"></i> <!-- Icône pour "Vendre" -->

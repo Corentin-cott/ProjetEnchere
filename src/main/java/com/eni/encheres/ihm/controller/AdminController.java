@@ -28,16 +28,6 @@ public class AdminController {
 
     @GetMapping()
     public String listeUtilisateurs(Model model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal == "anonymousUser") {
-            return "redirect:/connection";
-        }
-        UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
-        Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-        if(!utilisateurConnecte.isAdmin()) {
-            return "redirect:/";
-        }
-
         List<Utilisateur> utilisateurs =utilisateurDao.getUtilisateurs();
         model.addAttribute("utilisateurs", utilisateurs);
 

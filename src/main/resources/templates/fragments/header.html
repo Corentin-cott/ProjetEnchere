@@ -11,12 +11,12 @@
         </a>
         <nav>
             <section sec:authorize="isAuthenticated()" style="display: flex; justify-content: right;">
-                <form method="get" action="/admin">
+                <form method="get" action="/admin" sec:authorize="hasRole('admin')">
                     <button class="eni-button">
                         <i class="bi bi-clipboard2-minus"></i> <!-- Icône pour le panel admin -->
                     </button>
                 </form>
-                <form method="get" action="/nouvelleVente" style="margin-left: 10px">
+                <form method="get" action="/nouvelleVente" sec:authorize="!hasRole('disabled')"  style="margin-left: 10px">
                     <button class="eni-button">
                         <i class="bi bi-tag"></i> <!-- Icône pour créer une nouvelle vente -->
                     </button>

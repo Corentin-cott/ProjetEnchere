@@ -33,6 +33,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("nouvelleVente").authenticated()
                         .requestMatchers("/profil/nouveau").not().authenticated()
+                        .requestMatchers("/admin").hasRole("admin")
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
         )

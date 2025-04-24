@@ -68,22 +68,29 @@
     </div>
     <div class="product-list">
         <div th:each="article : ${articles}" class="eni-box-container">
-            <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image produit" style="width: 9em; height: 9em;" />
-            <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image placeholder" style="width: 9em; height: 9em;" />
+            <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image produit" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
+            <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image placeholder" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
 
             <div class="eni-box-content" style="width: 100%;">
                 <a th:href="@{'/details/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">titre</a>
-                <p>Description : <span th:text="${article.getDescription()}"></span></p>
-                <p>Prix : <span th:text="${article.prixVente != null ? article.prixVente :article.miseAPrix}" style="font-weight: bold;">prix</span><span
-                        style="font-weight: bold;"> PTS</span></p>
-                <p>Classement : <span th:text="${article.id}">classement</span></p>
-                <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;">
-                        vendeur
-                    </span>
-                <p style="justify-content: right; display: flex;">fin le :
-                    <span th:text="' ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}" style="font-weight: bold;">
-                        date_fin
-                    </span>
+                <p>
+                    <span th:text="${article.getDescription()}"></span>
+                </p>
+                <br>
+                <p>Mise à prix :
+                    <span th:text="${article.prixVente != null ? article.prixVente :article.miseAPrix}" style="font-weight: bold;">prix</span>
+                    <span style="font-weight: bold;"> PTS</span>
+                </p>
+                <p th:if="${article.prixVente != null and article.acheteur != null}">Meilleure enchère :
+                    <span th:text="${article.prixVente}" style="font-weight: bold;"></span>
+                </p>
+                <p th:if="${article.prixVente == null and article.acheteur == null}">
+                    <span th:text="'Pas d\'enchères'" style="font-weight: bold;"></span>
+                </p>
+                <br>
+                <p>Vente de
+                    <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;"></span>, fin le
+                    <span th:text="${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}" style="font-weight: bold;"></span>
                 </p>
             </div>
         </div>

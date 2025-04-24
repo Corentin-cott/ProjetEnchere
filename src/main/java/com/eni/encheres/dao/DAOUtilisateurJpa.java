@@ -66,5 +66,13 @@ public class DAOUtilisateurJpa implements IDAOUtilisateur {
     public List<Utilisateur> getUtilisateurs() { return repository.findAll(); }
 
     @Override
-    public void updateUtilisateur(Utilisateur utilisateur) { repository.save(utilisateur); }
+    public void updateUtilisateur(Utilisateur utilisateur) {
+        repository.save(utilisateur); }
+
+    @Override
+    public Utilisateur getUtilisateurByToken(String token) {
+        System.out.println("tokenRepository :" + token);
+        return repository.findByTokenReinitialisation(token);
+    }
 }
+

@@ -37,6 +37,9 @@ public class Utilisateur {
     @OneToMany(mappedBy = "vendeur")
     private List<ArticleVendu> articles;
 
+    @Column(name = "token_reinitialisation")
+    private String tokenReinitialisation;
+
     // Constructeurs
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, double credit, boolean admin) {
         this.pseudo = pseudo;

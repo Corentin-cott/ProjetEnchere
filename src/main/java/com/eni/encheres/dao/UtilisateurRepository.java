@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> {
     Utilisateur findByPseudo(String pseudo);
     Utilisateur findByEmail(String email);
+    Utilisateur findByTokenReinitialisation(String tokenReinitialisation);
 }

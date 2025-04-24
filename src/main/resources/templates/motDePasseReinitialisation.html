@@ -1,0 +1,30 @@
+<!-- motDePasseReinitialisation.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="fr"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Réinitialisation du mot de passe</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h2>Réinitialisation du mot de passe</h2>
+
+    <p>Veuillez saisir un nouveau mot de passe.</p>
+
+    <form th:action="@{/motdepasse/reinitialisation/{token}(token=${token})}" method="post">
+        <input type="hidden" th:value="${token}" name="token"/>
+
+        <label for="motdepasse">Nouveau mot de passe :</label><br>
+        <input type="password" id="motdepasse" name="motdepasse" required><br><br>
+
+        <label for="confirmmotdepasse">Confirmer votre mot de passe :</label><br>
+        <input type="password" id="confirmmotdepasse" name="confirmmotdepasse" required><br><br>
+
+        <button type="submit">Réinitialiser le mot de passe</button>
+    </form>
+</div>
+</body>
+</html>

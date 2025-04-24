@@ -198,6 +198,16 @@ public class ArticleVenduController {
         List<ArticleVendu> articles = articleVenduService.filtrerEncheres(
                 filtresAchat, filtresVente, recherche, idCategorie
         );
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UtilisateurSpringSecurity) {
+            UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) principal;
+            Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+            Utilisateur utilisateur = utilisateurIDAO.getUtilisateurById(utilisateurConnecte.getId());
+            model.addAttribute("utilisateurConnecte", utilisateur);
+        } else {
+            String username = principal.toString();
+            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
+        }
 
         // Récupération des catégories via daoCategorie
         List<Categorie> categories = categorieDAO.trouveTout();

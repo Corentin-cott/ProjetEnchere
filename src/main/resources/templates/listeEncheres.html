@@ -48,21 +48,21 @@
                         <br>
                     </div>
                 </section>
-                <label for="categorie" class="eni-label">Catégorie</label> <select class="eni-select" name="idCategorie" id="categorie">
-                <option value="">-- Toutes les catégories --</option>
-                <option th:each="categorie : ${categories}"
-                        th:value="${categorie.id}"
-                        th:text="${categorie.libelle}"
-                        th:selected="${idCategorie != null and categorie.id == idCategorie}">
 
-                </option>
-            </select>
+                <label for="categorie" class="eni-label">Catégorie</label>
+                <select class="eni-select" name="idCategorie" id="categorie">
+                    <option value="">-- Toutes les catégories --</option>
+                    <option th:each="categorie : ${categories}"
+                            th:value="${categorie.id}"
+                            th:text="${categorie.libelle}"
+                            th:selected="${idCategorie != null and categorie.id == idCategorie}">
+                    </option>
+                </select>
 
                 <label for="recherche" class="eni-label">Recherche par nom</label>
                 <input class="eni-text-input" type="search" id="recherche" name="recherche" placeholder="Rechercher un article" style="width: 100%;" th:value="${recherche}"
                        pattern="[a-zA-Z0-9À-ÿ\s\-]*" title="Seuls les lettres (avec ou sans accent) et les chiffres sont autorisés">
-                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche
-                </button>
+                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche</button>
             </form>
         </div>
     </div>
@@ -90,7 +90,7 @@
     </div>
     </div>
     
-    <div sec:authorize="isAuthenticated()" class="texte-flottant"><strong th:text="'Crédits de ' + ${utilisateurConnecte.pseudo} + ' : ' + ${utilisateurConnecte.credit} + ' PTS'" style="color: white"></strong></div>
+    <div th:if="${utilisateurConnecte != null}" class="texte-flottant"><strong th:text="'Crédits de ' + ${utilisateurConnecte.pseudo} + ' : ' + ${utilisateurConnecte.credit} + ' PTS'" style="color: white"></strong></div>
 </main>
 
 </body>

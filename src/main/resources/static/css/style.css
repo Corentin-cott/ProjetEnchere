@@ -70,7 +70,7 @@ strong {
     color: var(--clr-text);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
     body {
         padding: 0.5em;
     }
@@ -88,6 +88,13 @@ strong {
     }
 }
 
+@media (max-width: 460px) {
+    #vente {
+        display: grid;
+        justify-items: center;
+    }
+}
+
 /* ENI CSS */
 /* VARIABLES */
 
@@ -101,7 +108,9 @@ strong {
     --clr-sucess-dark-bg: #184900;
     --clr-warning-bg: #bf937d;
     --clr-warning: #bf3f00;
+    --clr-small-warning: #f39c12;
     --clr-warning-dark-bg: #832a00;
+    --clr-small-warning-dark-bg: #e67e22;
     --clr-danger-bg: #dca3a3;
     --clr-danger: #980000;
     --clr-danger-dark-bg: #600000;
@@ -390,4 +399,126 @@ strong {
 
 .eni-h2 {
     margin-top: 0;
+}
+
+/* TABLES */
+
+.eni-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    background-color: var(--clr-white);
+    border-radius: 1em;
+}
+
+.eni-table thead {
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+}
+
+.eni-table th,
+.eni-table td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--clr-white);
+}
+
+.eni-table tbody tr:hover {
+    background-color: var(--clr-white);
+}
+
+.eni-table th:first-child,
+.eni-table td:first-child {
+    border-top-left-radius: 8px;
+}
+
+.eni-table th:last-child,
+.eni-table td:last-child {
+    border-top-right-radius: 8px;
+}
+
+.eni-button-table {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.eni-profil-button {
+    background-color: var(--clr-white);
+    color: var(--clr-primary);
+
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+}
+.eni-profil-button:hover {
+    background-color: var(--clr-secondary);
+    color: var(--clr-white);
+}
+
+.eni-disable-button {
+    background-color: var(--clr-small-warning);
+    color: var(--clr-white);
+
+    border: 2px solid var(--clr-small-warning);
+    border-radius: 12px;
+}
+.eni-disable-button:hover {
+    background-color: var(--clr-small-warning-dark-bg);
+}
+
+.eni-delete-button {
+    background-color: var(--clr-danger);
+    color: var(--clr-white);
+
+    border: 2px solid var(--clr-danger);
+    border-radius: 12px;
+}
+.eni-delete-button:hover {
+    background-color: var(--clr-danger-dark-bg);
+}
+
+@media (max-width: 850px) {
+    .eni-table,
+    .eni-table thead,
+    .eni-table tbody,
+    .eni-table th,
+    .eni-table td,
+    .eni-table tr {
+        display: block;
+    }
+
+    .eni-table thead {
+        display: none;
+    }
+
+    .eni-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--clr-white);
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .eni-table td {
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .eni-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 16px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        text-align: left;
+    }
 }

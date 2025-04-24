@@ -53,13 +53,17 @@ public class ArticleVenduController {
     }
 
     @GetMapping("/nouvelleVente")
-    public String nouvelleVente(Model model) {
+    public String nouvelleVente(Model model,RedirectAttributes redirectAttributes) {
         // Liste les catégories
         List<Categorie> categories = categorieService.getAll();
         // Récupère l'utilisateur
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
         String adresse = utilisateurConnecte.getRue() + ", " + utilisateurConnecte.getCodePostal() + " " + utilisateurConnecte.getVille();
+        if(utilisateurConnecte.isDisabled()){
+            redirectAttributes.addFlashAttribute("compte_desac", true);
+            return"redirect:/";
+        }
 
         model.addAttribute("categories", categories);
         model.addAttribute("utilisateurConnecte", utilisateurConnecte);
@@ -93,13 +97,21 @@ public class ArticleVenduController {
             System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
 
+        if (dateFin.isBefore(LocalDate.now().plusDays(1))) {
+            throw new IllegalArgumentException("La date de fin doit être ultérieure à aujourd'hui.");
+        }
+
+        if (!dateFin.isAfter(dateDebut)) {
+            throw new IllegalArgumentException("La date de fin doit être après la date de début.");
+        }
+
         Utilisateur vendeur = utilisateurIDAO.getUtilisateurByPseudo(pseudo);
         Categorie categorie = categorieDAO.trouveParId(idCategorie);
 
         ArticleVendu article;
 
         if (idArticle != null && idArticle != 0) {
-            // 🔁 Modification
+            // Modification
             article = articleVenduDAO.selectById(idArticle);
             article.setNom(nom);
             article.setDescription(description);
@@ -109,13 +121,13 @@ public class ArticleVenduController {
             article.setDateFinEncheres(dateFin.atStartOfDay());
             articleVenduDAO.updateArticle(article);
         } else {
-            // ➕ Nouvelle création
+            // Nouvelle création
             article = new ArticleVendu(nom, description, categorie, miseAPrix, null,
-                    dateDebut.atStartOfDay(), dateFin.atStartOfDay(), vendeur);
+                    dateDebut.atStartOfDay(), dateFin.atStartOfDay(), vendeur, null);
             articleVenduDAO.addArticleVendu(article);
         }
 
-        // 📷 Gestion de l’image
+        // Gestion de l’image
         if (!photo.isEmpty()) {
             try {
                 Path uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "articles");
@@ -263,6 +275,11 @@ public class ArticleVenduController {
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
         Utilisateur utilisateur = utilisateurIDAO.getUtilisateurById(utilisateurConnecte.getId());
+
+        if(utilisateurConnecte.isDisabled()){
+            redirectAttributes.addFlashAttribute("compte_desac", true);
+            return"redirect:/";
+        }
 
         if(nouvelleoffre>utilisateur.getCredit()){
             redirectAttributes.addFlashAttribute("error", true);

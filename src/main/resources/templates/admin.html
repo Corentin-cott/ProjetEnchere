@@ -1,0 +1,92 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
+<head>
+  <title layout:fragment="title">Page Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+<main layout:fragment="content">
+
+  <div th:if="${success}" class="eni-succes-container">
+    <div class="eni-box-content" style="width: 100%;">
+      <h2 class="eni-h2">Succès !</h2>
+      <p>Compte supprimé.</p>
+    </div>
+  </div>
+
+  <div th:if="${success_desactive}" class="eni-succes-container">
+    <div class="eni-box-content" style="width: 100%;">
+      <h2 class="eni-h2">Succès !</h2>
+      <p>Compte désactivé/activé.</p>
+    </div>
+  </div>
+
+  <div class="eni-box-container" style="display: block">
+    <h2 class="eni-h2" style="margin: 0";>Liste des utilisateurs</h2>
+    <div class="eni-box-content">
+
+      <table class="eni-table">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Pseudo</th>
+          <th>Email</th>
+          <th>Admin</th>
+          <th>Actif</th>
+          <th>Profil</th>
+          <th>Désactiver/Activer</th>
+          <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="utilisateur : ${utilisateurs}">
+          <td data-label="Id" th:text="${utilisateur.id}"></td>
+          <td data-label="Pseudo" th:text="${utilisateur.pseudo}"></td>
+          <td data-label="Email" th:text="${utilisateur.email}"></td>
+          <td data-label="Admin">
+            <span th:if="${utilisateur.admin}" style="font-size: 1.85em; color: green;">
+              <i class="bi bi-check2"></i>
+            </span>
+            <span th:if="${!utilisateur.admin}" style="font-size: 2em; color: red;">
+              ⤫
+            </span>
+          </td>
+          <td data-label="Actif">
+            <span th:if="${!utilisateur.disabled}" style="font-size: 1.85em; color: green;">
+              <i class="bi bi-check2"></i>
+            </span>
+            <span th:if="${utilisateur.disabled}" style="font-size: 2em; color: red;">
+              ⤫
+            </span>
+          </td>
+          <td data-label="Profil">
+            <form th:action="@{|/profil/${utilisateur.id}|}" method="get">
+              <button th:value="${utilisateur.id}" class="eni-button-table eni-profil-button">
+                <i class="bi bi-person-circle"></i>
+              </button>
+            </form>
+          </td>
+          <td data-label="Désactiver/Activer">
+            <form th:action="@{/admin/disable}" method="post">
+              <button name="idToDisable" th:value="${utilisateur.id}" class="eni-button-table eni-disable-button">
+                <i class="bi bi-pause-circle-fill"></i>
+              </button>
+            </form>
+          </td>
+          <td data-label="Supprimer">
+            <form th:action="@{/admin/delete}" method="post">
+              <button name="idToDelete" th:value="${utilisateur.id}" class="eni-button-table eni-delete-button">
+                <i class="bi bi-slash-circle-fill"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -67,34 +67,34 @@
 
           <form class="n-form" th:action="@{'/profil/'+${utilisateur.id}}" method="post" th:object="${utilisateur}">
 
-            <label>Pseudo</label>
+            <label>Pseudo</label><br>
             <input type="text" th:field="*{pseudo}" required pattern="[a-zA-Z0-9]+" title="Seul les lettres et les chiffres sont acceptés">
             <br><br>
-            <label>Nom</label>
+            <label>Nom</label><br>
             <input type="text" th:field="*{nom}">
             <br><br>
-            <label>Prénom</label>
+            <label>Prénom</label><br>
             <input type="text" th:field="*{prenom}">
             <br><br>
-            <label>Email</label>
+            <label>Email</label><br>
             <input type="text" required th:field="*{email}">
             <br><br>
-            <label>Téléphone</label>
+            <label>Téléphone</label><br>
             <input type="text" th:field="*{telephone}">
             <br><br>
-            <label>Rue</label>
+            <label>Rue</label><br>
             <input type="text" required th:field="*{rue}">
             <br><br>
-            <label>Code postal</label>
+            <label>Code postal</label><br>
             <input type="text" required th:field="*{codePostal}">
             <br><br>
-            <label>Ville</label>
+            <label>Ville</label><br>
             <input type="text" required th:field="*{ville}">
             <br><br>
-            <label>Mot de passe</label>
+            <label>Mot de passe</label><br>
             <input type="password" th:field="*{motDePasse}">
             <br><br>
-            <label>Confirmation mot de passe</label>
+            <label>Confirmation mot de passe</label><br>
             <input type="password" name="confirmationMotDePasse">
             <br><br>
 

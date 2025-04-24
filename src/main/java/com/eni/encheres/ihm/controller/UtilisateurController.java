@@ -40,7 +40,9 @@ public class UtilisateurController {
     public String afficherProfilUtilisateur(@PathVariable int id, Model model) {
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
-        if (id != utilisateurConnecte.getId()) {
+
+        if(id!=utilisateurConnecte.getId()&&!utilisateurConnecte.isAdmin()) {
+
             return "redirect:/profil/" + utilisateurConnecte.getId();
         }
         Utilisateur utilisateur = utilisateurDao.getUtilisateurById(id); // ou autre méthode
@@ -83,25 +85,44 @@ public class UtilisateurController {
 
     @PostMapping("/{id}")
     public String modifierUtilisateur(@RequestParam String motDePasse,
-                                      @RequestParam String confirmationMotDePasse,
-                                      @ModelAttribute Utilisateur utilisateur,
-                                      Model model, @PathVariable int id) {
-        if (!motDePasse.equals(confirmationMotDePasse)) {
-            model.addAttribute("error", "Les mots de passe ne correspondent pas.");
-            return "redirect:/profil/\"+id";
+                                 @RequestParam String confirmationMotDePasse,
+                                 @ModelAttribute Utilisateur utilisateurForm,
+                                 Model model,@PathVariable int id) {
+
+        Utilisateur utilisateurOriginal = utilisateurDao.getUtilisateurById(id);
+
+        if (!motDePasse.isBlank()) {
+            if (!motDePasse.equals(confirmationMotDePasse)) {
+                model.addAttribute("error", "Les mots de passe ne correspondent pas.");
+                return "redirect:/profil/\"+id";
+            }
+            utilisateurOriginal.setMotDePasse(motDePasse);
         }
-        if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getPseudo().equals(utilisateur.getPseudo()) && u.getId() != id)) {
+        if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getPseudo().equals(utilisateurForm.getPseudo())&&u.getId()!=id)) {
             model.addAttribute("error", "Ce pseudo est déjà utilisé.");
             return "redirect:/profil/\"+id";
         }
-        if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getEmail().equals(utilisateur.getEmail()) && u.getId() != id)) {
+        if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getEmail().equals(utilisateurForm.getEmail())&&u.getId()!=id)) {
+
             model.addAttribute("error", "Cet email est déjà utilisé.");
             return "redirect:/profil/\"+id";
         }
+
+        utilisateurOriginal.setPseudo(utilisateurForm.getPseudo());
+        utilisateurOriginal.setNom(utilisateurForm.getNom());
+        utilisateurOriginal.setPrenom(utilisateurForm.getPrenom());
+        utilisateurOriginal.setEmail(utilisateurForm.getEmail());
+        utilisateurOriginal.setTelephone(utilisateurForm.getTelephone());
+        utilisateurOriginal.setRue(utilisateurForm.getRue());
+        utilisateurOriginal.setCodePostal(utilisateurForm.getCodePostal());
+        utilisateurOriginal.setVille(utilisateurForm.getVille());
+
+
+        utilisateurDao.updateUtilisateur(utilisateurOriginal);
         model.addAttribute("success", true);
-        utilisateurDao.updateUtilisateur(utilisateur);
         return "profil";
     }
+
 
     @PostMapping("/delete")
     public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request, RedirectAttributes redirectAttributes) {

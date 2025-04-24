@@ -1,7 +1,7 @@
 <!-- login.html --><!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr"
       layout:decorate="~{layout}">
-<head><title layout:fragment="title">Page d'acceuil</title></head>
+<head><title layout:fragment="title">Page d'accueil</title></head>
 <body>
 
 <main layout:fragment="content">
@@ -10,6 +10,9 @@
     </div>
     <div th:if="${successdeletearticle}" class="eni-danger-container">
         <div class="eni-box-content" style="width: 100%;"><p>Article supprimé.</p></div>
+    </div>
+    <div th:if="${compte_desac}" class="eni-danger-container">
+        <div class="eni-box-content" style="width: 100%;"><p>Votre compte est désactivé, vous ne pouvez pas réaliser cette action !</p></div>
     </div>
     <div class="eni-box-container" style="display: block"><h2 class="eni-h2">Filtres</h2>
         <div class="eni-box-content">
@@ -67,9 +70,11 @@
         </div>
     </div>
     <div class="product-list">
-        <div th:each="article : ${articles}" class="eni-box-container">
-            <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image produit" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
-            <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image placeholder" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
+        <div th:each="article : ${articles}" id="vente" class="eni-box-container">
+            <div style="align-content: center;">
+                <img class="eni-picture-image" th:if="${article.photoPath != null}" th:src="${article.photoPath}" alt="Image produit" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
+                <img class="eni-picture-image" th:unless="${article.photoPath != null}" th:src="@{/imgs/placeholder.png}" alt="Image placeholder" style="width: 9em; height: 9em; align-self: center; border-radius: 1em;" />
+            </div>
 
             <div class="eni-box-content" style="width: 100%;">
                 <a th:href="@{'/details/' + ${article.id}}" th:text="${article.nom} + ' (' + (${article.categorie} != null ? ${article.categorie.libelle} : 'Aucune catégorie') + ')'">titre</a>

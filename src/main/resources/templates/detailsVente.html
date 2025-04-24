@@ -28,6 +28,13 @@
       </div>
     </div>
 
+    <div th:if="${article.dateDebutEncheres > T(java.time.LocalDateTime).now()}" class="eni-danger-container">
+      <div class="eni-box-content" style="width: 100%;">
+        <h2 style="margin: 0;">Vente non débutée !</h2>
+        <p th:text="${'Cette vente ne sera ouverte que le ' + article.getDateDebutEncheres() + '.'}"></p>
+      </div>
+    </div>
+
     <div th:if="${article.dateFinEncheres <= T(java.time.LocalDateTime).now() and article.acheteur != null}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
         <h2 style="margin: 0;">Vente terminée !</h2>
@@ -43,21 +50,22 @@
     </div>
 
     <div class="eni-box-container" style="display: block">
-      <h2 class="eni-h2" th:text="${article.nom}">Détails sur l'enchere</h2>
-      <div class="eni-medium-image-container" style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-        <img class="eni-picture-image"
-             th:if="${article.photoPath != null}"
-             th:src="${article.photoPath}"
-             alt="Image du produit"
-             style="width: 100%; max-width: 300px; border-radius: 1rem; object-fit: cover;" />
-        <img class="eni-picture-image"
-             th:unless="${article.photoPath != null}"
-             th:src="@{/imgs/placeholder.png}"
-             alt="Image du produit"
-             style="width: 100%; max-width: 300px; border-radius: 1rem; object-fit: cover;" />
-      </div>
-
       <div class="eni-box-content" style="padding: 1.5rem; border-radius: 1rem; max-width: 1000px; margin: auto;">
+
+        <h2 class="eni-h2" th:text="${article.nom}">Détails sur l'enchere</h2>
+        <div class="eni-medium-image-container" style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+          <img class="eni-picture-image"
+               th:if="${article.photoPath != null}"
+               th:src="${article.photoPath}"
+               alt="Image du produit"
+               style="width: 100%; max-width: 300px; border-radius: 1rem; object-fit: cover;" />
+          <img class="eni-picture-image"
+               th:unless="${article.photoPath != null}"
+               th:src="@{/imgs/placeholder.png}"
+               alt="Image du produit"
+               style="width: 100%; max-width: 300px; border-radius: 1rem; object-fit: cover;" />
+        </div>
+
         <h2 style="margin-bottom: 0.5rem; font-size: 1.5rem;">
           Article de <span th:text="${article.vendeur.pseudo != null ? article.vendeur.pseudo : 'Vendeur inconnu'}"></span>
         </h2>
@@ -107,8 +115,8 @@
 
     </div>
 
-    <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-container" style="background-color: var(--clr-white);">
-      <div class="eni-box-content" style="width: 100%;">
+    <div sec:authorize="isAuthenticated() and !hasRole('disabled')" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-container" style="background-color: var(--clr-white);">
+      <div class="eni-box-content" style="padding: 1.5rem; max-width: 1000px; margin: auto; width: 100%;">
         <h2 style="margin: 0;">Faire une enchère</h2><br>
 
         <form th:action="@{'/details/'+${article.id}+'/mise'}" method="post">
@@ -124,7 +132,7 @@
     </div>
 
     <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo == #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-danger-container" style="background-color: var(--clr-white);">
-      <div class="eni-box-content" style="width: 100%;">
+      <div class="eni-box-content" style="padding: 1.5rem; max-width: 1000px; margin: auto; width: 100%;">
         <h2 style="margin: 0; color: var(--clr-text)">Administrer votre vente</h2>
         <br>
 

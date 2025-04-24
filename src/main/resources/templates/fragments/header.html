@@ -5,32 +5,37 @@
     <div class="eni-header-container">
         <a href="/" style="width: 40%;">
             <picture>
-                <source srcset="/imgs/ENI-Encheres-Logo.png" media="(min-width: 701px)">
+                <source srcset="/imgs/ENI-Encheres-Logo.png" media="(min-width: 751px)">
                 <img class="eni-encheres-logo" src="/imgs/ENI-Encheres-Logo-Small.png" alt="LogoSmall" style="height: 4.5em;"/>
             </picture>
         </a>
         <nav>
             <section sec:authorize="isAuthenticated()" style="display: flex; justify-content: right;">
-                <form method="get" action="/nouvelleVente">
+                <form method="get" action="/admin" sec:authorize="hasRole('admin')">
                     <button class="eni-button">
-                        <i class="bi bi-tag"></i> <!-- Icône pour "Vendre" -->
+                        <i class="bi bi-clipboard2-minus"></i> <!-- Icône pour le panel admin -->
+                    </button>
+                </form>
+                <form method="get" action="/nouvelleVente" sec:authorize="!hasRole('disabled')"  style="margin-left: 10px">
+                    <button class="eni-button">
+                        <i class="bi bi-tag"></i> <!-- Icône pour créer une nouvelle vente -->
                     </button>
                 </form>
                 <form method="get" action="/profil">
                     <button class="eni-button" style="margin-left: 10px">
-                        <i class="bi bi-gear"></i> <!-- Icône pour "Profil" -->
+                        <i class="bi bi-gear"></i> <!-- Icône pour acceder au profil -->
                     </button>
                 </form>
                 <form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
                     <button class="eni-important-button" id="logout" style="margin-top: 0; margin-left: 10px">
-                        Déconnection <!-- Icône pour "Déconnection" -->
+                        Déconnection <!-- Texte pour la déconnection -->
                     </button>
                 </form>
             </section>
             <section sec:authorize="!isAuthenticated()">
                 <form method="get" action="/connection">
                     <button class="eni-important-button" style="margin-top: 0; margin-left: 10px">
-                        Connection <!-- Icône pour "Connection" -->
+                        Connection <!-- Texte pour la connection -->
                     </button>
                 </form>
             </section>

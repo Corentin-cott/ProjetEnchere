@@ -6,19 +6,25 @@ import com.eni.encheres.security.UtilisateurSpringSecurity;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.UUID;
+
 @Controller
-@RequestMapping("/profil")
 public class UtilisateurController {
 
     @Autowired
     private IDAOUtilisateur utilisateurDao;
 
-    @GetMapping
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/connexion-redirection")
     public String getUtilisateur() {
 
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -34,7 +40,9 @@ public class UtilisateurController {
     public String afficherProfilUtilisateur(@PathVariable int id, Model model) {
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateurConnecte = userDetails.getUtilisateur();
+
         if(id!=utilisateurConnecte.getId()&&!utilisateurConnecte.isAdmin()) {
+
             return "redirect:/profil/" + utilisateurConnecte.getId();
         }
         Utilisateur utilisateur = utilisateurDao.getUtilisateurById(id); // ou autre méthode
@@ -95,6 +103,7 @@ public class UtilisateurController {
             return "redirect:/profil/\"+id";
         }
         if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getEmail().equals(utilisateurForm.getEmail())&&u.getId()!=id)) {
+
             model.addAttribute("error", "Cet email est déjà utilisé.");
             return "redirect:/profil/\"+id";
         }
@@ -119,8 +128,72 @@ public class UtilisateurController {
     public String deleteUtilisateur(@RequestParam int idToDelete, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
         utilisateurDao.deleteUtilisateurById(idToDelete);
-        request.getSession().invalidate(); // sécurité
+        request.getSession().invalidate();
         redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/";
+    }
+
+    @GetMapping("/motdepasse/oubli")
+    public String afficherFormulaireOubli() {
+        System.out.println("------afficherFormulaireOubli ");
+        return "motDePasseOublie.html";
+    }
+
+    @GetMapping("/motdepasse/reinitialisation/{token}")
+    public String afficherFormulaireReinitialisation(@PathVariable String token, Model model) {
+        System.out.println("------afficherFormulaireReinitialisation ");
+        Utilisateur utilisateur = utilisateurDao.getUtilisateurByToken(token);
+
+        if (utilisateur == null) {
+            return "redirect:/connection";
+        }
+
+        model.addAttribute("token", token);
+        return "motDePasseReinitialisation";
+    }
+
+    @PostMapping("/motdepasse/reinitialisation")
+    public String traiterDemandeReinitialisation(@RequestParam("email") String email, Model model) {
+        // Vérifier si l'utilisateur existe avec l'email fourni
+        Utilisateur utilisateur = utilisateurDao.getUtilisateurByEmail(email);
+
+        if (utilisateur == null) {
+            model.addAttribute("message", "Aucun utilisateur trouvé avec cet email.");
+            return "motDePasseOublie";  // Affiche à nouveau le formulaire d'oubli
+        }
+
+        // Générer un token de réinitialisation pour l'utilisateur
+        String token = UUID.randomUUID().toString(); // Exemple de génération de token
+        utilisateur.setTokenReinitialisation(token);
+        utilisateurDao.updateUtilisateur(utilisateur);  // Sauvegarder l'utilisateur avec le token
+
+        // Envoyer un lien avec le token à l'utilisateur (pas montré ici, mais vous pouvez utiliser un email ou une page)
+        model.addAttribute("message", "Un lien de réinitialisation a été envoyé à votre email.");
+
+        // Rediriger vers la page de réinitialisation avec le token dans l'URL
+        return "redirect:/motdepasse/reinitialisation/" + token;
+    }
+
+    @PostMapping("/motdepasse/reinitialisation/{token}")
+    public String traiterReinitialisationMotDePasse(@PathVariable String token,
+                                                    @RequestParam("motdepasse") String motdepasse,
+                                                    Model model) {
+        // Récupérer l'utilisateur à l'aide du token
+        Utilisateur utilisateur = utilisateurDao.getUtilisateurByToken(token);
+
+        if (utilisateur == null) {
+            // Si l'utilisateur est introuvable, rediriger vers la page de connexion
+            model.addAttribute("message", "Le lien de réinitialisation a expiré ou est invalide.");
+            return "redirect:/connection";
+        }
+
+        // Encoder le nouveau mot de passe avant de l'enregistrer
+        utilisateur.setMotDePasse(passwordEncoder.encode(motdepasse));
+
+        // Mettre à jour l'utilisateur dans la base de données
+        utilisateurDao.updateUtilisateur(utilisateur);
+
+        model.addAttribute("message", "Votre mot de passe a été réinitialisé avec succès.");
+        return "motDePasseReinitialisation";
     }
 }

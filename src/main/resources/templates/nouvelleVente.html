@@ -91,6 +91,7 @@
                     <div class="eni-important-button" th:onclick="|location.href='@{/}'|">Annuler</div>
                 </div>
             </div>
+            <input type="hidden" name="id_article" th:value="${article != null} ? ${article.id} : 0" />
         </div>
     </form>
 </main>

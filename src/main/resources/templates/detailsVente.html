@@ -115,7 +115,7 @@
 
     </div>
 
-    <div sec:authorize="isAuthenticated()" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-container" style="background-color: var(--clr-white);">
+    <div sec:authorize="isAuthenticated() and !hasRole('disabled')" th:if="${article.vendeur.pseudo != #authentication.name and article.dateFinEncheres > T(java.time.LocalDateTime).now()}" class="eni-box-container" style="background-color: var(--clr-white);">
       <div class="eni-box-content" style="padding: 1.5rem; max-width: 1000px; margin: auto; width: 100%;">
         <h2 style="margin: 0;">Faire une enchère</h2><br>
 

@@ -49,10 +49,10 @@
             </span>
           </td>
           <td data-label="Actif">
-            <span th:if="${utilisateur.disabled}" style="font-size: 1.85em; color: green;">
+            <span th:if="${!utilisateur.disabled}" style="font-size: 1.85em; color: green;">
               <i class="bi bi-check2"></i>
             </span>
-            <span th:if="${!utilisateur.disabled}" style="font-size: 2em; color: red;">
+            <span th:if="${utilisateur.disabled}" style="font-size: 2em; color: red;">
               ⤫
             </span>
           </td>

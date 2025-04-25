@@ -63,8 +63,8 @@
                 </select>
 
                 <label for="recherche" class="eni-label" th:text="#{home_filter_name}"></label>
-                <input class="eni-text-input" type="search" id="recherche" name="recherche" placeholder="Rechercher un article" style="width: 100%;" th:value="${recherche}"
-                       pattern="[a-zA-Z0-9À-ÿ\s\-]*" title="Seuls les lettres (avec ou sans accent) et les chiffres sont autorisés">
+                <input class="eni-text-input" type="search" id="recherche" name="recherche" th:placeholder="#{home_filter_name_search_placeholder}" style="width: 100%;" th:value="${recherche}"
+                       pattern="[a-zA-Z0-9À-ÿ\s\-]*" th:title="#{home_filter_name_search_title}">
                 <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem" th:text="#{home_filter_name_search}"></button>
             </form>
         </div>

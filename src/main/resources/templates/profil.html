@@ -20,35 +20,35 @@
         <div class="eni-box-content">
 
           <form class="n-form" th:action="@{/profil/nouveau}" method="post">
-            <label class="eni-label" th:text="#{profil_pseudo}"></label>
+            <label class="eni-label" th:text="#{profil_pseudo}"></label><br>
             <input type="text" th:field="*{utilisateur.pseudo}" required pattern="[a-zA-Z0-9]+"
                    title="Seul les lettres et les chiffres sont acceptés">
             <br><br>
-            <label class="eni-label" th:text="#{profil_nom}"></label>
+            <label class="eni-label" th:text="#{profil_nom}"></label><br>
             <input type="text" th:field="*{utilisateur.nom}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_prenom}"></label>
+            <label class="eni-label" th:text="#{profil_prenom}"></label><br>
             <input type="text" th:field="*{utilisateur.prenom}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_email}"></label>
+            <label class="eni-label" th:text="#{profil_email}"></label><br>
             <input type="text" required th:field="*{utilisateur.email}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_telephone}"></label>
+            <label class="eni-label" th:text="#{profil_telephone}"></label><br>
             <input type="text" th:field="*{utilisateur.telephone}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_rue}"></label>
+            <label class="eni-label" th:text="#{profil_rue}"></label><br>
             <input type="text" required th:field="*{utilisateur.rue}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_codepostal}"></label>
+            <label class="eni-label" th:text="#{profil_codepostal}"></label><br>
             <input type="text" required th:field="*{utilisateur.codePostal}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_ville}"></label>
+            <label class="eni-label" th:text="#{profil_ville}"></label><br>
             <input type="text" required th:field="*{utilisateur.ville}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_password}"></label>
+            <label class="eni-label" th:text="#{profil_password}"></label><br>
             <input type="password" required th:field="*{utilisateur.motDePasse}">
             <br><br>
-            <label class="eni-label" th:text="#{profil_password_confirm}"></label>
+            <label class="eni-label" th:text="#{profil_password_confirm}"></label><br>
             <input type="password" required name="confirmationMotDePasse">
             <br><br>
             <div th:if="${error}" class="eni-error-text">

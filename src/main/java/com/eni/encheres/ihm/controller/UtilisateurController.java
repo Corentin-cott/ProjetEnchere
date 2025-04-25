@@ -25,7 +25,7 @@ public class UtilisateurController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/connexion-redirection")
+    @GetMapping()
     public String getUtilisateur() {
 
         UtilisateurSpringSecurity userDetails = (UtilisateurSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -177,7 +177,7 @@ public class UtilisateurController {
 
     @PostMapping("/motdepasse/reinitialisation/{token}")
     public String traiterReinitialisationMotDePasse(@PathVariable String token,
-                                                    @RequestParam("motdepasse") String motdepasse,
+                                                    @RequestParam("motdepasse") String motdepasse,@RequestParam("confirmmotdepasse") String confirm,
                                                     Model model) {
         // Récupérer l'utilisateur à l'aide du token
         Utilisateur utilisateur = utilisateurDao.getUtilisateurByToken(token);
@@ -187,7 +187,9 @@ public class UtilisateurController {
             model.addAttribute("message", "Le lien de réinitialisation a expiré ou est invalide.");
             return "redirect:/connection";
         }
-
+        if(!motdepasse.equals(confirm)) {
+            return "motdepasseReinitialisation";
+        }
         // Encoder le nouveau mot de passe avant de l'enregistrer
         utilisateur.setMotDePasse(passwordEncoder.encode(motdepasse));
 

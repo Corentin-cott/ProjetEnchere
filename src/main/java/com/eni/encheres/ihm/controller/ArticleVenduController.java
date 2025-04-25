@@ -5,6 +5,9 @@ import com.eni.encheres.dao.*;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
 import com.eni.encheres.service.CategorieService;
 import java.nio.file.Path;
+
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -36,6 +39,9 @@ public class ArticleVenduController {
     IDAOUtilisateur utilisateurIDAO;
     @Autowired
     private CategorieService categorieService;
+    @Autowired
+    private MessageSource messageSource;
+
 
     @Autowired
     private IDAOCategorie categorieDAO;
@@ -94,7 +100,6 @@ public class ArticleVenduController {
             model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
-            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
 
         if (dateFin.isBefore(LocalDate.now().plusDays(1))) {
@@ -145,7 +150,8 @@ public class ArticleVenduController {
         }
 
         redirectAttributes.addFlashAttribute("success_creation", true);
-        redirectAttributes.addFlashAttribute("message", "Article enregistré avec succès !");
+        String errorMessage = messageSource.getMessage("nouvelleVente_success",null, LocaleContextHolder.getLocale());
+        redirectAttributes.addFlashAttribute("message", errorMessage);
         return "redirect:/details/" + article.getId();
     }
 
@@ -193,7 +199,6 @@ public class ArticleVenduController {
             model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
-            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
 
         List<ArticleVendu> articles = articleVenduDAO.selectAll();
@@ -230,7 +235,6 @@ public class ArticleVenduController {
             model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
-            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
 
         // Récupération des catégories via daoCategorie
@@ -257,7 +261,6 @@ public class ArticleVenduController {
             model.addAttribute("utilisateurConnecte", utilisateur);
         } else {
             String username = principal.toString();
-            System.out.println("Utilisateur non authentifié avec UserDetails : " + username);
         }
         
         ArticleVendu article = articleVenduDAO.selectById(id);

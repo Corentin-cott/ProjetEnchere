@@ -5,6 +5,8 @@ import com.eni.encheres.dao.IDAOUtilisateur;
 import com.eni.encheres.security.UtilisateurSpringSecurity;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,10 @@ public class UtilisateurController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MessageSource messageSource;
+
 
     @GetMapping()
     public String getUtilisateur() {
@@ -68,15 +74,18 @@ public class UtilisateurController {
                                  @ModelAttribute Utilisateur utilisateur,
                                  Model model) {
         if (!motDePasse.equals(confirmationMotDePasse)) {
-            model.addAttribute("error", "Les mots de passe ne correspondent pas.");
+            String errorMessage = messageSource.getMessage("profil_password_different",null,LocaleContextHolder.getLocale());
+            model.addAttribute("error", errorMessage);
             return "profil";
         }
         if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getPseudo().equals(utilisateur.getPseudo()))) {
-            model.addAttribute("error", "Ce pseudo est déjà utilisé.");
+            String errorMessage = messageSource.getMessage("profil_pseudo_pasunique",null,LocaleContextHolder.getLocale());
+            model.addAttribute("error", errorMessage);
             return "profil";
         }
         if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getEmail().equals(utilisateur.getEmail()))) {
-            model.addAttribute("error", "Cet email est déjà utilisé.");
+            String errorMessage = messageSource.getMessage("profil_email_pasunique",null,LocaleContextHolder.getLocale());
+            model.addAttribute("error", errorMessage);
             return "profil";
         }
         model.addAttribute("success", true);
@@ -94,18 +103,20 @@ public class UtilisateurController {
 
         if (!motDePasse.isBlank()) {
             if (!motDePasse.equals(confirmationMotDePasse)) {
-                model.addAttribute("error", "Les mots de passe ne correspondent pas.");
+                String errorMessage = messageSource.getMessage("profil_password_different",null,LocaleContextHolder.getLocale());
+                model.addAttribute("error", errorMessage);
                 return "redirect:/profil/\"+id";
             }
             utilisateurOriginal.setMotDePasse(motDePasse);
         }
         if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getPseudo().equals(utilisateurForm.getPseudo())&&u.getId()!=id)) {
-            model.addAttribute("error", "Ce pseudo est déjà utilisé.");
+            String errorMessage = messageSource.getMessage("profil_pseudo_pasunique",null,LocaleContextHolder.getLocale());
+            model.addAttribute("error", errorMessage);
             return "redirect:/profil/\"+id";
         }
         if (utilisateurDao.getUtilisateurs().stream().anyMatch(u -> u.getEmail().equals(utilisateurForm.getEmail())&&u.getId()!=id)) {
-
-            model.addAttribute("error", "Cet email est déjà utilisé.");
+            String errorMessage = messageSource.getMessage("profil_email_pasunique",null,LocaleContextHolder.getLocale());
+            model.addAttribute("error", errorMessage);
             return "redirect:/profil/\"+id";
         }
 
@@ -136,13 +147,11 @@ public class UtilisateurController {
 
     @GetMapping("/motdepasse/oubli")
     public String afficherFormulaireOubli() {
-        System.out.println("------afficherFormulaireOubli ");
         return "motDePasseOublie";
     }
 
     @GetMapping("/motdepasse/reinitialisation/{token}")
     public String afficherFormulaireReinitialisation(@PathVariable String token, Model model) {
-        System.out.println("------afficherFormulaireReinitialisation ");
         Utilisateur utilisateur = utilisateurDao.getUtilisateurByToken(token);
 
         if (utilisateur == null) {
@@ -159,7 +168,8 @@ public class UtilisateurController {
         Utilisateur utilisateur = utilisateurDao.getUtilisateurByEmail(email);
 
         if (utilisateur == null) {
-            model.addAttribute("message", "Aucun utilisateur trouvé avec cet email.");
+            String errorMessage = messageSource.getMessage("newpassword_usernotfound",null,LocaleContextHolder.getLocale());
+            model.addAttribute("message", errorMessage);
             return "motDePasseOublie";  // Affiche à nouveau le formulaire d'oubli
         }
 
@@ -169,7 +179,8 @@ public class UtilisateurController {
         utilisateurDao.updateUtilisateur(utilisateur);  // Sauvegarder l'utilisateur avec le token
 
         // Envoyer un lien avec le token à l'utilisateur (pas montré ici, mais vous pouvez utiliser un email ou une page)
-        model.addAttribute("message", "Un lien de réinitialisation a été envoyé à votre email.");
+        String errorMessage = messageSource.getMessage("newpassword_linksend",null,LocaleContextHolder.getLocale());
+        model.addAttribute("message", errorMessage);
 
         // Rediriger vers la page de réinitialisation avec le token dans l'URL
         return "redirect:/profil/motdepasse/reinitialisation/" + token;
@@ -184,7 +195,8 @@ public class UtilisateurController {
 
         if (utilisateur == null) {
             // Si l'utilisateur est introuvable, rediriger vers la page de connexion
-            model.addAttribute("message", "Le lien de réinitialisation a expiré ou est invalide.");
+            String errorMessage = messageSource.getMessage("newpassword_linkdead",null,LocaleContextHolder.getLocale());
+            model.addAttribute("message", errorMessage);
             return "redirect:/connection";
         }
         if(!motdepasse.equals(confirm)) {
@@ -196,7 +208,8 @@ public class UtilisateurController {
         // Mettre à jour l'utilisateur dans la base de données
         utilisateurDao.updateUtilisateur(utilisateur);
 
-        model.addAttribute("message", "Votre mot de passe a été réinitialisé avec succès.");
+        String errorMessage = messageSource.getMessage("newpassword_success",null,LocaleContextHolder.getLocale());
+        model.addAttribute("message", errorMessage);
         return "redirect:/connection";
     }
 }

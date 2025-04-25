@@ -83,7 +83,6 @@ public class DAOUtilisateurJpa implements IDAOUtilisateur {
         });
         articlesadelete.forEach(article -> articleVendu.deleteArticleById(article.getId()));
     }
-  
 
     @Override
     public Utilisateur getUtilisateurByToken(String token) {

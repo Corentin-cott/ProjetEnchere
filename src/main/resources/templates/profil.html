@@ -1,100 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
 <head>
-  <title layout:fragment="title" th:text="${#authorization.expression('isAuthenticated()') ? 'Profil' : 'Création compte'}"></title>
+  <title layout:fragment="title" th:if="${#authorization.expression('isAuthenticated()')}" th:text="#{profil_title}"></title>
+  <title layout:fragment="title" th:unless="${#authorization.expression('isAuthenticated()')}" th:text="#{profil_title_create}"></title>
 </head>
 <body>
   <main layout:fragment="content">
 
     <div th:if="${success}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
-        <p>Modifications effectuées.</p>
+        <p th:text="#{profil_modif_succes}"></p>
       </div>
     </div>
 
     <div sec:authorize="!isAuthenticated()">
 
       <div class="eni-box-container" style="display: block">
-        <h2 class="eni-h2">Inscription</h2>
+        <h2 class="eni-h2" th:text="#{profil_title_create}"></h2>
         <div class="eni-box-content">
 
           <form class="n-form" th:action="@{/profil/nouveau}" method="post">
-            <label class="eni-label">Pseudo</label>
+            <label class="eni-label" th:text="#{profil_pseudo}"></label>
             <input type="text" th:field="*{utilisateur.pseudo}" required pattern="[a-zA-Z0-9]+"
                    title="Seul les lettres et les chiffres sont acceptés">
             <br><br>
-            <label class="eni-label">Nom</label>
+            <label class="eni-label" th:text="#{profil_nom}"></label>
             <input type="text" th:field="*{utilisateur.nom}">
             <br><br>
-            <label class="eni-label">Prénom</label>
+            <label class="eni-label" th:text="#{profil_prenom}"></label>
             <input type="text" th:field="*{utilisateur.prenom}">
             <br><br>
-            <label class="eni-label">Email</label>
+            <label class="eni-label" th:text="#{profil_email}"></label>
             <input type="text" required th:field="*{utilisateur.email}">
             <br><br>
-            <label class="eni-label">Téléphone</label>
+            <label class="eni-label" th:text="#{profil_telephone}"></label>
             <input type="text" th:field="*{utilisateur.telephone}">
             <br><br>
-            <label class="eni-label">Rue</label>
+            <label class="eni-label" th:text="#{profil_rue}"></label>
             <input type="text" required th:field="*{utilisateur.rue}">
             <br><br>
-            <label class="eni-label">Code postal</label>
+            <label class="eni-label" th:text="#{profil_codepostal}"></label>
             <input type="text" required th:field="*{utilisateur.codePostal}">
             <br><br>
-            <label class="eni-label">Ville</label>
+            <label class="eni-label" th:text="#{profil_ville}"></label>
             <input type="text" required th:field="*{utilisateur.ville}">
             <br><br>
-            <label class="eni-label">Mot de passe</label>
+            <label class="eni-label" th:text="#{profil_password}"></label>
             <input type="password" required th:field="*{utilisateur.motDePasse}">
             <br><br>
-            <label class="eni-label">Confirmation mot de passe</label>
+            <label class="eni-label" th:text="#{profil_password_confirm}"></label>
             <input type="password" required name="confirmationMotDePasse">
             <br><br>
             <div th:if="${error}" class="eni-error-text">
               <p th:text="${error}"></p>
             </div>
 
-            <button class="eni-button" type="submit">Créer</button>
-            <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|">Annuler</button>
+            <button class="eni-button" type="submit" th:text="#{button_create}"></button>
+            <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|" th:text="#{button_cancel}"></button>
           </form>
         </div>
       </div>
     </div>
     <div sec:authorize="isAuthenticated()">
       <div class="eni-box-container" style="display: block">
-        <h2 class="eni-h2">Profil</h2>
+        <h2 class="eni-h2" th:text="#{profil_title}"></h2>
         <div class="eni-box-content">
 
           <form class="n-form" th:action="@{'/profil/'+${utilisateur.id}}" method="post" th:object="${utilisateur}">
 
-            <label>Pseudo</label><br>
+            <label th:text="#{profil_pseudo}"></label><br>
             <input type="text" th:field="*{pseudo}" required pattern="[a-zA-Z0-9]+" title="Seul les lettres et les chiffres sont acceptés">
             <br><br>
-            <label>Nom</label><br>
+            <label th:text="#{profil_nom}"></label><br>
             <input type="text" th:field="*{nom}">
             <br><br>
-            <label>Prénom</label><br>
+            <label th:text="#{profil_prenom}"></label><br>
             <input type="text" th:field="*{prenom}">
             <br><br>
-            <label>Email</label><br>
+            <label th:text="#{profil_email}"></label><br>
             <input type="text" required th:field="*{email}">
             <br><br>
-            <label>Téléphone</label><br>
+            <label th:text="#{profil_telephone}"></label><br>
             <input type="text" th:field="*{telephone}">
             <br><br>
-            <label>Rue</label><br>
+            <label th:text="#{profil_rue}"></label><br>
             <input type="text" required th:field="*{rue}">
             <br><br>
-            <label>Code postal</label><br>
+            <label th:text="#{profil_codepostal}"></label><br>
             <input type="text" required th:field="*{codePostal}">
             <br><br>
-            <label>Ville</label><br>
+            <label th:text="#{profil_ville}"></label><br>
             <input type="text" required th:field="*{ville}">
             <br><br>
-            <label>Mot de passe</label><br>
+            <label th:text="#{profil_password}"></label><br>
             <input type="password" th:field="*{motDePasse}">
             <br><br>
-            <label>Confirmation mot de passe</label><br>
+            <label th:text="#{profil_password_confirm}"></label><br>
             <input type="password" name="confirmationMotDePasse">
             <br><br>
 
@@ -103,8 +104,8 @@
             </div>
             <br>
 
-            <button class="eni-button" type="submit">Enregistrer</button>
-            <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|">Annuler</button>
+            <button class="eni-button" type="submit" th:text="#{button_save}"></button>
+            <button class="eni-important-button" type="reset" th:onclick="|location.href='@{/connection}'|" th:text="#{button_cancel}">Annuler</button>
 
           </form>
         </div>
@@ -120,9 +121,7 @@
 
           <form th:action="@{/profil/delete}" method="post" onsubmit="return confirmerSuppression();">
             <input type="hidden" name="idToDelete" th:value="${utilisateur.id}" />
-            <button class="eni-danger-button" style="width: 100%">
-              Supprimer le compte !
-            </button>
+            <button class="eni-danger-button" style="width: 100%" th:text="#{button_delete_account}"></button>
           </form>
 
         </div>

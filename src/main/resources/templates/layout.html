@@ -5,7 +5,7 @@
       lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title layout:fragment="title">ENI-Enchères</title>
+    <title layout:fragment="title" th:text="#{default_title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -17,8 +17,7 @@
 <main layout:fragment="content"></main>
 
 <footer style="text-align: center;">
-    <p>2025 - Projet ENI-Enchères
-    <br>Thomas, Corentin, Lucas</br>
+    <p th:utext="#{footer_text}"></p>
 </footer>
 
 </body>

@@ -36,6 +36,14 @@
                 </form>
             </section>
         </nav>
+
+        <form method="get" onchange="this.submit()">
+            <select name="lang">
+                <option th:text="#{langue}"></option>
+                <option value="fr" th:selected="${#locale == 'fr'}">FR 🇫🇷</option>
+                <option value="en" th:selected="${#locale == 'en'}">EN 🇬🇧</option>
+            </select>
+        </form>
     </div>
 
     <script>

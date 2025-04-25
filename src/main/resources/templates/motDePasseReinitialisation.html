@@ -16,7 +16,7 @@
         <div class="eni-box-content">
             <p th:text="#{newpassword_instruction}"></p>
             <br>
-            <form th:action="@{/motdepasse/reinitialisation/{token}(token=${token})}" method="post">
+            <form th:action="@{/profil/motdepasse/reinitialisation/{token}(token=${token})}" method="post">
                 <input type="hidden" th:value="${token}" name="token"/>
 
                 <label class="eni-label" for="motdepasse" th:text="#{newpassword_password}"></label><br>

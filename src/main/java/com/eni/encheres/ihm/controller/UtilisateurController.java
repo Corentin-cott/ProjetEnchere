@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.UUID;
 
 @Controller
+@RequestMapping("/profil")
 public class UtilisateurController {
 
     @Autowired
@@ -136,7 +137,7 @@ public class UtilisateurController {
     @GetMapping("/motdepasse/oubli")
     public String afficherFormulaireOubli() {
         System.out.println("------afficherFormulaireOubli ");
-        return "motDePasseOublie.html";
+        return "motDePasseOublie";
     }
 
     @GetMapping("/motdepasse/reinitialisation/{token}")
@@ -171,7 +172,7 @@ public class UtilisateurController {
         model.addAttribute("message", "Un lien de réinitialisation a été envoyé à votre email.");
 
         // Rediriger vers la page de réinitialisation avec le token dans l'URL
-        return "redirect:/motdepasse/reinitialisation/" + token;
+        return "redirect:/profil/motdepasse/reinitialisation/" + token;
     }
 
     @PostMapping("/motdepasse/reinitialisation/{token}")
@@ -194,6 +195,6 @@ public class UtilisateurController {
         utilisateurDao.updateUtilisateur(utilisateur);
 
         model.addAttribute("message", "Votre mot de passe a été réinitialisé avec succès.");
-        return "motDePasseReinitialisation";
+        return "redirect:/connection";
     }
 }

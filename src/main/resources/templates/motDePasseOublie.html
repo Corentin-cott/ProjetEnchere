@@ -16,8 +16,8 @@
         <div class="eni-box-content">
             <p th:text="#{mdp_oublie_message}">Veuillez saisir votre adresse email. Si elle est associée à un compte, un lien de réinitialisation sera généré.</p>
             <br>
-            <form th:action="@{/motdepasse/reinitialisation}" method="post">
-                <label class="eni-label" for="email" th:text="#{profil_email}">Adresse email :</label><br>
+            <form th:action="@{/profil/motdepasse/reinitialisation}" method="post">
+                <label class="eni-label" for="email" th:text="#{profil_email}"></label><br>
                 <input type="email" id="email" name="email" required><br><br>
 
                 <button class="eni-button" type="submit" th:text="#{mdp_oublie_button_modifmdp}">Modifier mon mot de passe</button>

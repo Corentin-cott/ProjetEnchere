@@ -10,33 +10,33 @@
 
   <div th:if="${success}" class="eni-succes-container">
     <div class="eni-box-content" style="width: 100%;">
-      <h2 class="eni-h2">Succès !</h2>
-      <p>Compte supprimé.</p>
+      <h2 class="eni-h2" th:text="#{message_succes}"></h2>
+      <p th:text="#{admin_panel_supprcompte_message}"></p>
     </div>
   </div>
 
   <div th:if="${success_desactive}" class="eni-succes-container">
     <div class="eni-box-content" style="width: 100%;">
-      <h2 class="eni-h2">Succès !</h2>
-      <p>Compte désactivé/activé.</p>
+      <h2 class="eni-h2" th:text="#{message_succes}"></h2>
+      <p th:text="#{admin_panel_desaccompte_message}"></p>
     </div>
   </div>
 
   <div class="eni-box-container" style="display: block">
-    <h2 class="eni-h2" style="margin: 0";>Liste des utilisateurs</h2>
+    <h2 class="eni-h2" style="margin: 0;" th:text="#{admin_panel_title}"></h2>
     <div class="eni-box-content">
 
       <table class="eni-table">
         <thead>
         <tr>
-          <th>Id</th>
-          <th>Pseudo</th>
-          <th>Email</th>
-          <th>Admin</th>
-          <th>Actif</th>
-          <th>Profil</th>
-          <th>Désactiver/Activer</th>
-          <th>Supprimer</th>
+          <th th:text="#{admin_panel_table_id}"></th>
+          <th th:text="#{admin_panel_table_pseudo}"></th>
+          <th th:text="#{admin_panel_table_email}"></th>
+          <th th:text="#{admin_panel_table_admin}"></th>
+          <th th:text="#{admin_panel_table_actif}"></th>
+          <th th:text="#{admin_panel_table_profil}"></th>
+          <th th:text="#{admin_panel_table_desactiver}"></th>
+          <th th:text="#{admin_panel_table_supprimer}"></th>
         </tr>
         </thead>
         <tbody>

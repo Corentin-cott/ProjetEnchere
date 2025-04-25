@@ -29,30 +29,36 @@
                 <form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
                     <button class="eni-important-button" id="logout" style="margin-top: 0; margin-left: 10px" th:text="#{button_disconnect}"></button>
                 </form>
+                <form method="get" onchange="this.submit()" style="align-content: center; display: flex;">
+                    <select name="lang" class="eni-lang-selector">
+                        <option th:text="#{langue}"></option>
+                        <option value="fr" th:selected="${#locale == 'fr'}">FR 🇫🇷</option>
+                        <option value="en" th:selected="${#locale == 'en'}">EN 🇬🇧</option>
+                    </select>
+                </form>
             </section>
-            <section sec:authorize="!isAuthenticated()">
+            <section sec:authorize="!isAuthenticated()" style="display: flex; justify-content: right;">
                 <form method="get" action="/connection">
                     <button class="eni-important-button" style="margin-top: 0; margin-left: 10px" th:text="#{button_connect}"></button>
                 </form>
+                <form method="get" onchange="this.submit()" style="align-content: center; display: flex;">
+                    <select name="lang" class="eni-lang-selector">
+                        <option th:text="#{langue}"></option>
+                        <option value="fr" th:selected="${#locale == 'fr'}">FR 🇫🇷</option>
+                        <option value="en" th:selected="${#locale == 'en'}">EN 🇬🇧</option>
+                    </select>
+                </form>
             </section>
         </nav>
-
-        <form method="get" onchange="this.submit()">
-            <select name="lang">
-                <option th:text="#{langue}"></option>
-                <option value="fr" th:selected="${#locale == 'fr'}">FR 🇫🇷</option>
-                <option value="en" th:selected="${#locale == 'en'}">EN 🇬🇧</option>
-            </select>
-        </form>
     </div>
 
     <script>
         function updateLogoutButton() {
             const logoutButton = document.getElementById("logout");
-            if (window.innerWidth <= 500) {
+            if (window.innerWidth <= 800) {
                 logoutButton.innerHTML = '<i class="bi bi-chevron-bar-right"></i>';
             } else {
-                logoutButton.innerHTML = logoutButton.textContent;
+                logoutButton.innerHTML = 'Déconnexion';
             }
         }
 

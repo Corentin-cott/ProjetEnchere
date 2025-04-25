@@ -290,6 +290,25 @@ strong {
     color: var(--clr-white);
 }
 
+.eni-lang-selector {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    background-color: var(--clr-white);
+    color: var(--clr-primary);
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 0;
+    margin-left: 0px;
+    margin-left: 10px;
+}
+
+.eni-lang-selector:hover {
+    border: 2px solid var(--clr-secondary);
+}
+
 /* CONTAINERS */
 
 .eni-header-container {

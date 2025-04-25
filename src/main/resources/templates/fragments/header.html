@@ -27,16 +27,12 @@
                     </button>
                 </form>
                 <form th:action="@{/logout}" method="post" style="display: flex; justify-content: center; align-items: center;">
-                    <button class="eni-important-button" id="logout" style="margin-top: 0; margin-left: 10px">
-                        Déconnection <!-- Texte pour la déconnection -->
-                    </button>
+                    <button class="eni-important-button" id="logout" style="margin-top: 0; margin-left: 10px" th:text="#{button_disconnect}"></button>
                 </form>
             </section>
             <section sec:authorize="!isAuthenticated()">
                 <form method="get" action="/connection">
-                    <button class="eni-important-button" style="margin-top: 0; margin-left: 10px">
-                        Connection <!-- Texte pour la connection -->
-                    </button>
+                    <button class="eni-important-button" style="margin-top: 0; margin-left: 10px" th:text="#{button_connect}"></button>
                 </form>
             </section>
         </nav>
@@ -48,7 +44,7 @@
             if (window.innerWidth <= 500) {
                 logoutButton.innerHTML = '<i class="bi bi-chevron-bar-right"></i>';
             } else {
-                logoutButton.innerHTML = 'Déconnection';
+                logoutButton.innerHTML = logoutButton.textContent;
             }
         }
 

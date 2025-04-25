@@ -1,60 +1,60 @@
 <!-- login.html --><!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr"
       layout:decorate="~{layout}">
-<head><title layout:fragment="title">Page d'accueil</title></head>
+<head><title layout:fragment="title" th:text="#{home_title}"></title></head>
 <body>
 
 <main layout:fragment="content">
     <div th:if="${success}" class="eni-danger-container">
-        <div class="eni-box-content" style="width: 100%;"><p>Compte supprimé.</p></div>
+        <div class="eni-box-content" style="width: 100%;"><p th:text="#{home_delete_account}"></p></div>
     </div>
     <div th:if="${successdeletearticle}" class="eni-danger-container">
-        <div class="eni-box-content" style="width: 100%;"><p>Article supprimé.</p></div>
+        <div class="eni-box-content" style="width: 100%;"><p th:text="#{home_delete_item}"></p></div>
     </div>
     <div th:if="${compte_desac}" class="eni-danger-container">
-        <div class="eni-box-content" style="width: 100%;"><p>Votre compte est désactivé, vous ne pouvez pas réaliser cette action !</p></div>
+        <div class="eni-box-content" style="width: 100%;"><p th:text="#{home_access_disallowed}"></p></div>
     </div>
-    <div class="eni-box-container" style="display: block"><h2 class="eni-h2">Filtres</h2>
+    <div class="eni-box-container" style="display: block"><h2 class="eni-h2" th:text="#{home_filters}"></h2>
         <div class="eni-box-content">
             <form method="get" th:action="@{/encheres/filtre}" style="width: 100%">
                 <section sec:authorize="isAuthenticated()">
-                    <label class="eni-label">Achats</label>
+                    <label class="eni-label" th:text="#{home_filter_purchase}"></label>
                     <div class="eni-radio-input-container">
 
                         <input type="checkbox" id="EncheresOuvertes" name="filtresAchat" value="EncheresOuvertes"
                                th:checked="${filtresAchat != null and filtresAchat.contains('EncheresOuvertes')}" />
-                        <label for="EncheresOuvertes">Enchères ouvertes</label>
+                        <label for="EncheresOuvertes" th:text="#{home_filter_purchase_open}"></label>
                         <br>
                         <input type="checkbox" id="MesEncheresEnCours" name="filtresAchat" value="MesEncheresEnCours"
                                th:checked="${filtresAchat != null and filtresAchat.contains('MesEncheresEnCours')}" />
-                        <label for="MesEncheresEnCours">Mes enchères en cours</label>
+                        <label for="MesEncheresEnCours" th:text="#{home_filter_purchase_participating}"></label>
                         <br>
                         <input type="checkbox" id="MesEncheresRemportees" name="filtresAchat" value="MesEncheresRemportees"
                                th:checked="${filtresAchat != null and filtresAchat.contains('MesEncheresRemportees')}" />
-                        <label for="MesEncheresRemportees">Mes enchères remportées</label>
+                        <label for="MesEncheresRemportees" th:text="#{home_filter_purchase_won}"></label>
                         <br>
                     </div>
                     <br>
-                    <label class="eni-label">Mes ventes</label>
+                    <label class="eni-label" th:text="#{home_filter_sale}"></label>
                     <div class="eni-radio-input-container">
                         <input type="checkbox" id="VentesNonDebutees" name="filtresVente" value="VentesNonDebutees"
                                th:checked="${filtresVente != null and filtresVente.contains('VentesNonDebutees')}" />
-                        <label for="VentesNonDebutees">Mes ventes non débutées</label>
+                        <label for="VentesNonDebutees" th:text="#{home_filter_sale_notstarted}"></label>
                         <br>
                         <input type="checkbox" id="VentesEnCours" name="filtresVente" value="VentesEnCours"
                                th:checked="${filtresVente != null and filtresVente.contains('VentesEnCours')}" />
-                        <label for="VentesEnCours">Mes ventes en cours</label>
+                        <label for="VentesEnCours" th:text="#{home_filter_sale_started}"></label>
                         <br>
                         <input type="checkbox" id="VentesTerminees" name="filtresVente" value="VentesTerminees"
                                th:checked="${filtresVente != null and filtresVente.contains('VentesTerminees')}" />
-                        <label for="VentesTerminees">Mes ventes terminées</label>
+                        <label for="VentesTerminees" th:text="#{home_filter_sale_finished}"></label>
                         <br>
                     </div>
                 </section>
 
-                <label for="categorie" class="eni-label">Catégorie</label>
+                <label for="categorie" class="eni-label" th:text="#{nouvelleVente_categorie}"></label>
                 <select class="eni-select" name="idCategorie" id="categorie">
-                    <option value="">-- Toutes les catégories --</option>
+                    <option value="" th:text="#{home_filter_allcategories}"></option>
                     <option th:each="categorie : ${categories}"
                             th:value="${categorie.id}"
                             th:text="${categorie.libelle}"
@@ -62,10 +62,10 @@
                     </option>
                 </select>
 
-                <label for="recherche" class="eni-label">Recherche par nom</label>
+                <label for="recherche" class="eni-label" th:text="#{home_filter_name}"></label>
                 <input class="eni-text-input" type="search" id="recherche" name="recherche" placeholder="Rechercher un article" style="width: 100%;" th:value="${recherche}"
                        pattern="[a-zA-Z0-9À-ÿ\s\-]*" title="Seuls les lettres (avec ou sans accent) et les chiffres sont autorisés">
-                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem">Recherche</button>
+                <button class="eni-important-button" type="submit" style="width: 100%; margin-top: 1rem" th:text="#{home_filter_name_search}"></button>
             </form>
         </div>
     </div>
@@ -82,24 +82,17 @@
                     <span th:text="${article.getDescription()}"></span>
                 </p>
                 <br>
-                <p>Mise à prix :
-                    <span th:text="${article.prixVente != null ? article.prixVente :article.miseAPrix}" style="font-weight: bold;">prix</span>
-                    <span style="font-weight: bold;"> PTS</span>
-                </p>
-                <p th:if="${article.prixVente != null and article.acheteur != null}">Meilleure enchère :
-                    <span th:text="${article.prixVente}" style="font-weight: bold;"></span>
-                </p>
-                <p th:if="${article.prixVente == null and article.acheteur == null}">
-                    <span th:text="'Pas d\'enchères'" style="font-weight: bold;"></span>
+                <p th:text="#{home_starting_price(${article.prixVente != null ? article.prixVente : article.miseAPrix})}"></p>
+
+                <p th:if="${article.prixVente != null and article.acheteur != null}" th:text="#{home_best_bid(${article.prixVente})}"></p>
+
+                <p th:if="${article.prixVente == null and article.acheteur == null}" th:text="#{home_no_bid}">
                 </p>
                 <br>
-                <p>Vente de
-                    <span th:text="${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}" style="font-weight: bold;"></span>, fin le
-                    <span th:text="${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}" style="font-weight: bold;"></span>
-                </p>
+                <p th:text="#{home_sale_by(${article?.vendeur?.pseudo ?: 'Vendeur inconnu'}, ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')})}"></p>
+
             </div>
         </div>
-    </div>
     </div>
     
     <div th:if="${utilisateurConnecte != null}" class="texte-flottant"><strong th:text="'Crédits de ' + ${utilisateurConnecte.pseudo} + ' : ' + ${utilisateurConnecte.credit} + ' PTS'" style="color: white"></strong></div>

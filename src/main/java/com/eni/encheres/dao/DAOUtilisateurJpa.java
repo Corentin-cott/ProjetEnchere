@@ -83,19 +83,6 @@ public class DAOUtilisateurJpa implements IDAOUtilisateur {
         });
         articlesadelete.forEach(article -> articleVendu.deleteArticleById(article.getId()));
     }
-  
-    @Override
-    public void addUtilisateur(Utilisateur utilisateur) {
-        utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
-        repository.save(utilisateur);
-    }
-
-    @Override
-    public List<Utilisateur> getUtilisateurs() { return repository.findAll(); }
-
-    @Override
-    public void updateUtilisateur(Utilisateur utilisateur) {
-        repository.save(utilisateur); }
 
     @Override
     public Utilisateur getUtilisateurByToken(String token) {

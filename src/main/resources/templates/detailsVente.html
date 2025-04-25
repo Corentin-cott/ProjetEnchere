@@ -2,22 +2,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr" layout:decorate="~{layout}">
 <head>
-  <title layout:fragment="title">Détails sur l'enchère</title>
+  <title layout:fragment="title" th:text="#{detailsVente_title}"></title>
 </head>
 <body>
   <main layout:fragment="content">
 
     <div th:if="${success_creation}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
-        <h2 style="margin: 0;">Succès !</h2>
+        <h2 style="margin: 0;" th:text="#{detailsVente_h2_success}"></h2>
         <p th:text="${message}"></p>
       </div>
     </div>
 
     <div th:if="${successmise}" class="eni-succes-container">
       <div class="eni-box-content" style="width: 100%;">
-        <h2 style="margin: 0;">Succès !</h2>
-        <p>Succès ! Votre nouvelle offre a été validée !</p>
+        <h2 style="margin: 0;"th:text="#{detailsVente_h2_success}"></h2>
+        <p th:text="#{detailsVente_p_success}"></p>
       </div>
     </div>
 

@@ -7,40 +7,42 @@
 <body>
 <main layout:fragment="content">
     <div class="eni-box-container" style="display: block">
-        <h2 class="eni-h2">Connection</h2>
+        <h2 class="eni-h2" th:text="#{button_connect}"></h2>
 
         <div th:if="${success}" class="eni-succes-container">
             <div class="eni-box-content" style="width: 100%;">
-                <p>Super ! Votre compte à bien été créé ! Vous pouvez maintenant vous connecter !</p>
+                <h2 class="eni-h2" th:text="#{message_succes}"></h2>
+                <p th:text="#{connexion_creercompte_message}"></p>
             </div>
         </div>
 
         <div th:if="${message}" class="eni-succes-container">
             <div class="eni-box-content" style="width: 100%;">
+                <h2 class="eni-h2" th:text="#{message_succes}"></h2>
                 <p th:text="${message}"></p>
             </div>
         </div>
 
         <div class="eni-box-content">
             <form th:action="@{/connection}" method="post">
-                <label class="eni-label" for="username">Identifiant</label><br>
+                <label class="eni-label" for="username" th:text="#{admin_panel_table_id}"></label><br>
                 <input type="text" id="username" name="username" value=""/>
                 <br><br>
-                <label class="eni-label" for="password">Mot de passe</label><br>
+                <label class="eni-label" for="password" th:text="#{profil_password}"></label><br>
                 <input type="password" id="password" name="password"/>
 
                 <div class="eni-action-container">
-                    <button class="eni-button" type="submit">Connection</button>
-                    <p th:if="${param.error}"><span class="eni-error-text">Identifiants incorrects !</span></p>
+                    <button class="eni-button" type="submit" th:text="#{button_connect}"></button>
+                    <p th:if="${param.error}"><span class="eni-error-text" th:text="#{connexion_identifiants_incorrects}"></span></p>
                     <label class="checkbox-input-label">
                         <input type="checkbox" name="remember-me" style="margin-right: 6px;"/>
-                        Se souvenir de moi
+                        <span th:text="#{connexion_sesouvenirdemoi}"></span>
                     </label>
                 </div>
                 <br>
-                <a class="eni-link" th:onclick="|location.href='@{/profil/motdepasse/oubli}'|">Mot de passe oublié</a>
+                <a class="eni-link" th:onclick="|location.href='@{/profil/motdepasse/oubli}'|" th:text="#{connexion_motdepasse_oublie}"></a>
                 <br><br>
-                <div class="eni-important-button" th:onclick="|location.href='@{/profil/nouveau}'|">Créer un compte</div>
+                <div class="eni-important-button" th:onclick="|location.href='@{/profil/nouveau}'|" th:text="#{connexion_boutton_creruncompte}"></div>
             </form>
         </div>
 

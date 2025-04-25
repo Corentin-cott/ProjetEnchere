@@ -5,23 +5,23 @@
       lang="fr"
       layout:decorate="~{layout}">
 <head>
-    <title layout:fragment="title">Mot de passe oublié</title>
+    <title layout:fragment="title" th:text="#{connexion_motdepasse_oublie}"></title>
 </head>
 <body>
 
 <main layout:fragment="content">
     <div class="eni-box-container" style="display: block">
-        <h2 class="eni-h2">Mot de passe oublié</h2>
+        <h2 class="eni-h2" th:text="#{connexion_motdepasse_oublie}"></h2>
 
         <div class="eni-box-content">
-            <p>Veuillez saisir votre adresse email. Si elle est associée à un compte, un lien de réinitialisation sera généré.</p>
+            <p th:text="#{mdp_oublie_message}">Veuillez saisir votre adresse email. Si elle est associée à un compte, un lien de réinitialisation sera généré.</p>
             <br>
             <form th:action="@{/profil/motdepasse/reinitialisation}" method="post">
-                <label class="eni-label" for="email">Adresse email :</label><br>
+                <label class="eni-label" for="email" th:text="#{profil_email}"></label><br>
                 <input type="email" id="email" name="email" required><br><br>
 
-                <button class="eni-button" type="submit">Modifier mon mot de passe</button>
-                <button class="eni-important-button" th:onclick="|location.href='@{/}'|">Retour</button>
+                <button class="eni-button" type="submit" th:text="#{mdp_oublie_button_modifmdp}">Modifier mon mot de passe</button>
+                <button class="eni-important-button" th:onclick="|location.href='@{/}'|" th:text="#{button_retour}">Retour</button>
             </form>
 
             <p th:if="${message}" th:text="${message}" style="color:green;"></p>
